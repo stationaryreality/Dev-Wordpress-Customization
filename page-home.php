@@ -40,40 +40,7 @@ get_header(); ?>
   <hr style="margin: 4em auto; max-width: 80%; border: 0; border-top: 1px solid #ccc;">
 
   <?php
-  // === POSTS (Current Tasks) - MIDDLE
-  $post_args = array(
-    'post_type' => 'post',
-    'posts_per_page' => -1,
-    'orderby' => 'date',
-    'order' => 'ASC'
-  );
-
-  $post_query = new WP_Query($post_args);
-
-  if ($post_query->have_posts()) :
-    echo '<h2 class="page-section-title">Current Tasks</h2>';
-    echo '<div class="tag-posts-grid">';
-    while ($post_query->have_posts()) : $post_query->the_post(); ?>
-      <div class="tag-post-item">
-        <a href="<?php the_permalink(); ?>" class="tag-post-thumbnail">
-          <?php if (has_post_thumbnail()) : ?>
-            <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="<?php the_title(); ?>">
-          <?php endif; ?>
-        </a>
-        <a href="<?php the_permalink(); ?>" class="tag-post-title"><?php the_title(); ?></a>
-        <p class="tag-post-excerpt"><?php the_excerpt(); ?></p>
-      </div>
-    <?php endwhile;
-    echo '</div>';
-    wp_reset_postdata();
-  else :
-    echo '<p>No tasks found.</p>';
-  endif;
-  ?>
-
-  <hr style="margin: 4em auto; max-width: 80%; border: 0; border-top: 1px solid #ccc;">
-
-  <?php
+  
 // === DEMYSTIFYING CODE SERIES
 $demystifying_args = array(
   'post_type' => 'chapter',
@@ -140,6 +107,42 @@ endif;
   <hr style="margin: 4em auto; max-width: 80%; border: 0; border-top: 1px solid #ccc;">
 
   <?php
+
+  // === POSTS (Current Tasks) - MIDDLE
+  $post_args = array(
+    'post_type' => 'post',
+    'posts_per_page' => -1,
+    'orderby' => 'menu_order',
+    'order' => 'ASC'
+  );
+
+  $post_query = new WP_Query($post_args);
+
+if ($post_query->have_posts()) :
+  echo '<h2 id="tasks" class="page-section-title">Current Tasks</h2>'; // Added id="tasks"
+  echo '<div class="tag-posts-grid">';
+    while ($post_query->have_posts()) : $post_query->the_post(); ?>
+      <div class="tag-post-item">
+        <a href="<?php the_permalink(); ?>" class="tag-post-thumbnail">
+          <?php if (has_post_thumbnail()) : ?>
+            <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="<?php the_title(); ?>">
+          <?php endif; ?>
+        </a>
+        <a href="<?php the_permalink(); ?>" class="tag-post-title"><?php the_title(); ?></a>
+        <p class="tag-post-excerpt"><?php the_excerpt(); ?></p>
+      </div>
+    <?php endwhile;
+    echo '</div>';
+    wp_reset_postdata();
+  else :
+    echo '<p>No tasks found.</p>';
+  endif;
+  ?>
+
+  <hr style="margin: 4em auto; max-width: 80%; border: 0; border-top: 1px solid #ccc;">
+
+  <?php
+
 // === COMPLETED TASKS - moved to very bottom
 $chapter_args = array(
   'post_type' => 'chapter',
