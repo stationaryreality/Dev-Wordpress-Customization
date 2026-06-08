@@ -108,80 +108,218 @@ function disable_feeds() {
 }
 
 
-// Add all shortcodes on init
-add_action('init', function() {
-  add_shortcode('current_tasks_nav', 'generate_current_tasks_nav');
-  add_shortcode('completed_tasks_nav', 'generate_completed_tasks_nav');
-  add_shortcode('engine_pages_nav', 'generate_engine_pages_nav');
-  add_shortcode('unrelated_chapters_nav', 'generate_unrelated_chapters_nav');
-  add_shortcode('demystifying_chapters_nav', 'generate_demystifying_chapters_nav');
+// =====================================================
+// SHORTCODE REGISTRATION
+// =====================================================
+
+add_action('init', function () {
+
+    $shortcodes = [
+
+        'site_resources_nav' => 'generate_site_resources_nav',
+        'engine_nav'         => 'generate_engine_nav',
+
+        'demystifying_nav'   => 'generate_demystifying_nav',
+        'guides_nav'         => 'generate_guides_nav',
+
+    ];
+
+    foreach ($shortcodes as $tag => $callback) {
+
+        if (function_exists($callback)) {
+            add_shortcode($tag, $callback);
+        }
+
+    }
+
 });
 
-// Current Tasks - posts with category 'current'
-function generate_current_tasks_nav() {
-  $args = array(
-    'post_type' => 'post',
-    'posts_per_page' => -1,
-    'order' => 'DESC', // Natural post order (latest first)
-  );
-  return generate_nav_html(new WP_Query($args), 'Current Tasks');
+
+// =====================================================
+// SAFE NAV HTML RENDERER
+// =====================================================
+
+if (!function_exists('generate_nav_html')) {
+
+    function generate_nav_html($query, $title = '') {
+
+        if (!$query instanceof WP_Query || !$query->have_posts()) {
+            return '';
+        }
+
+        $output = '<div class="nav-block">';
+        $output .= '<h2>' . esc_html($title) . '</h2>';
+        $output .= '<ul>';
+
+        while ($query->have_posts()) {
+
+            $query->the_post();
+
+            $output .= '<li>';
+            $output .= '<a href="' . esc_url(get_permalink()) . '">';
+            $output .= esc_html(get_the_title());
+            $output .= '</a>';
+            $output .= '</li>';
+
+        }
+
+        $output .= '</ul>';
+        $output .= '</div>';
+
+        wp_reset_postdata();
+
+        return $output;
+    }
+
 }
 
-// Completed Tasks - posts with category 'completed'
-function generate_completed_tasks_nav() {
-  $args = array(
-    'post_type' => 'chapter',
-    'posts_per_page' => -1,
-    'order' => 'DESC', // Natural post order (latest first)
-    'category_name' => 'completed',
+    /*
+    |--------------------------------------------------------------------------
+    | SITE RESOURCES
+    |--------------------------------------------------------------------------
+    */
 
-  );
-  return generate_nav_html(new WP_Query($args), 'Completed Tasks');
+function generate_site_resources_nav() {
+
+    $resource_pages = [
+
+        'www-main-site',
+    'site-updates',
+    'active-and-complete-tasks',
+    'site-tools',
+    'wordpress-customization-github',
+
+    ];
+
+    $resource_ids = [];
+
+    foreach ($resource_pages as $slug) {
+
+        $page = get_page_by_path($slug);
+
+        if ($page) {
+            $resource_ids[] = $page->ID;
+        }
+    }
+
+    if (empty($resource_ids)) {
+        return '';
+    }
+
+    $query = new WP_Query([
+
+        'post_type'      => 'page',
+        'post__in'       => $resource_ids,
+        'orderby'        => 'post__in',
+        'posts_per_page' => -1,
+
+    ]);
+
+    return generate_nav_html(
+        $query,
+        'Site Resources'
+    );
 }
 
-// The Engine - pages (can use menu_order for manual ordering)
-function generate_engine_pages_nav() {
-  $args = array(
-    'post_type' => 'page',
-    'posts_per_page' => -1,
-    'orderby' => 'menu_order',
-    'order' => 'ASC',
-  );
-  return generate_nav_html(new WP_Query($args), 'The Engine');
+    /*
+    |--------------------------------------------------------------------------
+    | ENGINE
+    |--------------------------------------------------------------------------
+    */
+
+function generate_engine_nav() {
+
+    $exclude_slugs = [
+'home',
+        'www-main-site',
+    'site-updates',
+    'active-and-complete-tasks',
+    'site-tools',
+    'wordpress-customization-github',
+
+    ];
+
+    $exclude_ids = [];
+
+    foreach ($exclude_slugs as $slug) {
+
+        $page = get_page_by_path($slug);
+
+        if ($page) {
+            $exclude_ids[] = $page->ID;
+        }
+    }
+
+    $query = new WP_Query([
+
+        'post_type'      => 'page',
+        'posts_per_page' => -1,
+        'post__not_in'   => $exclude_ids,
+        'orderby'        => 'menu_order',
+        'order'          => 'ASC',
+
+    ]);
+
+    return generate_nav_html(
+        $query,
+        'The Engine'
+    );
 }
 
-// Demystifying Code - chapters with category 'demystifying'
-function generate_demystifying_chapters_nav() {
-  $args = array(
-    'post_type' => 'chapter',
-    'posts_per_page' => -1,
-    'order' => 'DESC',
-    'category_name' => 'demystifying',
-  );
-  return generate_nav_html(new WP_Query($args), 'Demystifying Code');
+// =====================================================
+// DEMYSTIFYING CODE
+// =====================================================
+
+function generate_demystifying_nav() {
+
+    $query = new WP_Query([
+
+        'post_type'      => 'article',
+        'posts_per_page' => -1,
+        'orderby'        => 'menu_order',
+        'order'          => 'ASC',
+
+        'tax_query' => [
+            [
+                'taxonomy' => 'series',
+                'field'    => 'slug',
+                'terms'    => 'demystifying-code',
+            ]
+        ]
+
+    ]);
+
+    return generate_nav_html(
+        $query,
+        'Demystifying Code'
+    );
 }
 
-// Unrelated Guides - chapters with category 'unrelated'
-function generate_unrelated_chapters_nav() {
-  $args = array(
-    'post_type' => 'chapter',
-    'posts_per_page' => -1,
-    'order' => 'DESC',
-    'category_name' => 'guidesunrelated',
-  );
-  return generate_nav_html(new WP_Query($args), 'Guides & Unrelated');
-}
+// =====================================================
+// GUIDES & UNRELATED
+// =====================================================
 
-// Shared HTML generator
-function generate_nav_html($query, $title) {
-  if (!$query->have_posts()) return '';
-  $output = '<h2 style="font-size: 20px; margin-bottom: 15px;">' . esc_html($title) . '</h2><ul>';
-  while ($query->have_posts()) {
-    $query->the_post();
-    $output .= '<li><a href="' . esc_url(get_permalink()) . '">' . esc_html(get_the_title()) . '</a></li>';
-  }
-  $output .= '</ul>';
-  wp_reset_postdata();
-  return $output;
-}
+function generate_guides_nav() {
 
+    $query = new WP_Query([
+
+        'post_type'      => 'article',
+        'posts_per_page' => -1,
+        'orderby'        => 'menu_order',
+        'order'          => 'ASC',
+
+        'tax_query' => [
+            [
+                'taxonomy' => 'series',
+                'field'    => 'slug',
+                'terms'    => 'guides-unrelated',
+            ]
+        ]
+
+    ]);
+
+    return generate_nav_html(
+        $query,
+        'Guides & Unrelated'
+    );
+}

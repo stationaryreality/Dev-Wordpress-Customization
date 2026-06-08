@@ -38,3 +38,207 @@
     src: url('fonts/lato-v24-latin-700.woff2') format('woff2');
   }
   
+
+  .homepage-divider {
+    margin: 4rem auto;
+    max-width: 80%;
+    border: 0;
+    border-top: 1px solid #ddd;
+}
+
+.homepage-section {
+    margin-bottom: 4rem;
+}
+
+.homepage-list {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+}
+
+.homepage-list li {
+    padding: .85rem 0;
+    border-bottom: 1px solid #ececec;
+}
+
+.homepage-list li a {
+    text-decoration: none;
+}
+
+.homepage-date {
+    display: inline-block;
+    width: 140px;
+    color: #888;
+    margin-right: 1rem;
+}
+
+.nav-subheading {
+    margin-top: 1rem;
+    margin-bottom: .35rem;
+
+    font-size: .9rem;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    opacity: .7;
+}
+
+/* =====================================================
+   TASK DASHBOARD
+===================================================== */
+
+.task-dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+.task-dashboard .page-title {
+    margin-bottom: 10px;
+}
+
+.page-description {
+    opacity: .75;
+    margin-bottom: 40px;
+}
+
+
+/* =====================================================
+   SECTION HEADERS
+===================================================== */
+
+.task-section {
+    margin-bottom: 60px;
+}
+
+.task-section h2 {
+    border-bottom: 2px solid #444;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+
+/* =====================================================
+   PROJECT BLOCKS
+===================================================== */
+
+.task-project-group {
+
+    background: rgba(255,255,255,.03);
+
+    border: 1px solid rgba(255,255,255,.08);
+
+    border-radius: 8px;
+
+    padding: 20px;
+
+    margin-bottom: 25px;
+}
+
+.task-project-group h3 {
+
+    margin-top: 0;
+    margin-bottom: 15px;
+
+    font-size: 1.2rem;
+
+    letter-spacing: .03em;
+
+    text-transform: uppercase;
+
+    opacity: .85;
+}
+
+
+/* =====================================================
+   TASK LISTS
+===================================================== */
+
+.task-project-group ul {
+
+    list-style: none;
+
+    margin: 0;
+
+    padding: 0;
+}
+
+.task-project-group li {
+
+    padding: 8px 0;
+
+    border-bottom: 1px solid rgba(255,255,255,.05);
+}
+
+.task-project-group li:last-child {
+
+    border-bottom: none;
+}
+
+.task-project-group a {
+
+    text-decoration: none;
+
+    display: block;
+
+    transition: all .15s ease;
+}
+
+.task-project-group a:hover {
+
+    padding-left: 8px;
+}
+
+
+/* =====================================================
+   ACTIVE TASKS
+===================================================== */
+
+.task-section:first-of-type .task-project-group {
+
+    border-left: 4px solid #4caf50;
+}
+
+
+/* =====================================================
+   COMPLETED TASKS
+===================================================== */
+
+.task-section:nth-of-type(2) .task-project-group {
+
+    opacity: .85;
+
+    border-left: 4px solid #5e8cff;
+}
+
+
+/* =====================================================
+   UNCATEGORIZED
+===================================================== */
+
+.task-section:last-of-type .task-project-group {
+
+    border-left: 4px solid #ff9800;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .task-dashboard {
+
+        padding: 20px;
+    }
+
+    .task-project-group {
+
+        padding: 15px;
+    }
+
+}
