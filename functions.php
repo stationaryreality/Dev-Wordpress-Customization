@@ -183,7 +183,7 @@ function generate_site_resources_nav() {
 
     $resource_pages = [
 
-        'www-main-site',
+    'main-site',
     'site-updates',
     'active-and-complete-tasks',
     'site-tools',
