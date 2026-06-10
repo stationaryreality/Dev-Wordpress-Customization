@@ -230,8 +230,8 @@ function generate_site_resources_nav() {
 function generate_engine_nav() {
 
     $exclude_slugs = [
-'home',
-        'www-main-site',
+    'home',
+    'main-site',
     'site-updates',
     'active-and-complete-tasks',
     'site-tools',
