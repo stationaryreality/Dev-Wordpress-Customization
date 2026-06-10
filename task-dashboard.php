@@ -61,7 +61,7 @@ $projects = get_terms([
                     ],
 
                     [
-                        'taxonomy' => 'status',
+                        'taxonomy' => 'task_status',
                         'field'    => 'slug',
                         'terms'    => 'active',
                     ]
@@ -152,7 +152,7 @@ $projects = get_terms([
                     ],
 
                     [
-                        'taxonomy' => 'status',
+                        'taxonomy' => 'task_status',
                         'field'    => 'slug',
                         'terms'    => 'completed',
                     ]
