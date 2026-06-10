@@ -16,7 +16,7 @@ get_header();
 */
 
 $resource_slugs = [
-        'www-main-site',
+    'main-site',
     'site-updates',
     'active-and-complete-tasks',
     'site-tools',
