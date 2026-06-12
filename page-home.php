@@ -65,10 +65,6 @@ if ($resources_query->have_posts()) :
                     <?php the_title(); ?>
                 </a>
 
-                <p class="tag-post-excerpt">
-                    <?php the_excerpt(); ?>
-                </p>
-
             </div>
 
         <?php endwhile; ?>
@@ -83,7 +79,6 @@ wp_reset_postdata();
 endif;
 ?>
 
-<hr class="homepage-divider">
 
 <?php
 /*
@@ -131,10 +126,6 @@ if ($engine_query->have_posts()) :
                     <?php the_title(); ?>
                 </a>
 
-                <p class="tag-post-excerpt">
-                    <?php the_excerpt(); ?>
-                </p>
-
             </div>
 
         <?php endwhile; ?>
@@ -148,8 +139,6 @@ endif;
 
 wp_reset_postdata();
 ?>
-
-<hr class="homepage-divider">
 
 <?php
 /*
@@ -193,10 +182,6 @@ if ($demystifying_query->have_posts()) :
                     <?php the_title(); ?>
                 </a>
 
-                <p class="tag-post-excerpt">
-                    <?php the_excerpt(); ?>
-                </p>
-
             </div>
 
         <?php endwhile; ?>
@@ -209,8 +194,6 @@ if ($demystifying_query->have_posts()) :
 endif;
 wp_reset_postdata();
 ?>
-
-<hr class="homepage-divider">
 
 <?php
 /*
@@ -253,10 +236,6 @@ if ($guides_query->have_posts()) :
                 <a href="<?php the_permalink(); ?>" class="tag-post-title">
                     <?php the_title(); ?>
                 </a>
-
-                <p class="tag-post-excerpt">
-                    <?php the_excerpt(); ?>
-                </p>
 
             </div>
 
