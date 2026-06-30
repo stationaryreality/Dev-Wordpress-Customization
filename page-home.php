@@ -8,6 +8,16 @@ get_header();
 
 <main class="homepage-posts">
 
+<div class="homepage-intro">
+    <p class="homepage-intro-lead">
+        This site documents the design, engineering, and evolution of the Knowledge Platform.
+    </p>
+
+    <p>
+        Explore the systems, architecture, development notes, and ongoing work behind a custom WordPress knowledge platform.
+    </p>
+</div>
+
 <?php
 /*
 |--------------------------------------------------------------------------
