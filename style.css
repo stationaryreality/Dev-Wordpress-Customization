@@ -244,37 +244,30 @@
 }
 
 /* =====================================================
-   Home Page Description
+   Home Page Introduction
 ===================================================== */
 
-.homepage-intro{
-
-    max-width:900px;
-    margin:0 auto 2rem;
-    padding:1.5rem 2rem;
-
-    background:#fff;
-
-    border:1px solid #e6e6e6;
-
-    border-radius:8px;
-
-    text-align:center;
-
+.homepage-intro {
+    max-width: 900px;
+    margin: 0 auto 2rem;
+    padding: 1.5rem 2rem;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    text-align: center;
 }
 
-.homepage-intro h1{
-
-    margin-bottom:.75rem;
-
+.homepage-intro-lead {
+    margin: 0 0 .75rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.5;
 }
 
-.homepage-intro p{
-
-    max-width:700px;
-
-    margin:0 auto;
-
-    line-height:1.7;
-
+.homepage-intro p:last-child {
+    margin: 0;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
 }

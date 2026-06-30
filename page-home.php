@@ -10,11 +10,11 @@ get_header();
 
 <div class="homepage-intro">
     <p class="homepage-intro-lead">
-        This site documents the design, engineering, and evolution of the Knowledge Platform.
+        This site documents the design, engineering, and ongoing evolution of Stationary Reality.
     </p>
 
     <p>
-        Explore the systems, architecture, development notes, and ongoing work behind a custom WordPress knowledge platform.
+        Explore the architecture, development notes, documentation, and active work behind a custom WordPress knowledge platform.
     </p>
 </div>
 
