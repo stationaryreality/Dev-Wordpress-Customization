@@ -29,6 +29,7 @@ $resource_slugs = [
     'main-site',
     'site-updates',
     'active-and-complete-tasks',
+    'Engineering Logs',
     'site-tools',
     'wordpress-customization-github',
 
