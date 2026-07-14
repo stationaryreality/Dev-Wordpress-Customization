@@ -25,7 +25,7 @@ get_header();
     <section class="updates-archive">
 
         <h2 class="page-section-title">
-            Engineering Log
+            Logs
         </h2>
 
         <?php
@@ -91,7 +91,7 @@ get_header();
 
         else :
 
-            echo '<p>No Notes found.</p>';
+            echo '<p>No Logs found.</p>';
 
         endif;
 
