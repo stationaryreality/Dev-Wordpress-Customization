@@ -10,7 +10,7 @@ get_header();
 
 <div class="homepage-intro">
     <p class="homepage-intro-lead">
-        This site documents the design, engineering, and ongoing evolution of <a href="\main-site">a knowledge platform</a>.
+        This site documents the design, engineering, and ongoing evolution of Stationary Reality.
     </p>
 
     <p>
