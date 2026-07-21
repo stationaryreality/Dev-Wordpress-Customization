@@ -186,6 +186,7 @@ function generate_site_resources_nav() {
     'main-site',
     'site-updates',
     'active-and-complete-tasks',
+    'engineering-logs',
     'site-tools',
     'wordpress-customization-github',
 
@@ -234,6 +235,7 @@ function generate_engine_nav() {
     'main-site',
     'site-updates',
     'active-and-complete-tasks',
+    'engineering-logs',
     'site-tools',
     'wordpress-customization-github',
 
