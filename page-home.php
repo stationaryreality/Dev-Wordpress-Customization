@@ -11,7 +11,7 @@ get_header();
     <?php
     /*
     |--------------------------------------------------------------------------
-    | 1. OVERVIEW / START HERE
+    | 1. OVERVIEW / START HERE (Hero Text)
     |--------------------------------------------------------------------------
     */
     ?>
@@ -27,8 +27,35 @@ get_header();
     <?php
     /*
     |--------------------------------------------------------------------------
-    | 2. TECHNICAL DOMAINS (Formerly "The Engine")
-    | Note: Keeping the catch-all query for Phase 1. Will be refined in Phase 2.
+    | 2. PLATFORM OVERVIEW (Full Article Link)
+    |--------------------------------------------------------------------------
+    */
+    $overview_page = get_page_by_path('platform-overview');
+    if ($overview_page) :
+    ?>
+    <section class="homepage-section">
+        <div class="tag-posts-grid" style="grid-template-columns: 1fr;">
+            <div class="tag-post-item" style="max-width: 800px; margin: 0 auto;">
+                <a href="<?php echo get_permalink($overview_page->ID); ?>" class="tag-post-thumbnail">
+                    <?php if (has_post_thumbnail($overview_page->ID)) : ?>
+                        <?php echo get_the_post_thumbnail($overview_page->ID, 'large'); ?>
+                    <?php endif; ?>
+                </a>
+                <a href="<?php echo get_permalink($overview_page->ID); ?>" class="tag-post-title">
+                    Platform Overview & Architecture
+                </a>
+                <p class="tag-post-excerpt">
+                    The vision, structure, and technical foundation of the dual-site ecosystem.
+                </p>
+            </div>
+        </div>
+    </section>
+    <?php endif; ?>
+
+    <?php
+    /*
+    |--------------------------------------------------------------------------
+    | 3. TECHNICAL DOMAINS (Formerly "The Engine")
     |--------------------------------------------------------------------------
     */
     
