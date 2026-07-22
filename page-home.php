@@ -174,7 +174,7 @@ get_header();
     wp_reset_postdata();
     ?>
 
-    <?php
+<?php
 /*
 |--------------------------------------------------------------------------
 | 5. RESOURCES (Formerly "Site Resources", moved to bottom)
@@ -186,12 +186,10 @@ foreach ($resource_slugs as $slug) {
     if ($page) $resource_ids[] = $page->ID;
 }
 
-// Exclude Platform Overview page from Resources section
+// Remove Platform Overview from Resources section
 $overview_page = get_page_by_path('platform-overview');
 if ($overview_page) {
-    $exclude_ids = array_merge($resource_ids, [$overview_page->ID]);
-} else {
-    $exclude_ids = $resource_ids;
+    $resource_ids = array_diff($resource_ids, [$overview_page->ID]);
 }
 
 if (!empty($resource_ids)) :
@@ -199,7 +197,6 @@ $resources_query = new WP_Query([
     'post_type'      => 'page',
     'posts_per_page' => -1,
     'post__in'       => $resource_ids,
-    'post__not_in'   => [$overview_page->ID ?? 0], // Explicitly exclude overview page
     'orderby'        => 'post__in',
 ]);
 
