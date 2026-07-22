@@ -271,3 +271,10 @@
     margin-right: auto;
     line-height: 1.7;
 }
+
+/* Platform Overview Card - Constrain Image Size */
+.homepage-section:first-of-type .tag-post-thumbnail img {
+    max-height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
