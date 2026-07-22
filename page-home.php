@@ -62,7 +62,7 @@ get_header();
     // Exclude Resources and Home page
     $resource_slugs = [
         'main-site', 'site-updates', 'active-and-complete-tasks', 
-        'Engineering Logs', 'site-tools', 'wordpress-customization-github',
+        'Engineering Logs', 'site-tools', 'wordpress-customization-github', 'platform-overview',
     ];
     $exclude_ids = [];
     foreach ($resource_slugs as $slug) {
