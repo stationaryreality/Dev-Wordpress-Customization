@@ -272,14 +272,21 @@
     line-height: 1.7;
 }
 
-/* Platform Overview Card - Constrain Height */
+/* Platform Overview Card - Constrain Both Card and Image */
 .homepage-section:first-of-type .tag-post-item {
-    max-height: 400px;
+    max-height: 350px;
     overflow: hidden;
 }
 
+.homepage-section:first-of-type .tag-post-thumbnail {
+    max-height: 150px;
+    overflow: hidden;
+    display: block;
+}
+
 .homepage-section:first-of-type .tag-post-thumbnail img {
-    max-height: 180px;
+    max-height: 150px;
     width: 100%;
     object-fit: cover;
+    display: block;
 }
