@@ -8,26 +8,11 @@ get_header();
 
 <main class="homepage-posts">
 
-    <?php
-    /*
-    |--------------------------------------------------------------------------
-    | 1. OVERVIEW / START HERE (Hero Text)
-    |--------------------------------------------------------------------------
-    */
-    ?>
-    <div class="homepage-intro">
-        <p class="homepage-intro-lead">
-            Engineering the Knowledge Platform.
-        </p>
-        <p>
-            Explore the architecture, development notes, documentation, and active work behind a custom WordPress knowledge platform.
-        </p>
-    </div>
 
     <?php
     /*
     |--------------------------------------------------------------------------
-    | 2. PLATFORM OVERVIEW (Full Article Link)
+    | 1 & 2. PLATFORM OVERVIEW (Full Article Link)
     |--------------------------------------------------------------------------
     */
     $overview_page = get_page_by_path('platform-overview');
