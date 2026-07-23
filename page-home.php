@@ -46,7 +46,7 @@ $resource_slugs = [
 */
 ?>
 <div class="homepage-intro">
-    <p class="homepage-intro-lead">Engineering the Knowledge Platform.</p>
+    <p class="homepage-intro-lead">Engineering Stationary Reality.</p>
     <p>Explore the architecture, development notes, documentation, and active work behind a custom WordPress knowledge platform.</p>
 </div>
 

@@ -300,39 +300,44 @@
 .pulse-footer { text-align: center; margin-top: 1.5rem; }
 .btn-link { display: inline-block; padding: 0.5rem 1rem; background: #0073aa; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85em; font-weight: 600; }
 
-/* Technical Domains: Force vertical list with horizontal items */
+/* Technical Domains: 2-column vertical flow */
 .domain-list-section .domain-list-grid {
-    display: flex !important;
-    flex-direction: column !important;
-    grid-template-columns: none !important; /* Overrides any theme grid defaults */
-    gap: 1.25rem; /* Space between each domain row */
+    column-count: 2; /* Flows items down column 1, then down column 2 */
+    column-gap: 2rem; /* Space between the two main columns */
 }
 
 .domain-list-item {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: flex-start; /* Aligns thumbnail to the top of the text */
-    gap: 1rem; /* Space between thumbnail and text */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+    break-inside: avoid; /* CRITICAL: Prevents the item from splitting across columns */
+    margin-bottom: 1.25rem; /* Space between items vertically */
+}
+
+/* Ensure the last item doesn't have unnecessary bottom margin */
+.domain-list-item:last-child {
+    margin-bottom: 0;
 }
 
 .domain-list-thumbnail {
-    flex-shrink: 0; /* Prevents the image from squishing */
-    width: 56px;    /* Adjust to your preferred icon/thumbnail size */
+    flex-shrink: 0;
+    width: 56px;
     height: 56px;
     display: block;
-    border-radius: 4px; /* Optional: slight polish */
+    border-radius: 4px;
     overflow: hidden;
 }
 
 .domain-list-thumbnail img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures the image fills the square without stretching */
+    object-fit: cover;
     display: block;
 }
 
 .domain-list-content {
-    flex: 1; /* Takes up all remaining horizontal space */
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -355,11 +360,5 @@
     font-size: 0.9rem;
     margin: 0;
     line-height: 1.4;
-    color: #666; /* Adjust to match your theme's secondary text color */
-}
-/* Mobile */
-@media (max-width: 768px) {
-    .top-pair-grid, .pulse-grid, .domain-list-grid { grid-template-columns: 1fr; }
-    .domain-list-item { flex-direction: column; }
-    .domain-list-thumbnail { width: 100%; height: 160px; }
+    color: #666;
 }

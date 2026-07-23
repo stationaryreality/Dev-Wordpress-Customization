@@ -325,3 +325,33 @@ function generate_guides_nav() {
         'Guides & Unrelated'
     );
 }
+
+
+/**
+ * Global Excerpt Cleaner
+ * Strips rogue HTML, theme-injected wrappers, and "Continue reading" links globally.
+ */
+function global_clean_excerpt($excerpt) {
+    if (empty($excerpt)) {
+        return $excerpt;
+    }
+    
+    // 1. Strip ALL HTML tags (removes <div class="more-link-wrapper">, <a>, <span>, etc.)
+    $clean = wp_strip_all_tags($excerpt);
+    
+    // 2. Remove "Continue reading", "Read more", or "[...]" and any trailing text
+    $clean = preg_replace('/\s*(\[\.\.\.\]|Continue reading|Read more).*$/i', '', $clean);
+    
+    // 3. Clean up stray ellipsis, periods, or trailing spaces
+    return trim(rtrim($clean, ' .…'));
+}
+add_filter('get_the_excerpt', 'global_clean_excerpt', 999);
+add_filter('the_excerpt', 'global_clean_excerpt', 999);
+
+/**
+ * Kill the default WordPress excerpt more string entirely
+ */
+function custom_excerpt_more($more) {
+    return '';
+}
+add_filter('excerpt_more', 'custom_excerpt_more', 999);
