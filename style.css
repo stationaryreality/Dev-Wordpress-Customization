@@ -362,10 +362,16 @@
     line-height: 1.4;
     color: #666;
     
-    /* Truncation magic: forces exactly 2 lines + ellipsis (...) */
+    /* Modern standard property (satisfies VS Code / Stylelint) */
+    line-clamp: 2; 
+    
+    /* WebKit fallback for Safari compatibility */
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* Change to 3 if you prefer 3 lines */
+    -webkit-line-clamp: 2;
+    
+    /* stylelint-disable-next-line property-no-vendor-prefix */
     -webkit-box-orient: vertical;
+    
     overflow: hidden;
     text-overflow: ellipsis;
 }
