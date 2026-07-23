@@ -38,128 +38,145 @@ get_header();
     <?php endif; ?>
 
 
-    <?php
+<?php
 /*
 |--------------------------------------------------------------------------
-| 3. ENGINEERING PULSE (Activity Feed)
+| 3. ENGINEERING PULSE (Activity Feed - 2 Column)
 |--------------------------------------------------------------------------
 */
 ?>
 <section class="homepage-section engineering-pulse-section">
     <h2 class="page-section-title">Engineering Pulse</h2>
-    <p class="section-subtitle">Active development, recent milestones, and ongoing engineering tasks.</p>
     
-    <div class="activity-feed">
+    <div class="pulse-grid">
         
-        <?php
-        // 1. Recent Site Updates (3 most recent)
-        $updates_query = new WP_Query([
-            'post_type'      => 'update',
-            'posts_per_page' => 3,
-            'orderby'        => 'date',
-            'order'          => 'DESC',
-        ]);
-        
-        if ($updates_query->have_posts()) :
-            while ($updates_query->have_posts()) : $updates_query->the_post();
-        ?>
-            <div class="activity-item">
-                <span class="activity-date"><?php echo get_the_date('M j'); ?></span>
-                <div class="activity-content">
-                    <span class="activity-status update">Update</span>
-                    <h3 class="activity-title"><?php the_title(); ?></h3>
-                    <p class="activity-excerpt"><?php echo wp_trim_words(get_the_excerpt(), 20); ?></p>
-                    <a href="<?php echo get_permalink(get_page_by_path('site-updates')->ID); ?>" class="activity-link">View All Updates →</a>
+        <!-- LEFT COLUMN: Tasks -->
+        <div class="pulse-column">
+            <h3 class="pulse-column-title">Tasks</h3>
+            
+            <?php
+            // 3 Most Recent Active Tasks
+            $active_tasks = new WP_Query([
+                'post_type'      => 'task',
+                'posts_per_page' => 3,
+                'orderby'        => 'date',
+                'order'          => 'DESC',
+                'tax_query'      => [
+                    [
+                        'taxonomy' => 'task_status',
+                        'field'    => 'slug',
+                        'terms'    => 'active',
+                    ],
+                ],
+            ]);
+            
+            if ($active_tasks->have_posts()) :
+                while ($active_tasks->have_posts()) : $active_tasks->the_post();
+            ?>
+                <div class="pulse-item">
+                    <span class="pulse-status active">Active</span>
+                    <span class="pulse-title"><?php the_title(); ?></span>
+                    <span class="pulse-date"><?php echo get_the_date('M j'); ?></span>
                 </div>
-            </div>
-        <?php
-            endwhile;
-            wp_reset_postdata();
-        endif;
-        
-        // 2. Most Recent Completed Task
-        $completed_task = new WP_Query([
-            'post_type'      => 'task',
-            'posts_per_page' => 1,
-            'meta_key'       => 'task_status',
-            'meta_value'     => 'complete',
-            'orderby'        => 'date',
-            'order'          => 'DESC',
-        ]);
-        
-        if ($completed_task->have_posts()) :
-            while ($completed_task->have_posts()) : $completed_task->the_post();
-        ?>
-            <div class="activity-item">
-                <span class="activity-date"><?php echo get_the_date('M j'); ?></span>
-                <div class="activity-content">
-                    <span class="activity-status completed">Completed</span>
-                    <h3 class="activity-title"><?php the_title(); ?></h3>
-                    <a href="<?php echo get_permalink(get_page_by_path('active-and-complete-tasks')->ID); ?>" class="activity-link">View All Tasks →</a>
+            <?php
+                endwhile;
+                wp_reset_postdata();
+            endif;
+            
+            // 3 Most Recent Completed Tasks
+            $completed_tasks = new WP_Query([
+                'post_type'      => 'task',
+                'posts_per_page' => 3,
+                'orderby'        => 'date',
+                'order'          => 'DESC',
+                'tax_query'      => [
+                    [
+                        'taxonomy' => 'task_status',
+                        'field'    => 'slug',
+                        'terms'    => 'complete',
+                    ],
+                ],
+            ]);
+            
+            if ($completed_tasks->have_posts()) :
+                while ($completed_tasks->have_posts()) : $completed_tasks->the_post();
+            ?>
+                <div class="pulse-item">
+                    <span class="pulse-status completed">Done</span>
+                    <span class="pulse-title"><?php the_title(); ?></span>
+                    <span class="pulse-date"><?php echo get_the_date('M j'); ?></span>
                 </div>
-            </div>
-        <?php
-            endwhile;
-            wp_reset_postdata();
-        endif;
+            <?php
+                endwhile;
+                wp_reset_postdata();
+            endif;
+            ?>
+            
+            <a href="/active-and-complete-tasks/" class="pulse-link">View All Tasks →</a>
+        </div>
         
-        // 3. Most Recent Active Task
-        $active_task = new WP_Query([
-            'post_type'      => 'task',
-            'posts_per_page' => 1,
-            'meta_key'       => 'task_status',
-            'meta_value'     => 'active',
-            'orderby'        => 'date',
-            'order'          => 'DESC',
-        ]);
-        
-        if ($active_task->have_posts()) :
-            while ($active_task->have_posts()) : $active_task->the_post();
-        ?>
-            <div class="activity-item">
-                <span class="activity-date"><?php echo get_the_date('M j'); ?></span>
-                <div class="activity-content">
-                    <span class="activity-status active">Active</span>
-                    <h3 class="activity-title"><?php the_title(); ?></h3>
-                    <a href="<?php echo get_permalink(get_page_by_path('active-and-complete-tasks')->ID); ?>" class="activity-link">View All Tasks →</a>
+        <!-- RIGHT COLUMN: Updates + Logs -->
+        <div class="pulse-column">
+            <h3 class="pulse-column-title">Updates</h3>
+            
+            <?php
+            // 3 Most Recent Updates
+            $updates_query = new WP_Query([
+                'post_type'      => 'update',
+                'posts_per_page' => 3,
+                'orderby'        => 'date',
+                'order'          => 'DESC',
+            ]);
+            
+            if ($updates_query->have_posts()) :
+                while ($updates_query->have_posts()) : $updates_query->the_post();
+            ?>
+                <div class="pulse-item">
+                    <span class="pulse-status update">Update</span>
+                    <span class="pulse-title"><?php the_title(); ?></span>
+                    <span class="pulse-date"><?php echo get_the_date('M j'); ?></span>
                 </div>
-            </div>
-        <?php
-            endwhile;
-            wp_reset_postdata();
-        endif;
-        
-        // 4. Recent Engineering Logs (3 most recent)
-        $logs_query = new WP_Query([
-            'post_type'      => 'note',
-            'posts_per_page' => 3,
-            'orderby'        => 'date',
-            'order'          => 'DESC',
-        ]);
-        
-        if ($logs_query->have_posts()) :
-            while ($logs_query->have_posts()) : $logs_query->the_post();
-        ?>
-            <div class="activity-item">
-                <span class="activity-date"><?php echo get_the_date('M j'); ?></span>
-                <div class="activity-content">
-                    <span class="activity-status log">Log</span>
-                    <h3 class="activity-title"><?php the_title(); ?></h3>
-                    <p class="activity-excerpt"><?php echo wp_trim_words(get_the_excerpt(), 20); ?></p>
-                    <a href="<?php echo get_permalink(get_page_by_path('engineering-logs')->ID); ?>" class="activity-link">View All Logs →</a>
+            <?php
+                endwhile;
+                wp_reset_postdata();
+            endif;
+            ?>
+            
+            <a href="/site-updates/" class="pulse-link">View All Updates →</a>
+            
+            <h3 class="pulse-column-title" style="margin-top: 1.5rem;">Engineering Logs</h3>
+            
+            <?php
+            // 3 Most Recent Logs
+            $logs_query = new WP_Query([
+                'post_type'      => 'note',
+                'posts_per_page' => 3,
+                'orderby'        => 'date',
+                'order'          => 'DESC',
+            ]);
+            
+            if ($logs_query->have_posts()) :
+                while ($logs_query->have_posts()) : $logs_query->the_post();
+            ?>
+                <div class="pulse-item">
+                    <span class="pulse-status log">Log</span>
+                    <span class="pulse-title"><?php the_title(); ?></span>
+                    <span class="pulse-date"><?php echo get_the_date('M j'); ?></span>
                 </div>
-            </div>
-        <?php
-            endwhile;
-            wp_reset_postdata();
-        endif;
-        ?>
+            <?php
+                endwhile;
+                wp_reset_postdata();
+            endif;
+            ?>
+            
+            <a href="/engineering-logs/" class="pulse-link">View All Logs →</a>
+        </div>
         
     </div>
     
-<div class="activity-footer">
-    <a href="/documents/site-development-timeline/" class="btn-link">View Full Timeline →</a>
-</div>
+    <div class="pulse-footer">
+        <a href="/documents/site-development-timeline/" class="btn-link">View Full Timeline →</a>
+    </div>
 </section>
 
 
