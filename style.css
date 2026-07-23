@@ -476,3 +476,91 @@
         grid-template-columns: 1fr;
     }
 }
+
+
+/* ========== TECHNICAL DOMAINS (Horizontal List) ========== */
+.domain-list-section {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.domain-list-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.domain-list-item {
+    display: flex;
+    gap: 1rem;
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    border: 1px solid #e8e8e8;
+    transition: all 0.2s ease;
+}
+
+.domain-list-item:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-color: #0073aa;
+}
+
+.domain-list-thumbnail {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.domain-list-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.domain-list-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.domain-list-title {
+    font-size: 1.15em;
+    font-weight: 700;
+    color: #333;
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+.domain-list-title:hover {
+    color: #0073aa;
+}
+
+.domain-list-excerpt {
+    font-size: 0.9em;
+    color: #666;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Mobile: Stack to single column */
+@media (max-width: 768px) {
+    .domain-list-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .domain-list-item {
+        flex-direction: column;
+    }
+    
+    .domain-list-thumbnail {
+        width: 100%;
+        height: 160px;
+    }
+}

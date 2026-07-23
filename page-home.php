@@ -198,58 +198,55 @@ $timeline_page = get_page_by_path('site-development-timeline');
 </section>
 
 
-    <?php
-    /*
-    |--------------------------------------------------------------------------
-    | 3. TECHNICAL DOMAINS (Formerly "The Engine")
-    |--------------------------------------------------------------------------
-    */
-    
-    // Exclude Resources and Home page
-    $resource_slugs = [
-        'main-site', 'site-updates', 'active-and-complete-tasks', 
-        'Engineering Logs', 'site-tools', 'wordpress-customization-github', 'platform-overview', 'site-development-timeline',
-    ];
-    $exclude_ids = [];
-    foreach ($resource_slugs as $slug) {
-        $page = get_page_by_path($slug);
-        if ($page) $exclude_ids[] = $page->ID;
-    }
-    $home_page = get_page_by_path('home');
-    if ($home_page) $exclude_ids[] = $home_page->ID;
+   <?php
+/*
+|--------------------------------------------------------------------------
+| 4. TECHNICAL DOMAINS (Horizontal List)
+|--------------------------------------------------------------------------
+*/
+$domain_ids = [];
+foreach ($domain_slugs as $slug) {
+    $page = get_page_by_path($slug);
+    if ($page) $domain_ids[] = $page->ID;
+}
 
-    $domains_query = new WP_Query([
-        'post_type'      => 'page',
-        'post_status'    => 'publish',
-        'posts_per_page' => -1,
-        'post__not_in'   => $exclude_ids,
-        'orderby'        => 'menu_order',
-        'order'          => 'ASC',
-    ]);
+if (!empty($domain_ids)) :
+$domains_query = new WP_Query([
+    'post_type'      => 'page',
+    'posts_per_page' => -1,
+    'post__in'       => $domain_ids,
+    'orderby'        => 'post__in',
+]);
 
-    if ($domains_query->have_posts()) :
-    ?>
-    <section class="homepage-section">
-        <h2 class="page-section-title">Technical Domains</h2>
-        <div class="tag-posts-grid">
-            <?php while ($domains_query->have_posts()) : $domains_query->the_post(); ?>
-                <div class="tag-post-item">
-                    <a href="<?php the_permalink(); ?>" class="tag-post-thumbnail">
-                        <?php if (has_post_thumbnail()) : ?>
-                            <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="<?php the_title(); ?>">
-                        <?php endif; ?>
-                    </a>
-                    <a href="<?php the_permalink(); ?>" class="tag-post-title">
+if ($domains_query->have_posts()) :
+?>
+<section class="homepage-section domain-list-section">
+    <h2 class="page-section-title">Technical Domains</h2>
+    <div class="domain-list-grid">
+        <?php while ($domains_query->have_posts()) : $domains_query->the_post(); ?>
+            <div class="domain-list-item">
+                <a href="<?php the_permalink(); ?>" class="domain-list-thumbnail">
+                    <?php if (has_post_thumbnail()) : ?>
+                        <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="<?php the_title(); ?>">
+                    <?php endif; ?>
+                </a>
+                <div class="domain-list-content">
+                    <a href="<?php the_permalink(); ?>" class="domain-list-title">
                         <?php the_title(); ?>
                     </a>
+                    <p class="domain-list-excerpt">
+                        <?php echo esc_html(get_the_excerpt()); ?>
+                    </p>
                 </div>
-            <?php endwhile; ?>
-        </div>
-    </section>
-    <?php
-    endif;
-    wp_reset_postdata();
-    ?>
+            </div>
+        <?php endwhile; ?>
+    </div>
+</section>
+<?php
+endif;
+wp_reset_postdata();
+endif;
+?>
 
     <?php
     /*
