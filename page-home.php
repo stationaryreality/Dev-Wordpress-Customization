@@ -16,7 +16,7 @@ get_header();
 |--------------------------------------------------------------------------
 */
 $overview_page = get_page_by_path('platform-overview');
-$timeline_page = get_page_by_path('documents/site-development-timeline', OBJECT, 'document');
+$timeline_page = get_page_by_path('site-development-timeline');
 ?>
 <section class="homepage-section top-pair-section">
     <div class="top-pair-grid">
@@ -193,7 +193,7 @@ $timeline_page = get_page_by_path('documents/site-development-timeline', OBJECT,
     </div>
     
     <div class="pulse-footer">
-        <a href="/documents/site-development-timeline/" class="btn-link">View Full Timeline →</a>
+        <a href="site-development-timeline/" class="btn-link">View Full Timeline →</a>
     </div>
 </section>
 
