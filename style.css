@@ -364,6 +364,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.pulse-title:hover {
+    color: #0073aa;
+    text-decoration: underline;
 }
 
 .pulse-date {

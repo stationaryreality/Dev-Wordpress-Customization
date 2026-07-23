@@ -73,11 +73,11 @@ get_header();
             if ($active_tasks->have_posts()) :
                 while ($active_tasks->have_posts()) : $active_tasks->the_post();
             ?>
-                <div class="pulse-item">
-                    <span class="pulse-status active">Active</span>
-                    <span class="pulse-title"><?php the_title(); ?></span>
-                    <span class="pulse-date"><?php echo get_the_date('M j'); ?></span>
-                </div>
+<div class="pulse-item">
+    <span class="pulse-status active">Active</span>
+    <a href="<?php the_permalink(); ?>" class="pulse-title"><?php the_title(); ?></a>
+    <span class="pulse-date"><?php echo get_the_date('M j'); ?></span>
+</div>
             <?php
                 endwhile;
                 wp_reset_postdata();
@@ -101,11 +101,11 @@ get_header();
             if ($completed_tasks->have_posts()) :
                 while ($completed_tasks->have_posts()) : $completed_tasks->the_post();
             ?>
-                <div class="pulse-item">
-                    <span class="pulse-status completed">Done</span>
-                    <span class="pulse-title"><?php the_title(); ?></span>
-                    <span class="pulse-date"><?php echo get_the_date('M j'); ?></span>
-                </div>
+<div class="pulse-item">
+    <span class="pulse-status completed">Completed</span>
+    <a href="<?php the_permalink(); ?>" class="pulse-title"><?php the_title(); ?></a>
+    <span class="pulse-date"><?php echo get_the_date('M j'); ?></span>
+</div>
             <?php
                 endwhile;
                 wp_reset_postdata();
@@ -131,11 +131,11 @@ get_header();
             if ($updates_query->have_posts()) :
                 while ($updates_query->have_posts()) : $updates_query->the_post();
             ?>
-                <div class="pulse-item">
-                    <span class="pulse-status update">Update</span>
-                    <span class="pulse-title"><?php the_title(); ?></span>
-                    <span class="pulse-date"><?php echo get_the_date('M j'); ?></span>
-                </div>
+<div class="pulse-item">
+    <span class="pulse-status update">Update</span>
+    <a href="<?php the_permalink(); ?>" class="pulse-title"><?php the_title(); ?></a>
+    <span class="pulse-date"><?php echo get_the_date('M j'); ?></span>
+</div>
             <?php
                 endwhile;
                 wp_reset_postdata();
@@ -158,11 +158,11 @@ get_header();
             if ($logs_query->have_posts()) :
                 while ($logs_query->have_posts()) : $logs_query->the_post();
             ?>
-                <div class="pulse-item">
-                    <span class="pulse-status log">Log</span>
-                    <span class="pulse-title"><?php the_title(); ?></span>
-                    <span class="pulse-date"><?php echo get_the_date('M j'); ?></span>
-                </div>
+<div class="pulse-item">
+    <span class="pulse-status log">Log</span>
+    <a href="<?php the_permalink(); ?>" class="pulse-title"><?php the_title(); ?></a>
+    <span class="pulse-date"><?php echo get_the_date('M j'); ?></span>
+</div>
             <?php
                 endwhile;
                 wp_reset_postdata();
