@@ -4,12 +4,39 @@ Template Name: Custom Home
 */
 
 get_header();
+
+// =====================================================
+// DEFINE PAGE SLUGS FOR SECTIONS
+// (Update these to match your actual page slugs)
+// =====================================================
+
+$domain_slugs = [
+    'systems-administration-linux',
+    'network-architecture-cdn',
+    'frontend-cms-theme',
+    'cybersecurity-hardening',
+    'performance-optimization',
+    'media-engineering',
+    'information-architecture',
+    'disaster-recovery',
+    'communication-infrastructure',
+    'ai-augmented-engineering',
+];
+
+$resource_slugs = [
+    'site-updates',
+    'active-and-complete-tasks',
+    'engineering-logs',
+    'site-tools',
+    'main-site',
+    'wordpress-customization-github',
+];
 ?>
 
 <main class="homepage-posts">
 
-
 <?php
+
 /*
 |--------------------------------------------------------------------------
 | 1. HERO TEXT
