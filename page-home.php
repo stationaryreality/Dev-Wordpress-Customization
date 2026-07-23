@@ -93,7 +93,7 @@ get_header();
                     [
                         'taxonomy' => 'task_status',
                         'field'    => 'slug',
-                        'terms'    => 'complete',
+                        'terms'    => 'completed',
                     ],
                 ],
             ]);
