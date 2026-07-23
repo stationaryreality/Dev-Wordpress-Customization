@@ -158,8 +158,7 @@ get_header();
     </div>
     
     <div class="activity-footer">
-        <a href="<?php echo get_permalink(get_page_by_path('master-timeline')->ID); ?>" class="btn-link">View Full Timeline →</a>
-    </div>
+<a href="<?php echo get_permalink(get_page_by_path('documents/site-development-timeline')->ID); ?>" class="btn-link">View Full Timeline →</a>    </div>
 </section>
 
 
