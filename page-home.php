@@ -53,6 +53,30 @@ $resource_slugs = [
 <?php
 /*
 |--------------------------------------------------------------------------
+| 1.5. MAIN SITE LINK (Single Card)
+|--------------------------------------------------------------------------
+*/
+$main_site_page = get_page_by_path('main-site');
+if ($main_site_page) :
+?>
+<section class="homepage-section main-site-link-section">
+    <div class="main-site-link-card">
+        <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="main-site-link-thumbnail">
+            <?php if (has_post_thumbnail($main_site_page->ID)) echo get_the_post_thumbnail($main_site_page->ID, 'medium'); ?>
+        </a>
+        <div class="main-site-link-content">
+            <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="main-site-link-title">
+                <?php echo get_the_title($main_site_page->ID); ?>
+            </a>
+            <p class="main-site-link-excerpt"><?php echo esc_html(get_the_excerpt($main_site_page->ID)); ?></p>
+        </div>
+    </div>
+</section>
+<?php endif; ?>
+
+<?php
+/*
+|--------------------------------------------------------------------------
 | 2. OVERVIEW + TIMELINE (Top Pair)
 |--------------------------------------------------------------------------
 */
