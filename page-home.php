@@ -46,6 +46,11 @@ $resource_slugs = [
 $main_site_page = get_page_by_path('main-site');
 ?>
 <section class="homepage-section hero-section">
+
+    <div class="homepage-intro">
+        <p class="homepage-intro-lead">Engineering the Knowledge Platform.</p>
+        <p>Explore the architecture, development notes, documentation, and active work behind a custom WordPress knowledge platform.</p>
+    </div>
     
     <?php if ($main_site_page) : ?>
     <div class="hero-main-site-card">
@@ -60,11 +65,6 @@ $main_site_page = get_page_by_path('main-site');
         </div>
     </div>
     <?php endif; ?>
-
-    <div class="homepage-intro">
-        <p class="homepage-intro-lead">Engineering the Knowledge Platform.</p>
-        <p>Explore the architecture, development notes, documentation, and active work behind a custom WordPress knowledge platform.</p>
-    </div>
 
 </section>
 
