@@ -10,33 +10,51 @@ get_header();
 
 
     <?php
-    /*
-    |--------------------------------------------------------------------------
-    | 1 & 2. PLATFORM OVERVIEW (Full Article Link)
-    |--------------------------------------------------------------------------
-    */
-    $overview_page = get_page_by_path('platform-overview');
-    if ($overview_page) :
-    ?>
-    <section class="homepage-section">
-        <div class="tag-posts-grid" style="grid-template-columns: 1fr;">
-            <div class="tag-post-item" style="max-width: 800px; margin: 0 auto;">
-                <a href="<?php echo get_permalink($overview_page->ID); ?>" class="tag-post-thumbnail">
-                    <?php if (has_post_thumbnail($overview_page->ID)) : ?>
-                        <?php echo get_the_post_thumbnail($overview_page->ID, 'large'); ?>
-                    <?php endif; ?>
-                </a>
-                <a href="<?php echo get_permalink($overview_page->ID); ?>" class="tag-post-title">
-                    Platform Overview & Architecture
-                </a>
-                <p class="tag-post-excerpt">
-                    The vision, structure, and technical foundation of the dual-site ecosystem.
-                </p>
-            </div>
+/*
+|--------------------------------------------------------------------------
+| 2. OVERVIEW + TIMELINE (Top Pair)
+|--------------------------------------------------------------------------
+*/
+$overview_page = get_page_by_path('platform-overview');
+$timeline_page = get_page_by_path('documents/site-development-timeline');
+?>
+<section class="homepage-section top-pair-section">
+    <div class="top-pair-grid">
+        
+        <?php if ($overview_page) : ?>
+        <div class="top-pair-card">
+            <a href="<?php echo get_permalink($overview_page->ID); ?>" class="tag-post-thumbnail">
+                <?php if (has_post_thumbnail($overview_page->ID)) : ?>
+                    <?php echo get_the_post_thumbnail($overview_page->ID, 'large'); ?>
+                <?php endif; ?>
+            </a>
+            <a href="<?php echo get_permalink($overview_page->ID); ?>" class="tag-post-title">
+                Platform Overview & Architecture
+            </a>
+            <p class="tag-post-excerpt">
+                The vision, structure, and technical foundation of the dual-site ecosystem.
+            </p>
         </div>
-    </section>
-    <?php endif; ?>
-
+        <?php endif; ?>
+        
+        <?php if ($timeline_page) : ?>
+        <div class="top-pair-card">
+            <a href="<?php echo get_permalink($timeline_page->ID); ?>" class="tag-post-thumbnail">
+                <?php if (has_post_thumbnail($timeline_page->ID)) : ?>
+                    <?php echo get_the_post_thumbnail($timeline_page->ID, 'large'); ?>
+                <?php endif; ?>
+            </a>
+            <a href="<?php echo get_permalink($timeline_page->ID); ?>" class="tag-post-title">
+                Site Development Timeline
+            </a>
+            <p class="tag-post-excerpt">
+                1.5 years of engineering history, architectural decisions, and platform evolution.
+            </p>
+        </div>
+        <?php endif; ?>
+        
+    </div>
+</section>
 
 <?php
 /*
