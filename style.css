@@ -248,28 +248,25 @@
 ===================================================== */
 
 .homepage-intro {
-    max-width: 900px;
-    margin: 0 auto 2rem;
-    padding: 1.5rem 2rem;
-    background: #fff;
-    border: 1px solid #e6e6e6;
-    border-radius: 8px;
+    max-width: 700px;
+    margin: 0 auto 1.5rem;
+    padding: 0.5rem 0;
     text-align: center;
 }
 
 .homepage-intro-lead {
-    margin: 0 0 .75rem;
+    margin: 0 0 0.25rem;
     font-size: 1.1rem;
     font-weight: 700;
-    line-height: 1.5;
+    line-height: 1.4;
+    color: #222;
 }
 
 .homepage-intro p:last-child {
     margin: 0;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.7;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #666;
 }
 
 
