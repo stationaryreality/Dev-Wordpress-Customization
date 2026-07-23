@@ -58,7 +58,7 @@ get_header();
             // 3 Most Recent Active Tasks
             $active_tasks = new WP_Query([
                 'post_type'      => 'task',
-                'posts_per_page' => 3,
+                'posts_per_page' => 5,
                 'orderby'        => 'date',
                 'order'          => 'DESC',
                 'tax_query'      => [
@@ -86,7 +86,7 @@ get_header();
             // 3 Most Recent Completed Tasks
             $completed_tasks = new WP_Query([
                 'post_type'      => 'task',
-                'posts_per_page' => 3,
+                'posts_per_page' => 5,
                 'orderby'        => 'date',
                 'order'          => 'DESC',
                 'tax_query'      => [
