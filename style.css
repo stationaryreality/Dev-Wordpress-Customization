@@ -355,9 +355,9 @@
     text-align: center;
 }
 
-/* Main Site Card - Matches ONE Top Pair card exactly */
+/* Main Site Card - Square for full logo display */
 .hero-main-site-card {
-    width: 220px; /* Matches single top-pair-card width */
+    width: 160px;
     margin: 0 auto 1rem;
     background: #f9f9f9;
     border-radius: 6px;
@@ -368,7 +368,8 @@
 }
 
 .hero-main-site-thumbnail {
-    max-height: 70px;
+    width: 144px;
+    height: 144px;
     overflow: hidden;
     border-radius: 6px;
     display: block;
@@ -376,8 +377,8 @@
 
 .hero-main-site-thumbnail img {
     width: 100%;
-    height: 70px;
-    object-fit: cover;
+    height: 100%;
+    object-fit: contain; /* Shows full image without cropping */
     display: block;
 }
 
@@ -392,6 +393,7 @@
     text-decoration: none;
     color: #333;
     display: block;
+    text-align: center;
 }
 
 .hero-main-site-title:hover {
@@ -403,25 +405,5 @@
     font-size: 0.75em;
     margin: 0;
     line-height: 1.4;
-}
-
-/* Hero Intro Text - No box, compact */
-.homepage-intro {
-    margin: 0;
-    padding: 0.5rem 0;
-}
-
-.homepage-intro-lead {
-    margin: 0 0 0.25rem;
-    font-size: 1.1rem;
-    font-weight: 700;
-    line-height: 1.4;
-    color: #222;
-}
-
-.homepage-intro p:last-child {
-    margin: 0;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    color: #666;
+    text-align: center;
 }
