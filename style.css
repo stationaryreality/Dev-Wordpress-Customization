@@ -243,32 +243,6 @@
 
 }
 
-/* =====================================================
-   Home Page Introduction
-===================================================== */
-
-.homepage-intro {
-    max-width: 700px;
-    margin: 0 auto 1.5rem;
-    padding: 0.5rem 0;
-    text-align: center;
-}
-
-.homepage-intro-lead {
-    margin: 0 0 0.25rem;
-    font-size: 1.1rem;
-    font-weight: 700;
-    line-height: 1.4;
-    color: #222;
-}
-
-.homepage-intro p:last-child {
-    margin: 0;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    color: #666;
-}
-
 
 /* Top Pair - Compact Version */
 .top-pair-section { margin-top: 1rem; margin-bottom: 1rem; }
@@ -373,15 +347,18 @@
     text-overflow: ellipsis;
 }
 
-/* Main Site Link - Single Card */
-.main-site-link-section {
-    margin-top: 1rem;
-    margin-bottom: 1.5rem;
+/* Hero Section Container */
+.hero-section {
+    max-width: 700px;
+    margin: 0 auto 1.5rem;
+    padding: 0;
+    text-align: center;
 }
 
-.main-site-link-card {
-    max-width: 450px;
-    margin: 0 auto;
+/* Main Site Card - Matches ONE Top Pair card exactly */
+.hero-main-site-card {
+    width: 220px; /* Matches single top-pair-card width */
+    margin: 0 auto 1rem;
     background: #f9f9f9;
     border-radius: 6px;
     padding: 8px;
@@ -390,25 +367,25 @@
     flex-direction: column;
 }
 
-.main-site-link-thumbnail {
+.hero-main-site-thumbnail {
     max-height: 70px;
     overflow: hidden;
     border-radius: 6px;
     display: block;
 }
 
-.main-site-link-thumbnail img {
+.hero-main-site-thumbnail img {
     width: 100%;
     height: 70px;
     object-fit: cover;
     display: block;
 }
 
-.main-site-link-content {
+.hero-main-site-content {
     padding: 8px 4px 4px;
 }
 
-.main-site-link-title {
+.hero-main-site-title {
     font-size: 0.9em;
     font-weight: bold;
     margin: 0 0 4px;
@@ -417,13 +394,34 @@
     display: block;
 }
 
-.main-site-link-title:hover {
+.hero-main-site-title:hover {
     color: #0073aa;
 }
 
-.main-site-link-excerpt {
+.hero-main-site-excerpt {
     color: #555;
     font-size: 0.75em;
     margin: 0;
     line-height: 1.4;
+}
+
+/* Hero Intro Text - No box, compact */
+.homepage-intro {
+    margin: 0;
+    padding: 0.5rem 0;
+}
+
+.homepage-intro-lead {
+    margin: 0 0 0.25rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #222;
+}
+
+.homepage-intro p:last-child {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #666;
 }

@@ -38,41 +38,35 @@ $resource_slugs = [
 <main class="homepage-posts">
 
 <?php
-
 /*
 |--------------------------------------------------------------------------
-| 1. HERO TEXT
-|--------------------------------------------------------------------------
-*/
-?>
-<div class="homepage-intro">
-    <p class="homepage-intro-lead">Engineering Stationary Reality.</p>
-    <p>Explore the architecture, development notes, documentation, and active work behind a custom WordPress knowledge platform.</p>
-</div>
-
-<?php
-/*
-|--------------------------------------------------------------------------
-| 1.5. MAIN SITE LINK (Single Card)
+| 1. HERO + MAIN SITE LINK (Combined Section)
 |--------------------------------------------------------------------------
 */
 $main_site_page = get_page_by_path('main-site');
-if ($main_site_page) :
 ?>
-<section class="homepage-section main-site-link-section">
-    <div class="main-site-link-card">
-        <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="main-site-link-thumbnail">
+<section class="homepage-section hero-section">
+    
+    <?php if ($main_site_page) : ?>
+    <div class="hero-main-site-card">
+        <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="hero-main-site-thumbnail">
             <?php if (has_post_thumbnail($main_site_page->ID)) echo get_the_post_thumbnail($main_site_page->ID, 'medium'); ?>
         </a>
-        <div class="main-site-link-content">
-            <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="main-site-link-title">
+        <div class="hero-main-site-content">
+            <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="hero-main-site-title">
                 <?php echo get_the_title($main_site_page->ID); ?>
             </a>
-            <p class="main-site-link-excerpt"><?php echo esc_html(get_the_excerpt($main_site_page->ID)); ?></p>
+            <p class="hero-main-site-excerpt"><?php echo esc_html(get_the_excerpt($main_site_page->ID)); ?></p>
         </div>
     </div>
+    <?php endif; ?>
+
+    <div class="homepage-intro">
+        <p class="homepage-intro-lead">Engineering the Knowledge Platform.</p>
+        <p>Explore the architecture, development notes, documentation, and active work behind a custom WordPress knowledge platform.</p>
+    </div>
+
 </section>
-<?php endif; ?>
 
 <?php
 /*
