@@ -208,7 +208,7 @@ $timeline_page = get_page_by_path('site-development-timeline');
     // Exclude Resources and Home page
     $resource_slugs = [
         'main-site', 'site-updates', 'active-and-complete-tasks', 
-        'Engineering Logs', 'site-tools', 'wordpress-customization-github', 'platform-overview',
+        'Engineering Logs', 'site-tools', 'wordpress-customization-github', 'platform-overview', 'site-development-timeline',
     ];
     $exclude_ids = [];
     foreach ($resource_slugs as $slug) {
