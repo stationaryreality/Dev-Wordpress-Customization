@@ -16,7 +16,7 @@ get_header();
 |--------------------------------------------------------------------------
 */
 $overview_page = get_page_by_path('platform-overview');
-$timeline_page = get_page_by_path('documents/site-development-timeline');
+$timeline_page = get_page_by_path('documents/site-development-timeline', OBJECT, 'document');
 ?>
 <section class="homepage-section top-pair-section">
     <div class="top-pair-grid">
