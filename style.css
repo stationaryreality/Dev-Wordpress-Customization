@@ -323,6 +323,8 @@
     padding: 0.4rem 0;
     border-bottom: 1px solid #f0f0f0;
     font-size: 0.85em;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .pulse-status {
@@ -359,7 +361,7 @@
 
 .pulse-title {
     flex: 1;
-    min-width: 0; /* THIS is the magic line */
+    min-width: 0;
     color: #333;
     font-weight: 500;
     overflow: hidden;
