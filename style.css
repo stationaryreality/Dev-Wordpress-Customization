@@ -273,15 +273,15 @@
 }
 
 
-/* Top Pair */
-.top-pair-section { margin-top: 1.5rem; margin-bottom: 1.5rem; }
-.top-pair-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 900px; margin: 0 auto; }
-.top-pair-card { background: #f9f9f9; border-radius: 8px; padding: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.08); display: flex; flex-direction: column; }
-.top-pair-card .tag-post-thumbnail { max-height: 140px; overflow: hidden; border-radius: 8px; }
-.top-pair-card .tag-post-thumbnail img { width: 100%; height: 140px; object-fit: cover; }
-.top-pair-card .tag-post-title { font-size: 1.1em; font-weight: bold; margin-top: 6px; text-decoration: none; color: #333; }
+/* Top Pair - Compact Version */
+.top-pair-section { margin-top: 1rem; margin-bottom: 1rem; }
+.top-pair-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; max-width: 450px; margin: 0 auto; }
+.top-pair-card { background: #f9f9f9; border-radius: 6px; padding: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.06); display: flex; flex-direction: column; }
+.top-pair-card .tag-post-thumbnail { max-height: 70px; overflow: hidden; border-radius: 6px; }
+.top-pair-card .tag-post-thumbnail img { width: 100%; height: 70px; object-fit: cover; }
+.top-pair-card .tag-post-title { font-size: 0.9em; font-weight: bold; margin-top: 4px; text-decoration: none; color: #333; }
 .top-pair-card .tag-post-title:hover { color: #0073aa; }
-.top-pair-card .tag-post-excerpt { color: #555; font-size: 0.875em; margin-top: auto; padding-top: 8px; line-height: 1.5; }
+.top-pair-card .tag-post-excerpt { color: #555; font-size: 0.75em; margin-top: auto; padding-top: 4px; line-height: 1.4; }
 
 /* Engineering Pulse */
 .engineering-pulse-section { margin-top: 2rem; margin-bottom: 2rem; }
