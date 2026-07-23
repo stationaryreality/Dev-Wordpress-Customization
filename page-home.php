@@ -123,7 +123,7 @@ get_header();
             // 3 Most Recent Updates
             $updates_query = new WP_Query([
                 'post_type'      => 'update',
-                'posts_per_page' => 3,
+                'posts_per_page' => 4,
                 'orderby'        => 'date',
                 'order'          => 'DESC',
             ]);
