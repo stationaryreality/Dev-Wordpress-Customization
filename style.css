@@ -361,4 +361,11 @@
     margin: 0;
     line-height: 1.4;
     color: #666;
+    
+    /* Truncation magic: forces exactly 2 lines + ellipsis (...) */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Change to 3 if you prefer 3 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

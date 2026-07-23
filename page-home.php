@@ -174,7 +174,7 @@ if (isset($domain_slugs) && !empty($domain_slugs)) :
             <?php while ($domains_query->have_posts()) : $domains_query->the_post(); ?>
                 <div class="domain-list-item">
                     <a href="<?php the_permalink(); ?>" class="domain-list-thumbnail">
-                        <?php if (has_post_thumbnail()) the_post_thumbnail('medium'); ?>
+                        <?php if (has_post_thumbnail()) the_post_thumbnail('thumbnail'); ?>
                     </a>
                     <div class="domain-list-content">
                         <a href="<?php the_permalink(); ?>" class="domain-list-title"><?php the_title(); ?></a>
