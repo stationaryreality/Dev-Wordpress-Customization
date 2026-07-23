@@ -11,16 +11,18 @@ get_header();
 // =====================================================
 
 $domain_slugs = [
-    'systems-administration-linux',
-    'network-architecture-cdn',
-    'frontend-cms-theme',
-    'cybersecurity-hardening',
+    'virtual-private-server',
+    'linux-server-configuration',
+    'dns-content-delivery',
+    'wordpress-content-management',
+    'security-hardening',
     'performance-optimization',
-    'media-engineering',
-    'information-architecture',
-    'disaster-recovery',
-    'communication-infrastructure',
-    'ai-augmented-engineering',
+    'media-handling-image-strategy',
+    'content-structure-taxonomy',
+    'backup-strategies-recovery',
+    'contact-systems-email-forms',
+    'development-tools-workflows',
+    'using-ai-in-site-development',
 ];
 
 $resource_slugs = [
