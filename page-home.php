@@ -120,6 +120,7 @@ $core_query = new WP_Query([
 if ($core_query->have_posts()) :
 ?>
 <section class="homepage-section core-nav-section">
+    <h2 class="page-section-title">Platform Directory</h2>
     <div class="core-nav-grid">
         <?php while ($core_query->have_posts()) : $core_query->the_post(); ?>
             <a href="<?php the_permalink(); ?>" class="core-nav-item">
@@ -327,64 +328,6 @@ endif;
     endif;
     wp_reset_postdata();
     ?>
-
-<?php
-/*
-|--------------------------------------------------------------------------
-| 5. RESOURCES (Formerly "Site Resources", moved to bottom)
-|--------------------------------------------------------------------------
-*/
-$resource_ids = [];
-foreach ($resource_slugs as $slug) {
-    $page = get_page_by_path($slug);
-    if ($page) $resource_ids[] = $page->ID;
-}
-
-// Remove Platform Overview and Main Site from Resources section
-// (These variables are already defined at the top of the template)
-$pages_to_remove = [];
-if (isset($overview_page) && $overview_page) {
-    $pages_to_remove[] = $overview_page->ID;
-}
-if (isset($main_site_page) && $main_site_page) {
-    $pages_to_remove[] = $main_site_page->ID;
-}
-
-if (!empty($pages_to_remove)) {
-    $resource_ids = array_diff($resource_ids, $pages_to_remove);
-}
-
-if (!empty($resource_ids)) :
-$resources_query = new WP_Query([
-    'post_type'      => 'page',
-    'posts_per_page' => -1,
-    'post__in'       => $resource_ids,
-    'orderby'        => 'post__in',
-]);
-
-if ($resources_query->have_posts()) :
-?>
-<section class="homepage-section">
-    <h2 class="page-section-title">Resources</h2>
-    <div class="tag-posts-grid">
-        <?php while ($resources_query->have_posts()) : $resources_query->the_post(); ?>
-            <div class="tag-post-item">
-                <a href="<?php the_permalink(); ?>" class="tag-post-thumbnail">
-                    <?php if (has_post_thumbnail()) : ?>
-                        <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="<?php the_title(); ?>">
-                    <?php endif; ?>
-                </a>
-                <a href="<?php the_permalink(); ?>" class="tag-post-title">
-                    <?php the_title(); ?>
-                </a>
-            </div>
-        <?php endwhile; wp_reset_postdata(); ?>
-    </div>
-</section>
-<?php
-endif;
-endif;
-?>
 
 </main>
 
