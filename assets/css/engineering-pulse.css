@@ -1,0 +1,23 @@
+.engineering-pulse-section { margin-top: 2rem; margin-bottom: 2rem; }
+.pulse-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 900px; margin: 0 auto; }
+.pulse-column-title { font-size: 0.95em; font-weight: 700; color: #333; margin: 0 0 0.75rem 0; padding-bottom: 0.5rem; border-bottom: 2px solid #e0e0e0; text-transform: uppercase; letter-spacing: 0.05em; }
+
+.pulse-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0; border-bottom: 1px solid #f0f0f0; font-size: 0.85em; min-width: 0; overflow: hidden; }
+
+.pulse-status { display: inline-block; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.7em; font-weight: 700; text-transform: uppercase; white-space: nowrap; min-width: 45px; text-align: center; }
+.pulse-status.active { background: #fff3e0; color: #e65100; }
+.pulse-status.completed { background: #e8f5e9; color: #2e7d32; }
+.pulse-status.update { background: #e3f2fd; color: #1565c0; }
+.pulse-status.log { background: #f3e5f5; color: #6a1b9a; }
+
+.pulse-title { flex: 1; min-width: 0; color: #333; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-decoration: none; }
+.pulse-title:hover { color: #0073aa; text-decoration: underline; }
+.pulse-date { color: #999; font-size: 0.85em; white-space: nowrap; }
+.pulse-link { display: inline-block; margin-top: 0.75rem; font-size: 0.8em; color: #0073aa; text-decoration: none; font-weight: 600; }
+.pulse-footer { text-align: center; margin-top: 1.5rem; }
+.btn-link { display: inline-block; padding: 0.5rem 1rem; background: #0073aa; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85em; font-weight: 600; }
+
+@media (max-width: 768px) {
+    .pulse-grid { grid-template-columns: 1fr !important; gap: 1.5rem; }
+    .pulse-column { width: 100%; }
+}

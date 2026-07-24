@@ -87,6 +87,56 @@ $timeline_page = get_page_by_path('site-development-timeline');
     </div>
 </section>
 
+
+<?php
+/*
+|--------------------------------------------------------------------------
+| 3. CORE NAVIGATION (6-Item Compact Grid)
+|--------------------------------------------------------------------------
+*/
+$core_slugs = [
+    'getting-started',
+    'platform-architecture',
+    'github-repository', // Example: your GitHub link page
+    'documentation',
+    'api-reference',
+    'changelog'
+];
+
+$core_ids = [];
+foreach ($core_slugs as $slug) {
+    $page = get_page_by_path($slug);
+    if ($page) $core_ids[] = $page->ID;
+}
+
+if (!empty($core_ids)) :
+$core_query = new WP_Query([
+    'post_type'      => 'page',
+    'posts_per_page' => 6,
+    'post__in'       => $core_ids,
+    'orderby'        => 'post__in'
+]);
+
+if ($core_query->have_posts()) :
+?>
+<section class="homepage-section core-nav-section">
+    <div class="core-nav-grid">
+        <?php while ($core_query->have_posts()) : $core_query->the_post(); ?>
+            <a href="<?php the_permalink(); ?>" class="core-nav-item">
+                <div class="core-nav-thumbnail">
+                    <?php if (has_post_thumbnail()) the_post_thumbnail('thumbnail'); ?>
+                </div>
+                <span class="core-nav-title"><?php the_title(); ?></span>
+            </a>
+        <?php endwhile; wp_reset_postdata(); ?>
+    </div>
+</section>
+<?php
+endif;
+endif;
+?>
+
+
 <?php
 /*
 |--------------------------------------------------------------------------
