@@ -95,12 +95,12 @@ $timeline_page = get_page_by_path('site-development-timeline');
 |--------------------------------------------------------------------------
 */
 $core_slugs = [
-    'getting-started',
-    'platform-architecture',
-    'github-repository', // Example: your GitHub link page
-    'documentation',
-    'api-reference',
-    'changelog'
+    'site-tools',
+    'site-updates',
+    'active-and-complete-tasks',
+    'engineering-logs',
+    'documents',
+    'wordpress-customization-github'
 ];
 
 $core_ids = [];
