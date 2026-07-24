@@ -357,20 +357,26 @@ function custom_excerpt_more($more) {
 add_filter('excerpt_more', 'custom_excerpt_more', 999);
 
 
+// CSS files loader for Dev Site Child Theme
 function dev_site_enqueue_styles() {
-    $theme_version = wp_get_theme()->get('Version');
-    $css_dir = get_template_directory_uri() . '/assets/css/';
+    $css_files = [
+        'global',
+        'task-dashboard',
+        'hero',
+        'top-pair',
+        'core-nav',
+        'engineering-pulse',
+        'domain-list',
+        'resource-grid'
+    ];
 
-    // 1. Global (Base styles, lists, dividers)
-    wp_enqueue_style('dev-global', $css_dir . 'global.css', [], $theme_version);
-    
-    // 2. Page-Specific & Sections
-    wp_enqueue_style('dev-task-dashboard', $css_dir . 'task-dashboard.css', ['dev-global'], $theme_version);
-    wp_enqueue_style('dev-hero', $css_dir . 'hero.css', ['dev-global'], $theme_version);
-    wp_enqueue_style('dev-top-pair', $css_dir . 'top-pair.css', ['dev-global'], $theme_version);
-    wp_enqueue_style('dev-core-nav', $css_dir . 'core-nav.css', ['dev-global'], $theme_version);
-    wp_enqueue_style('dev-pulse', $css_dir . 'engineering-pulse.css', ['dev-global'], $theme_version);
-    wp_enqueue_style('dev-domains', $css_dir . 'domain-list.css', ['dev-global'], $theme_version);
-    wp_enqueue_style('dev-resources', $css_dir . 'resource-grid.css', ['dev-global'], $theme_version);
+    foreach ($css_files as $file) {
+        wp_enqueue_style(
+            'dev-' . $file,
+            get_stylesheet_directory_uri() . "/assets/css/{$file}.css",
+            [],
+            filemtime(get_stylesheet_directory() . "/assets/css/{$file}.css") // Auto cache-bust on save
+        );
+    }
 }
 add_action('wp_enqueue_scripts', 'dev_site_enqueue_styles');
