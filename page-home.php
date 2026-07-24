@@ -40,45 +40,26 @@ $resource_slugs = [
 <?php
 /*
 |--------------------------------------------------------------------------
-| 1. HERO + MAIN SITE LINK (Combined Section)
+| 2. MAIN SITE + OVERVIEW + TIMELINE (3-Column Grid)
 |--------------------------------------------------------------------------
 */
 $main_site_page = get_page_by_path('main-site');
-?>
-<section class="homepage-section hero-section">
-
-    <div class="homepage-intro">
-        <p class="homepage-intro-lead">Engineering the Knowledge Platform.</p>
-        <p>Explore the architecture, development notes, documentation, and active work behind a custom WordPress knowledge platform.</p>
-    </div>
-    
-    <?php if ($main_site_page) : ?>
-    <div class="hero-main-site-card">
-        <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="hero-main-site-thumbnail">
-            <?php if (has_post_thumbnail($main_site_page->ID)) echo get_the_post_thumbnail($main_site_page->ID, 'medium'); ?>
-        </a>
-        <div class="hero-main-site-content">
-            <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="hero-main-site-title">
-                <?php echo get_the_title($main_site_page->ID); ?>
-            </a>
-            <p class="hero-main-site-excerpt"><?php echo esc_html(get_the_excerpt($main_site_page->ID)); ?></p>
-        </div>
-    </div>
-    <?php endif; ?>
-
-</section>
-
-<?php
-/*
-|--------------------------------------------------------------------------
-| 2. OVERVIEW + TIMELINE (Top Pair)
-|--------------------------------------------------------------------------
-*/
 $overview_page = get_page_by_path('platform-overview');
-$timeline_page = get_page_by_path('site-development-timeline'); // Adjust slug if needed
+$timeline_page = get_page_by_path('site-development-timeline');
 ?>
 <section class="homepage-section top-pair-section">
-    <div class="top-pair-grid">
+    <div class="top-pair-grid top-pair-grid-three">
+        
+        <?php if ($main_site_page) : ?>
+        <div class="top-pair-card top-pair-card-logo">
+            <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="tag-post-thumbnail">
+                <?php if (has_post_thumbnail($main_site_page->ID)) echo get_the_post_thumbnail($main_site_page->ID, 'medium'); ?>
+            </a>
+            <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="tag-post-title">Main Site</a>
+            <p class="tag-post-excerpt">The knowledge platform this dev site was built to support.</p>
+        </div>
+        <?php endif; ?>
+        
         <?php if ($overview_page) : ?>
         <div class="top-pair-card">
             <a href="<?php echo get_permalink($overview_page->ID); ?>" class="tag-post-thumbnail">
@@ -98,6 +79,7 @@ $timeline_page = get_page_by_path('site-development-timeline'); // Adjust slug i
             <p class="tag-post-excerpt">1.5 years of engineering history, architectural decisions, and platform evolution.</p>
         </div>
         <?php endif; ?>
+        
     </div>
 </section>
 
