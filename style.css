@@ -271,6 +271,18 @@
 .pulse-footer { text-align: center; margin-top: 1.5rem; }
 .btn-link { display: inline-block; padding: 0.5rem 1rem; background: #0073aa; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85em; font-weight: 600; }
 
+/* Engineering Pulse - Mobile Responsive */
+@media (max-width: 768px) {
+    .pulse-grid {
+        grid-template-columns: 1fr !important; /* Stack to single column on mobile */
+        gap: 1.5rem;
+    }
+    
+    .pulse-column {
+        width: 100%;
+    }
+}
+
 /* Technical Domains: 2-column vertical flow */
 .domain-list-section .domain-list-grid {
     column-count: 2; /* Flows items down column 1, then down column 2 */
@@ -347,17 +359,9 @@
     text-overflow: ellipsis;
 }
 
-/* Hero Section Container */
-.hero-section {
-    max-width: 700px;
-    margin: 0 auto 1.5rem;
-    padding: 0;
-    text-align: center;
-}
-
-/* Main Site Card - Square for full logo display */
+/* Main Site Card - Tiny Logo Badge */
 .hero-main-site-card {
-    width: 160px;
+    width: 56px;
     margin: 0 auto 1rem;
     background: #f9f9f9;
     border-radius: 6px;
@@ -365,35 +369,37 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.06);
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .hero-main-site-thumbnail {
-    width: 144px;
-    height: 144px;
+    width: 40px;
+    height: 40px;
     overflow: hidden;
-    border-radius: 6px;
+    border-radius: 50%; /* Makes it circular to match the round logo */
     display: block;
 }
 
 .hero-main-site-thumbnail img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Shows full image without cropping */
+    object-fit: contain;
     display: block;
 }
 
 .hero-main-site-content {
-    padding: 8px 4px 4px;
+    padding: 4px 2px 2px;
 }
 
 .hero-main-site-title {
-    font-size: 0.9em;
+    font-size: 0.65em;
     font-weight: bold;
-    margin: 0 0 4px;
+    margin: 0;
     text-decoration: none;
     color: #333;
     display: block;
     text-align: center;
+    line-height: 1.2;
 }
 
 .hero-main-site-title:hover {
@@ -401,9 +407,5 @@
 }
 
 .hero-main-site-excerpt {
-    color: #555;
-    font-size: 0.75em;
-    margin: 0;
-    line-height: 1.4;
-    text-align: center;
+    display: none; /* Hide excerpt at this tiny size */
 }
