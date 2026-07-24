@@ -383,7 +383,20 @@
     text-align: center;
 }
 
+/* Main Site URL Label */
+.top-pair-card-logo .tag-post-url {
+    display: block;
+    font-size: 0.7em;
+    color: #0073aa; /* Matches your link hover color for consistency */
+    font-family: monospace; /* Gives it a clean, technical look */
+    margin: 2px 0 4px 0; /* Tight spacing to eliminate the gap */
+    text-align: center;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
 /* Mobile: Stack to single column */
 @media (max-width: 768px) {
     .top-pair-grid-three { grid-template-columns: 1fr; }
 }
+

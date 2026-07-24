@@ -50,15 +50,19 @@ $timeline_page = get_page_by_path('site-development-timeline');
 <section class="homepage-section top-pair-section">
     <div class="top-pair-grid top-pair-grid-three">
         
-        <?php if ($main_site_page) : ?>
-        <div class="top-pair-card top-pair-card-logo">
-            <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="tag-post-thumbnail">
-                <?php if (has_post_thumbnail($main_site_page->ID)) echo get_the_post_thumbnail($main_site_page->ID, 'medium'); ?>
-            </a>
-            <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="tag-post-title">Main Site</a>
-            <p class="tag-post-excerpt">The knowledge platform this dev site was built to support.</p>
-        </div>
-        <?php endif; ?>
+<?php if ($main_site_page) : ?>
+<div class="top-pair-card top-pair-card-logo">
+    <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="tag-post-thumbnail">
+        <?php if (has_post_thumbnail($main_site_page->ID)) echo get_the_post_thumbnail($main_site_page->ID, 'medium'); ?>
+    </a>
+    <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="tag-post-title">Main Site</a>
+    
+    <!-- NEW URL LINE -->
+    <span class="tag-post-url">www.stationaryreality.com</span>
+    
+    <p class="tag-post-excerpt">The knowledge platform this dev site was built to support.</p>
+</div>
+<?php endif; ?>
         
         <?php if ($overview_page) : ?>
         <div class="top-pair-card">
