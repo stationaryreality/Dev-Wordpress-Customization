@@ -290,10 +290,18 @@ foreach ($resource_slugs as $slug) {
     if ($page) $resource_ids[] = $page->ID;
 }
 
-// Remove Platform Overview from Resources section
-$overview_page = get_page_by_path('platform-overview');
-if ($overview_page) {
-    $resource_ids = array_diff($resource_ids, [$overview_page->ID]);
+// Remove Platform Overview and Main Site from Resources section
+// (These variables are already defined at the top of the template)
+$pages_to_remove = [];
+if (isset($overview_page) && $overview_page) {
+    $pages_to_remove[] = $overview_page->ID;
+}
+if (isset($main_site_page) && $main_site_page) {
+    $pages_to_remove[] = $main_site_page->ID;
+}
+
+if (!empty($pages_to_remove)) {
+    $resource_ids = array_diff($resource_ids, $pages_to_remove);
 }
 
 if (!empty($resource_ids)) :
@@ -320,12 +328,11 @@ if ($resources_query->have_posts()) :
                     <?php the_title(); ?>
                 </a>
             </div>
-        <?php endwhile; ?>
+        <?php endwhile; wp_reset_postdata(); ?>
     </div>
 </section>
 <?php
 endif;
-wp_reset_postdata();
 endif;
 ?>
 
