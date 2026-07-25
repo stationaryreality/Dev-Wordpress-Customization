@@ -7,7 +7,6 @@ get_header();
 
 // =====================================================
 // DEFINE PAGE SLUGS FOR SECTIONS
-// (Update these to match your actual page slugs)
 // =====================================================
 
 $domain_slugs = [
@@ -48,21 +47,24 @@ $overview_page = get_page_by_path('platform-overview');
 $timeline_page = get_page_by_path('site-development-timeline');
 ?>
 <section class="homepage-section top-pair-section">
+    
+    <!-- ADDED SECTION TITLE -->
+    <h2 class="page-section-title">Behind the Build</h2>
+    
     <div class="top-pair-grid top-pair-grid-three">
         
-<?php if ($main_site_page) : ?>
-<div class="top-pair-card top-pair-card-logo">
-    <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="tag-post-thumbnail">
-        <?php if (has_post_thumbnail($main_site_page->ID)) echo get_the_post_thumbnail($main_site_page->ID, 'medium'); ?>
-    </a>
-    <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="tag-post-title">Main Site</a>
-    
-    <!-- NEW URL LINE -->
-    <span class="tag-post-url">www.stationaryreality.com</span>
-    
-    <p class="tag-post-excerpt">The knowledge platform this dev site was built to support.</p>
-</div>
-<?php endif; ?>
+        <?php if ($main_site_page) : ?>
+        <div class="top-pair-card top-pair-card-logo">
+            <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="tag-post-thumbnail">
+                <?php if (has_post_thumbnail($main_site_page->ID)) echo get_the_post_thumbnail($main_site_page->ID, 'medium'); ?>
+            </a>
+            <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="tag-post-title">Main Site</a>
+            
+            <span class="tag-post-url">www.stationaryreality.com</span>
+            
+            <p class="tag-post-excerpt">The knowledge platform this dev site was built to support.</p>
+        </div>
+        <?php endif; ?>
         
         <?php if ($overview_page) : ?>
         <div class="top-pair-card">
@@ -120,7 +122,10 @@ $core_query = new WP_Query([
 if ($core_query->have_posts()) :
 ?>
 <section class="homepage-section core-nav-section">
+    <!-- Title is OUTSIDE the grid/box -->
     <h2 class="page-section-title">Platform Directory</h2>
+    
+    <!-- The background box goes on this grid container -->
     <div class="core-nav-grid">
         <?php while ($core_query->have_posts()) : $core_query->the_post(); ?>
             <a href="<?php the_permalink(); ?>" class="core-nav-item">

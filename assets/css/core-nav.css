@@ -1,18 +1,16 @@
-/* Platform Directory Section */
-.core-nav-section {
-    background: #f9f9f9; /* Matches Top Pair card background */
-    padding: 2rem 1rem;
-    border-radius: 8px;
-}
+/* Version B: Individual Item Boxes */
+.core-nav-section { margin-bottom: 4rem; }
 
 .core-nav-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 0.75rem; /* Tighter spacing */
+    gap: 0.75rem;
     max-width: 900px;
     margin: 0 auto;
+    /* NO background here */
 }
 
+/* Each item is its own off-white box */
 .core-nav-item {
     display: flex;
     flex-direction: column;
@@ -20,52 +18,37 @@
     text-align: center;
     text-decoration: none;
     color: #333;
-    transition: transform 0.2s ease;
-    padding: 0.5rem;
+    background: #f9f9f9; /* Off-white card */
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 1rem 0.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .core-nav-item:hover { 
     transform: translateY(-2px); 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    background: #ffffff; /* Turns pure white on hover */
 }
 
-/* Individual white square around each thumbnail */
+/* Pure white square inside the off-white card */
 .core-nav-thumbnail {
     width: 56px;
     height: 56px;
     margin-bottom: 0.5rem;
     border-radius: 6px;
     overflow: hidden;
-    background: #ffffff; /* White square */
+    background: #ffffff; 
     border: 1px solid #e2e8f0;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.06);
 }
 
-.core-nav-thumbnail img {
-    width: 48px;
-    height: 48px;
-    object-fit: cover;
-    border-radius: 4px;
-}
-
-.core-nav-title {
-    font-size: 0.8rem;
-    font-weight: 600;
-    line-height: 1.3;
-    color: #333;
-}
-
+.core-nav-thumbnail img { width: 48px; height: 48px; object-fit: cover; border-radius: 4px; }
+.core-nav-title { font-size: 0.8rem; font-weight: 600; line-height: 1.3; color: #333; }
 .core-nav-item:hover .core-nav-title { color: #0073aa; }
 
-/* Responsive Breakpoints */
-@media (max-width: 900px) {
-    .core-nav-grid { grid-template-columns: repeat(4, 1fr); }
-}
-@media (max-width: 600px) {
-    .core-nav-grid { grid-template-columns: repeat(3, 1fr); }
-}
-@media (max-width: 400px) {
-    .core-nav-grid { grid-template-columns: repeat(2, 1fr); }
-}
+@media (max-width: 900px) { .core-nav-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 600px) { .core-nav-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 400px) { .core-nav-grid { grid-template-columns: repeat(2, 1fr); } }
