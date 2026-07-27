@@ -385,6 +385,6 @@ add_action('wp_enqueue_scripts', 'dev_site_enqueue_styles');
 // 2026-7-27
 
 
-require_once get_stylesheet_directory() . '/inc/record-breadcrumbs.php';
+require_once get_stylesheet_directory() . '/inc/helpers/record-breadcrumbs.php';
 
-require_once get_stylesheet_directory() . '/inc/record-redirects.php';
+require_once get_stylesheet_directory() . '/inc/helpers/record-redirects.php';
