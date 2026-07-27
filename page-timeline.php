@@ -1,88 +1,78 @@
 <?php
 
-/*
-Template Name: Engineering Timeline
-*/
-
 get_header();
 
 ?>
 
-<div class="timeline-page">
 
-<header class="timeline-header">
+<main class="timeline">
 
-<h1>Engineering Development Timeline</h1>
+
+<h1>
+Site Development Timeline
+</h1>
+
 
 <p>
-This timeline captures the evolution of the engineering platform,
-from early experiments through major architectural milestones.
+Chronological history of engineering work,
+architecture decisions, and milestones.
 </p>
 
-</header>
 
 
 <?php
 
-$records = new WP_Query([
-    'post_type' => 'record',
-    'posts_per_page' => -1,
-    'post_status' => 'publish',
-    'meta_key' => 'create_time',
-    'orderby' => 'meta_value',
-    'order' => 'ASC'
-]);
+
+$args = [
+
+'post_type'=>'record',
+
+'posts_per_page'=>-1,
+
+'meta_key'=>'create_time',
+
+'orderby'=>'meta_value',
+
+'order'=>'ASC'
+
+];
 
 
-if ($records->have_posts()) :
-
-?>
-
-<table class="engineering-timeline">
-
-<thead>
-
-<tr>
-<th>Date</th>
-<th>Record</th>
-<th>Category</th>
-<th>Status</th>
-</tr>
-
-</thead>
+$query = new WP_Query($args);
 
 
-<tbody>
+
+if ($query->have_posts()) :
 
 
-<?php while ($records->have_posts()) : $records->the_post();
+while ($query->have_posts()) :
 
+$query->the_post();
 
-$record_date = get_field('create_time');
-
-$category = get_field('primary_project');
-
-$status = get_field('review_status');
 
 ?>
 
 
-<tr>
+<article class="timeline-item">
 
 
-<td>
+<div class="timeline-date">
 
-<?php echo esc_html(
-    date(
-        'Y-m-d',
-        strtotime($record_date)
-    )
-); ?>
+<?php
 
-</td>
+$date=get_field('create_time');
+
+echo esc_html(
+date('Y-m-d',strtotime($date))
+);
+
+?>
+
+</div>
 
 
-<td>
+
+<h2>
 
 <a href="<?php the_permalink(); ?>">
 
@@ -90,50 +80,48 @@ $status = get_field('review_status');
 
 </a>
 
-</td>
+</h2>
 
 
-<td>
 
 <?php
 
-if ($category) {
+$project=get_field('primary_project');
 
-echo get_term($category)->name;
+if($project):
+
+?>
+
+<div class="timeline-category">
+
+<?php
+
+
+if(is_object($project)){
+
+echo esc_html($project->name);
 
 }
 
 ?>
 
-</td>
+</div>
+
+<?php endif; ?>
 
 
-<td>
+
+</article>
+
+
 
 <?php
 
-echo esc_html(
-    ucfirst($status)
-);
 
-?>
-
-</td>
+endwhile;
 
 
-</tr>
-
-
-<?php endwhile; ?>
-
-
-</tbody>
-
-
-</table>
-
-
-<?php endif;
+endif;
 
 
 wp_reset_postdata();
@@ -142,7 +130,9 @@ wp_reset_postdata();
 ?>
 
 
-</div>
+</main>
 
 
-<?php get_footer(); ?>
+<?php
+
+get_footer();
