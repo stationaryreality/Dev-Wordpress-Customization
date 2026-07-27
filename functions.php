@@ -368,7 +368,8 @@ function dev_site_enqueue_styles() {
         'engineering-pulse',
         'domain-list',
         'resource-grid',
-        'timeline'
+        'timeline',
+        'git-timeline'
     ];
 
     foreach ($css_files as $file) {

@@ -90,6 +90,72 @@ $timeline_page = get_page_by_path('timeline');
 </section>
 
 
+//test
+<section class="homepage-section git-timeline-section">
+    <h2 class="page-section-title">Recent Development Milestones</h2>
+    <div class="git-timeline">
+        
+        <div class="git-timeline-item">
+            <div class="git-timeline-date">2026-07-06</div>
+            <div class="git-timeline-node"></div>
+            <div class="git-timeline-content">
+                <div class="git-timeline-title">Collector Architecture Design</div>
+                <span class="git-timeline-category">Knowledge Graph</span>
+            </div>
+        </div>
+
+        <div class="git-timeline-item">
+            <div class="git-timeline-date">2026-07-06</div>
+            <div class="git-timeline-node"></div>
+            <div class="git-timeline-content">
+                <div class="git-timeline-title">Taxonomy Context Architecture</div>
+                <span class="git-timeline-category">Taxonomy & Classification</span>
+            </div>
+        </div>
+
+        <div class="git-timeline-item">
+            <div class="git-timeline-date">2026-06-18</div>
+            <div class="git-timeline-node"></div>
+            <div class="git-timeline-content">
+                <div class="git-timeline-title">Knowledge Platform Architecture</div>
+                <span class="git-timeline-category">Content Architecture</span>
+            </div>
+        </div>
+
+        <div class="git-timeline-item">
+            <div class="git-timeline-date">2026-06-05</div>
+            <div class="git-timeline-node"></div>
+            <div class="git-timeline-content">
+                <div class="git-timeline-title">Knowledge Graph Automation</div>
+                <span class="git-timeline-category">Knowledge Graph</span>
+            </div>
+        </div>
+
+        <div class="git-timeline-item">
+            <div class="git-timeline-date">2026-05-25</div>
+            <div class="git-timeline-node"></div>
+            <div class="git-timeline-content">
+                <div class="git-timeline-title">Narrative Elements System</div>
+                <span class="git-timeline-category">Content Architecture</span>
+            </div>
+        </div>
+
+        <div class="git-timeline-item">
+            <div class="git-timeline-date">2026-05-18</div>
+            <div class="git-timeline-node"></div>
+            <div class="git-timeline-content">
+                <div class="git-timeline-title">Video CPT Structure</div>
+                <span class="git-timeline-category">Media Platform</span>
+            </div>
+        </div>
+
+    </div>
+    <div class="git-timeline-footer">
+        <a href="/site-development-timeline/" class="btn-link">View Full Timeline →</a>
+    </div>
+</section>
+
+
 <?php
 /*
 |--------------------------------------------------------------------------
