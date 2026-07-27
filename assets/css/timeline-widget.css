@@ -1,0 +1,113 @@
+/* =====================================================
+   TIMELINE WIDGET (Homepage Compact Version)
+   ===================================================== */
+.timeline-widget-section {
+    margin-bottom: 3rem;
+}
+
+.timeline-widget-container {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: var(--radius-sm, 6px);
+    overflow: hidden; /* Rounds the corners of the table */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+
+/* Compact modifications for the homepage widget */
+.timeline-widget {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem; /* Slightly smaller than full page */
+}
+
+.timeline-widget thead {
+    background: #f9f9f9; /* Matches your alt background */
+    border-bottom: 2px solid #ddd;
+}
+
+.timeline-widget thead th {
+    padding: 0.6rem 0.75rem; /* Tighter padding */
+    text-align: left;
+    font-weight: 600;
+    color: #555;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.timeline-widget tbody tr {
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.15s ease;
+}
+
+.timeline-widget tbody tr:hover {
+    background-color: #f0f7ff; /* Subtle blue highlight on hover */
+}
+
+.timeline-widget tbody tr:last-child {
+    border-bottom: none;
+}
+
+.timeline-widget td {
+    padding: 0.6rem 0.75rem; /* Tighter padding */
+    vertical-align: middle;
+}
+
+/* Column Widths for Widget */
+.timeline-widget .col-date {
+    width: 110px;
+    color: #666;
+    font-family: monospace;
+    font-size: 0.85rem;
+}
+
+.timeline-widget .col-record {
+    width: auto;
+}
+
+.timeline-widget .col-project {
+    width: 180px;
+}
+
+.timeline-widget .col-status {
+    width: 120px;
+    text-align: center;
+}
+
+/* Ensure tags scale nicely in compact view */
+.timeline-widget .project-tag {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+}
+
+.timeline-widget-footer {
+    margin-top: 1rem;
+    text-align: right;
+}
+
+/* Mobile Responsiveness for Widget */
+@media (max-width: 768px) {
+    .timeline-widget {
+        font-size: 0.8rem;
+        display: block;
+        overflow-x: auto; /* Allows horizontal scroll on mobile instead of squishing */
+        white-space: nowrap;
+    }
+    
+    .timeline-widget thead th,
+    .timeline-widget td {
+        padding: 0.5rem;
+    }
+    
+    .timeline-widget .col-date {
+        width: 90px;
+    }
+    
+    .timeline-widget .col-project {
+        width: 140px;
+    }
+    
+    .timeline-widget .col-status {
+        width: 100px;
+    }
+}

@@ -369,7 +369,7 @@ function dev_site_enqueue_styles() {
         'domain-list',
         'resource-grid',
         'timeline',
-        'git-timeline'
+        'timeline-widget'
     ];
 
     foreach ($css_files as $file) {

@@ -89,61 +89,97 @@ $timeline_page = get_page_by_path('timeline');
     </div>
 </section>
 
+<?php
+/*
+|--------------------------------------------------------------------------
+| 3. RECENT ENGINEERING MILESTONES (Compact Homepage Widget)
+|--------------------------------------------------------------------------
+*/
+$recent_records = new WP_Query([
+    'post_type'      => 'record',
+    'posts_per_page' => 6, // Easy to change this number later
+    'post_status'    => 'publish',
+    'meta_key'       => 'create_time',
+    'orderby'        => 'meta_value',
+    'order'          => 'DESC' // Newest first for the homepage motivator effect
+]);
 
-<section class="homepage-section horizontal-timeline-section">
-    <h2 class="page-section-title">Development Pipeline</h2>
-    <div class="horizontal-timeline-container">
-        <div class="horizontal-timeline">
-            
-            <div class="horizontal-timeline-node">
-                <div class="timeline-node-dot"></div>
-                <div class="timeline-node-date">Jul 06</div>
-                <div class="timeline-node-title">Collector Arch</div>
-                <div class="timeline-node-category">Knowledge Graph</div>
-            </div>
-
-            <div class="horizontal-timeline-node">
-                <div class="timeline-node-dot"></div>
-                <div class="timeline-node-date">Jul 06</div>
-                <div class="timeline-node-title">Taxonomy Context</div>
-                <div class="timeline-node-category">Taxonomy</div>
-            </div>
-
-            <div class="horizontal-timeline-node">
-                <div class="timeline-node-dot"></div>
-                <div class="timeline-node-date">Jun 18</div>
-                <div class="timeline-node-title">Platform Arch</div>
-                <div class="timeline-node-category">Content</div>
-            </div>
-
-            <div class="horizontal-timeline-node">
-                <div class="timeline-node-dot"></div>
-                <div class="timeline-node-date">Jun 05</div>
-                <div class="timeline-node-title">Graph Automation</div>
-                <div class="timeline-node-category">Knowledge Graph</div>
-            </div>
-
-            <div class="horizontal-timeline-node">
-                <div class="timeline-node-dot"></div>
-                <div class="timeline-node-date">May 25</div>
-                <div class="timeline-node-title">Narrative Elements</div>
-                <div class="timeline-node-category">Content</div>
-            </div>
-
-            <div class="horizontal-timeline-node">
-                <div class="timeline-node-dot"></div>
-                <div class="timeline-node-date">May 18</div>
-                <div class="timeline-node-title">Video CPT</div>
-                <div class="timeline-node-category">Media</div>
-            </div>
-
-        </div>
+if ($recent_records->have_posts()) :
+?>
+<section class="homepage-section timeline-widget-section">
+    <h2 class="page-section-title">Recent Engineering Milestones</h2>
+    
+    <div class="timeline-widget-container">
+        <table class="engineering-timeline timeline-widget">
+            <thead>
+                <tr>
+                    <th class="col-date">Date</th>
+                    <th class="col-record">Record</th>
+                    <th class="col-project">Project</th>
+                    <th class="col-status">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($recent_records->have_posts()) : $recent_records->the_post();
+                    $record_date = get_field('create_time');
+                    $importance = get_field('importance');
+                    $review_status = get_field('review_status');
+                    $projects = get_the_terms(get_the_ID(), 'project');
+                ?>
+                <tr class="timeline-row importance-<?php echo esc_attr($importance); ?>">
+                    <td class="col-date">
+                        <time datetime="<?php echo esc_attr($record_date); ?>">
+                            <?php echo esc_html(date('Y-m-d', strtotime($record_date))); ?>
+                        </time>
+                    </td>
+                    <td class="col-record">
+                        <a href="<?php the_permalink(); ?>" class="record-link">
+                            <?php the_title(); ?>
+                        </a>
+                    </td>
+                    <td class="col-project">
+                        <?php
+                        if ($projects && !is_wp_error($projects)) {
+                            $project_links = [];
+                            foreach ($projects as $project) {
+                                $project_links[] = sprintf(
+                                    '<a href="%s" class="project-tag">%s</a>',
+                                    esc_url(get_term_link($project)),
+                                    esc_html($project->name)
+                                );
+                            }
+                            echo implode(' ', $project_links);
+                        } else {
+                            echo '<span class="no-project">—</span>';
+                        }
+                        ?>
+                    </td>
+                    <td class="col-status">
+                        <span class="status-badge status-<?php echo esc_attr($review_status); ?>">
+                            <?php 
+                            $status_labels = [
+                                'needs_review' => 'Needs Review',
+                                'reviewed' => 'Reviewed',
+                                'imported' => 'Imported'
+                            ];
+                            echo esc_html($status_labels[$review_status] ?? ucfirst($review_status));
+                            ?>
+                        </span>
+                    </td>
+                </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
     </div>
-    <div class="horizontal-timeline-footer">
-        <a href="/site-development-timeline/" class="btn-link">View Full Timeline →</a>
+    
+    <div class="timeline-widget-footer">
+        <a href="/timeline/" class="btn-link">View Full Timeline →</a>
     </div>
 </section>
-
+<?php 
+endif;
+wp_reset_postdata();
+?>
 
 <?php
 /*
