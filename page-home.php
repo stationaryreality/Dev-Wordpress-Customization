@@ -39,32 +39,33 @@ $resource_slugs = [
 <?php
 /*
 |--------------------------------------------------------------------------
-| 2. MAIN SITE + OVERVIEW + TIMELINE (3-Column Grid)
+| 2. BEHIND THE BUILD (Pyramid: Main Site on top, 3 pillars below)
 |--------------------------------------------------------------------------
 */
 $main_site_page = get_page_by_path('main-site');
 $overview_page = get_page_by_path('platform-overview');
-$timeline_page = get_page_by_path('timeline');
+$timeline_page = get_page_by_path('site-development-timeline');
+$architect_page = get_page_by_path('the-architect');
 ?>
 <section class="homepage-section top-pair-section">
-    
-    <!-- ADDED SECTION TITLE -->
     <h2 class="page-section-title">Behind the Build</h2>
     
-    <div class="top-pair-grid top-pair-grid-three">
-        
-        <?php if ($main_site_page) : ?>
+    <!-- ROW 1: Main Site (Peak of the Pyramid) -->
+    <?php if ($main_site_page) : ?>
+    <div class="pyramid-peak">
         <div class="top-pair-card top-pair-card-logo">
             <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="tag-post-thumbnail">
                 <?php if (has_post_thumbnail($main_site_page->ID)) echo get_the_post_thumbnail($main_site_page->ID, 'medium'); ?>
             </a>
             <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="tag-post-title">Main Site</a>
-            
             <span class="tag-post-url">www.stationaryreality.com</span>
-            
             <p class="tag-post-excerpt">The knowledge platform this dev site was built to support.</p>
         </div>
-        <?php endif; ?>
+    </div>
+    <?php endif; ?>
+
+    <!-- ROW 2: The Three Pillars -->
+    <div class="top-pair-grid top-pair-grid-three">
         
         <?php if ($overview_page) : ?>
         <div class="top-pair-card">
@@ -83,6 +84,16 @@ $timeline_page = get_page_by_path('timeline');
             </a>
             <a href="<?php echo get_permalink($timeline_page->ID); ?>" class="tag-post-title">Site Development Timeline</a>
             <p class="tag-post-excerpt">1.5 years of engineering history, architectural decisions, and platform evolution.</p>
+        </div>
+        <?php endif; ?>
+        
+        <?php if ($architect_page) : ?>
+        <div class="top-pair-card">
+            <a href="<?php echo get_permalink($architect_page->ID); ?>" class="tag-post-thumbnail">
+                <?php if (has_post_thumbnail($architect_page->ID)) echo get_the_post_thumbnail($architect_page->ID, 'large'); ?>
+            </a>
+            <a href="<?php echo get_permalink($architect_page->ID); ?>" class="tag-post-title">The Architect</a>
+            <p class="tag-post-excerpt">First-principles systems engineering. Dismantling abstractions. Building from the ground up.</p>
         </div>
         <?php endif; ?>
         
