@@ -89,97 +89,6 @@ $timeline_page = get_page_by_path('timeline');
     </div>
 </section>
 
-<?php
-/*
-|--------------------------------------------------------------------------
-| 3. RECENT ENGINEERING MILESTONES (Compact Homepage Widget)
-|--------------------------------------------------------------------------
-*/
-$recent_records = new WP_Query([
-    'post_type'      => 'record',
-    'posts_per_page' => 6, // Easy to change this number later
-    'post_status'    => 'publish',
-    'meta_key'       => 'create_time',
-    'orderby'        => 'meta_value',
-    'order'          => 'DESC' // Newest first for the homepage motivator effect
-]);
-
-if ($recent_records->have_posts()) :
-?>
-<section class="homepage-section timeline-widget-section">
-    <h2 class="page-section-title">Recent Engineering Milestones</h2>
-    
-    <div class="timeline-widget-container">
-        <table class="engineering-timeline timeline-widget">
-            <thead>
-                <tr>
-                    <th class="col-date">Date</th>
-                    <th class="col-record">Record</th>
-                    <th class="col-project">Project</th>
-                    <th class="col-status">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($recent_records->have_posts()) : $recent_records->the_post();
-                    $record_date = get_field('create_time');
-                    $importance = get_field('importance');
-                    $review_status = get_field('review_status');
-                    $projects = get_the_terms(get_the_ID(), 'project');
-                ?>
-                <tr class="timeline-row importance-<?php echo esc_attr($importance); ?>">
-                    <td class="col-date">
-                        <time datetime="<?php echo esc_attr($record_date); ?>">
-                            <?php echo esc_html(date('Y-m-d', strtotime($record_date))); ?>
-                        </time>
-                    </td>
-                    <td class="col-record">
-                        <a href="<?php the_permalink(); ?>" class="record-link">
-                            <?php the_title(); ?>
-                        </a>
-                    </td>
-                    <td class="col-project">
-                        <?php
-                        if ($projects && !is_wp_error($projects)) {
-                            $project_links = [];
-                            foreach ($projects as $project) {
-                                $project_links[] = sprintf(
-                                    '<a href="%s" class="project-tag">%s</a>',
-                                    esc_url(get_term_link($project)),
-                                    esc_html($project->name)
-                                );
-                            }
-                            echo implode(' ', $project_links);
-                        } else {
-                            echo '<span class="no-project">—</span>';
-                        }
-                        ?>
-                    </td>
-                    <td class="col-status">
-                        <span class="status-badge status-<?php echo esc_attr($review_status); ?>">
-                            <?php 
-                            $status_labels = [
-                                'needs_review' => 'Needs Review',
-                                'reviewed' => 'Reviewed',
-                                'imported' => 'Imported'
-                            ];
-                            echo esc_html($status_labels[$review_status] ?? ucfirst($review_status));
-                            ?>
-                        </span>
-                    </td>
-                </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
-    </div>
-    
-    <div class="timeline-widget-footer">
-        <a href="/timeline/" class="btn-link">View Full Timeline →</a>
-    </div>
-</section>
-<?php 
-endif;
-wp_reset_postdata();
-?>
 
 <?php
 /*
@@ -237,18 +146,27 @@ endif;
 <?php
 /*
 |--------------------------------------------------------------------------
-| 3. ENGINEERING PULSE (2-Column Compact)
+| 3. ACTIVITY DASHBOARD (Unified 2-Column Feed for All CPTs)
 |--------------------------------------------------------------------------
 */
 ?>
-<section class="homepage-section engineering-pulse-section">
-    <h2 class="page-section-title">Engineering Pulse</h2>
+<section class="homepage-section activity-dashboard-section">
+    <h2 class="page-section-title">Activity Dashboard</h2>
     <div class="pulse-grid">
-        <!-- LEFT: Tasks -->
+        
+        <!-- LEFT COLUMN: Tasks + Records -->
         <div class="pulse-column">
             <h3 class="pulse-column-title">Tasks</h3>
+            
+            <!-- Active Tasks -->
             <?php
-            $active_tasks = new WP_Query(['post_type' => 'task', 'posts_per_page' => 5, 'orderby' => 'date', 'order' => 'DESC', 'tax_query' => [['taxonomy' => 'task_status', 'field' => 'slug', 'terms' => 'active']]]);
+            $active_tasks = new WP_Query([
+                'post_type' => 'task',
+                'posts_per_page' => 5,
+                'orderby' => 'date',
+                'order' => 'DESC',
+                'tax_query' => [['taxonomy' => 'task_status', 'field' => 'slug', 'terms' => 'active']]
+            ]);
             if ($active_tasks->have_posts()) : while ($active_tasks->have_posts()) : $active_tasks->the_post(); ?>
                 <div class="pulse-item">
                     <span class="pulse-status active">Active</span>
@@ -257,8 +175,15 @@ endif;
                 </div>
             <?php endwhile; wp_reset_postdata(); endif; ?>
 
+            <!-- Completed Tasks -->
             <?php
-            $completed_tasks = new WP_Query(['post_type' => 'task', 'posts_per_page' => 6, 'orderby' => 'date', 'order' => 'DESC', 'tax_query' => [['taxonomy' => 'task_status', 'field' => 'slug', 'terms' => 'completed']]]);
+            $completed_tasks = new WP_Query([
+                'post_type' => 'task',
+                'posts_per_page' => 6,
+                'orderby' => 'date',
+                'order' => 'DESC',
+                'tax_query' => [['taxonomy' => 'task_status', 'field' => 'slug', 'terms' => 'completed']]
+            ]);
             if ($completed_tasks->have_posts()) : while ($completed_tasks->have_posts()) : $completed_tasks->the_post(); ?>
                 <div class="pulse-item">
                     <span class="pulse-status completed">Done</span>
@@ -267,13 +192,42 @@ endif;
                 </div>
             <?php endwhile; wp_reset_postdata(); endif; ?>
             <a href="/active-and-complete-tasks/" class="pulse-link">View All Tasks →</a>
+
+            <!-- Recent Records (NEW) -->
+            <h3 class="pulse-column-title" style="margin-top: 1.5rem;">Recent Records</h3>
+            <?php
+            $recent_records = new WP_Query([
+                'post_type' => 'record',
+                'posts_per_page' => 6,
+                'post_status' => 'publish',
+                'meta_key' => 'create_time',
+                'orderby' => 'meta_value',
+                'order' => 'DESC'
+            ]);
+            if ($recent_records->have_posts()) : while ($recent_records->have_posts()) : $recent_records->the_post();
+                $record_date = get_field('create_time');
+            ?>
+                <div class="pulse-item">
+                    <span class="pulse-status record">Record</span>
+                    <a href="<?php the_permalink(); ?>" class="pulse-title"><?php the_title(); ?></a>
+                    <span class="pulse-date"><?php echo esc_html(date('M j', strtotime($record_date))); ?></span>
+                </div>
+            <?php endwhile; wp_reset_postdata(); endif; ?>
+            <a href="/site-development-timeline/" class="pulse-link">View Full Timeline →</a>
         </div>
 
-        <!-- RIGHT: Updates + Logs -->
+        <!-- RIGHT COLUMN: Updates + Logs + Documents -->
         <div class="pulse-column">
             <h3 class="pulse-column-title">Updates</h3>
+            
+            <!-- Recent Updates -->
             <?php
-            $updates_query = new WP_Query(['post_type' => 'update', 'posts_per_page' => 4, 'orderby' => 'date', 'order' => 'DESC']);
+            $updates_query = new WP_Query([
+                'post_type' => 'update',
+                'posts_per_page' => 4,
+                'orderby' => 'date',
+                'order' => 'DESC'
+            ]);
             if ($updates_query->have_posts()) : while ($updates_query->have_posts()) : $updates_query->the_post(); ?>
                 <div class="pulse-item">
                     <span class="pulse-status update">Update</span>
@@ -283,9 +237,15 @@ endif;
             <?php endwhile; wp_reset_postdata(); endif; ?>
             <a href="/site-updates/" class="pulse-link">View All Updates →</a>
 
+            <!-- Engineering Logs -->
             <h3 class="pulse-column-title" style="margin-top: 1.5rem;">Engineering Logs</h3>
             <?php
-            $logs_query = new WP_Query(['post_type' => 'note', 'posts_per_page' => 4, 'orderby' => 'date', 'order' => 'DESC']);
+            $logs_query = new WP_Query([
+                'post_type' => 'note',
+                'posts_per_page' => 4,
+                'orderby' => 'date',
+                'order' => 'DESC'
+            ]);
             if ($logs_query->have_posts()) : while ($logs_query->have_posts()) : $logs_query->the_post(); ?>
                 <div class="pulse-item">
                     <span class="pulse-status log">Log</span>
@@ -294,10 +254,25 @@ endif;
                 </div>
             <?php endwhile; wp_reset_postdata(); endif; ?>
             <a href="/engineering-logs/" class="pulse-link">View All Logs →</a>
+
+            <!-- Recent Documents (NEW) -->
+            <h3 class="pulse-column-title" style="margin-top: 1.5rem;">Documents</h3>
+            <?php
+            $docs_query = new WP_Query([
+                'post_type' => 'document',
+                'posts_per_page' => 4,
+                'orderby' => 'date',
+                'order' => 'DESC'
+            ]);
+            if ($docs_query->have_posts()) : while ($docs_query->have_posts()) : $docs_query->the_post(); ?>
+                <div class="pulse-item">
+                    <span class="pulse-status document">Doc</span>
+                    <a href="<?php the_permalink(); ?>" class="pulse-title"><?php the_title(); ?></a>
+                    <span class="pulse-date"><?php echo get_the_date('M j'); ?></span>
+                </div>
+            <?php endwhile; wp_reset_postdata(); endif; ?>
+            <a href="/documents/" class="pulse-link">View All Documents →</a>
         </div>
-    </div>
-    <div class="pulse-footer">
-        <a href="/timeline/" class="btn-link">View Full Timeline →</a>
     </div>
 </section>
 
