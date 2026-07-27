@@ -44,7 +44,7 @@ $resource_slugs = [
 */
 $main_site_page = get_page_by_path('main-site');
 $overview_page = get_page_by_path('platform-overview');
-$timeline_page = get_page_by_path('site-development-timeline');
+$timeline_page = get_page_by_path('timeline');
 $architect_page = get_page_by_path('the-architect');
 ?>
 <section class="homepage-section top-pair-section">
