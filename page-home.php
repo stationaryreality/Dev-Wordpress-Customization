@@ -90,68 +90,58 @@ $timeline_page = get_page_by_path('timeline');
 </section>
 
 
-//test
-<section class="homepage-section git-timeline-section">
-    <h2 class="page-section-title">Recent Development Milestones</h2>
-    <div class="git-timeline">
-        
-        <div class="git-timeline-item">
-            <div class="git-timeline-date">2026-07-06</div>
-            <div class="git-timeline-node"></div>
-            <div class="git-timeline-content">
-                <div class="git-timeline-title">Collector Architecture Design</div>
-                <span class="git-timeline-category">Knowledge Graph</span>
-            </div>
+<section class="homepage-section terminal-timeline-section">
+    <h2 class="page-section-title">System Build Log</h2>
+    <div class="terminal-window">
+        <div class="terminal-header">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">build_log.txt</span>
         </div>
-
-        <div class="git-timeline-item">
-            <div class="git-timeline-date">2026-07-06</div>
-            <div class="git-timeline-node"></div>
-            <div class="git-timeline-content">
-                <div class="git-timeline-title">Taxonomy Context Architecture</div>
-                <span class="git-timeline-category">Taxonomy & Classification</span>
+        <div class="terminal-body">
+            
+            <div class="terminal-line">
+                <span class="terminal-timestamp">[2026-07-06 14:32]</span>
+                <span class="terminal-bracket">[Knowledge Graph]</span>
+                <span class="terminal-message">Collector Architecture Design initialized</span>
             </div>
-        </div>
 
-        <div class="git-timeline-item">
-            <div class="git-timeline-date">2026-06-18</div>
-            <div class="git-timeline-node"></div>
-            <div class="git-timeline-content">
-                <div class="git-timeline-title">Knowledge Platform Architecture</div>
-                <span class="git-timeline-category">Content Architecture</span>
+            <div class="terminal-line">
+                <span class="terminal-timestamp">[2026-07-06 11:15]</span>
+                <span class="terminal-bracket">[Taxonomy]</span>
+                <span class="terminal-message">Taxonomy Context Architecture deployed</span>
             </div>
-        </div>
 
-        <div class="git-timeline-item">
-            <div class="git-timeline-date">2026-06-05</div>
-            <div class="git-timeline-node"></div>
-            <div class="git-timeline-content">
-                <div class="git-timeline-title">Knowledge Graph Automation</div>
-                <span class="git-timeline-category">Knowledge Graph</span>
+            <div class="terminal-line">
+                <span class="terminal-timestamp">[2026-06-18 16:45]</span>
+                <span class="terminal-bracket">[Content Arch]</span>
+                <span class="terminal-message">Knowledge Platform Architecture v2.0</span>
             </div>
-        </div>
 
-        <div class="git-timeline-item">
-            <div class="git-timeline-date">2026-05-25</div>
-            <div class="git-timeline-node"></div>
-            <div class="git-timeline-content">
-                <div class="git-timeline-title">Narrative Elements System</div>
-                <span class="git-timeline-category">Content Architecture</span>
+            <div class="terminal-line">
+                <span class="terminal-timestamp">[2026-06-05 09:20]</span>
+                <span class="terminal-bracket">[Knowledge Graph]</span>
+                <span class="terminal-message">Knowledge Graph Automation complete</span>
             </div>
-        </div>
 
-        <div class="git-timeline-item">
-            <div class="git-timeline-date">2026-05-18</div>
-            <div class="git-timeline-node"></div>
-            <div class="git-timeline-content">
-                <div class="git-timeline-title">Video CPT Structure</div>
-                <span class="git-timeline-category">Media Platform</span>
+            <div class="terminal-line">
+                <span class="terminal-timestamp">[2026-05-25 13:10]</span>
+                <span class="terminal-bracket">[Content Arch]</span>
+                <span class="terminal-message">Narrative Elements System integrated</span>
             </div>
-        </div>
 
+            <div class="terminal-line active">
+                <span class="terminal-timestamp">[2026-05-18 10:05]</span>
+                <span class="terminal-bracket">[Media Platform]</span>
+                <span class="terminal-message">Video CPT Structure created</span>
+                <span class="terminal-cursor">█</span>
+            </div>
+
+        </div>
     </div>
-    <div class="git-timeline-footer">
-        <a href="/site-development-timeline/" class="btn-link">View Full Timeline →</a>
+    <div class="terminal-footer">
+        <a href="/site-development-timeline/" class="btn-link">View Complete Build History →</a>
     </div>
 </section>
 
@@ -272,7 +262,7 @@ endif;
         </div>
     </div>
     <div class="pulse-footer">
-        <a href="/site-development-timeline/" class="btn-link">View Full Timeline →</a>
+        <a href="/timeline/" class="btn-link">View Full Timeline →</a>
     </div>
 </section>
 
