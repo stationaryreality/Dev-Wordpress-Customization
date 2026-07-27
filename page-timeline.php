@@ -1,78 +1,88 @@
 <?php
 
+/*
+Template Name: Engineering Timeline
+*/
+
 get_header();
 
 ?>
 
+<div class="timeline-page">
 
-<main class="timeline">
+<header class="timeline-header">
 
-
-<h1>
-Site Development Timeline
-</h1>
-
+<h1>Engineering Development Timeline</h1>
 
 <p>
-Chronological history of engineering work,
-architecture decisions, and milestones.
+This timeline captures the evolution of the engineering platform,
+from early experiments through major architectural milestones.
 </p>
 
+</header>
 
 
 <?php
 
-
-$args = [
-
-'post_type'=>'record',
-
-'posts_per_page'=>-1,
-
-'meta_key'=>'create_time',
-
-'orderby'=>'meta_value',
-
-'order'=>'ASC'
-
-];
+$records = new WP_Query([
+    'post_type' => 'record',
+    'posts_per_page' => -1,
+    'post_status' => 'publish',
+    'meta_key' => 'create_time',
+    'orderby' => 'meta_value',
+    'order' => 'ASC'
+]);
 
 
-$query = new WP_Query($args);
+if ($records->have_posts()) :
+
+?>
+
+<table class="engineering-timeline">
+
+<thead>
+
+<tr>
+<th>Date</th>
+<th>Record</th>
+<th>Category</th>
+<th>Status</th>
+</tr>
+
+</thead>
 
 
+<tbody>
 
-if ($query->have_posts()) :
+
+<?php while ($records->have_posts()) : $records->the_post();
 
 
-while ($query->have_posts()) :
+$record_date = get_field('create_time');
 
-$query->the_post();
+$category = get_field('primary_project');
 
+$status = get_field('review_status');
 
 ?>
 
 
-<article class="timeline-item">
+<tr>
 
 
-<div class="timeline-date">
+<td>
 
-<?php
+<?php echo esc_html(
+    date(
+        'Y-m-d',
+        strtotime($record_date)
+    )
+); ?>
 
-$date=get_field('create_time');
-
-echo esc_html(
-date('Y-m-d',strtotime($date))
-);
-
-?>
-
-</div>
+</td>
 
 
-
-<h2>
+<td>
 
 <a href="<?php the_permalink(); ?>">
 
@@ -80,48 +90,50 @@ date('Y-m-d',strtotime($date))
 
 </a>
 
-</h2>
+</td>
 
 
-
-<?php
-
-$project=get_field('primary_project');
-
-if($project):
-
-?>
-
-<div class="timeline-category">
+<td>
 
 <?php
 
+if ($category) {
 
-if(is_object($project)){
-
-echo esc_html($project->name);
+echo get_term($category)->name;
 
 }
 
 ?>
 
-</div>
-
-<?php endif; ?>
+</td>
 
 
-
-</article>
-
-
+<td>
 
 <?php
 
+echo esc_html(
+    ucfirst($status)
+);
 
-endwhile;
+?>
+
+</td>
 
 
-endif;
+</tr>
+
+
+<?php endwhile; ?>
+
+
+</tbody>
+
+
+</table>
+
+
+<?php endif;
 
 
 wp_reset_postdata();
@@ -130,9 +142,7 @@ wp_reset_postdata();
 ?>
 
 
-</main>
+</div>
 
 
-<?php
-
-get_footer();
+<?php get_footer(); ?>
