@@ -60,7 +60,7 @@ $timeline_page = get_page_by_path('timeline');
             </a>
             <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="tag-post-title">Main Site</a>
             
-            <span class="tag-post-url">www.sitename.com</span>
+            <span class="tag-post-url">www.stationaryreality.com</span>
             
             <p class="tag-post-excerpt">The knowledge platform this dev site was built to support.</p>
         </div>
