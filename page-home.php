@@ -194,7 +194,7 @@ endif;
             <a href="/active-and-complete-tasks/" class="pulse-link">View All Tasks →</a>
 
             <!-- Recent Records (NEW) -->
-            <h3 class="pulse-column-title" style="margin-top: 1.5rem;">Recent Records</h3>
+            <h3 class="pulse-column-title" style="margin-top: 1.5rem;">DEVELOPMENT TIMELINE</h3>
             <?php
             $recent_records = new WP_Query([
                 'post_type' => 'record',
@@ -213,7 +213,7 @@ endif;
                     <span class="pulse-date"><?php echo esc_html(date('M j', strtotime($record_date))); ?></span>
                 </div>
             <?php endwhile; wp_reset_postdata(); endif; ?>
-            <a href="/site-development-timeline/" class="pulse-link">View Full Timeline →</a>
+            <a href="/timeline/" class="pulse-link">View Full Timeline →</a>
         </div>
 
         <!-- RIGHT COLUMN: Updates + Logs + Documents -->
@@ -260,7 +260,7 @@ endif;
             <?php
             $docs_query = new WP_Query([
                 'post_type' => 'document',
-                'posts_per_page' => 4,
+                'posts_per_page' => 5,
                 'orderby' => 'date',
                 'order' => 'DESC'
             ]);
