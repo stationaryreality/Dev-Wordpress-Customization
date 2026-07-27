@@ -367,7 +367,8 @@ function dev_site_enqueue_styles() {
         'core-nav',
         'engineering-pulse',
         'domain-list',
-        'resource-grid'
+        'resource-grid',
+        'timeline'
     ];
 
     foreach ($css_files as $file) {
