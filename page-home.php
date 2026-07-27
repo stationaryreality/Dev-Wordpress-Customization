@@ -93,7 +93,7 @@ $architect_page = get_page_by_path('the-architect');
                 <?php if (has_post_thumbnail($architect_page->ID)) echo get_the_post_thumbnail($architect_page->ID, 'large'); ?>
             </a>
             <a href="<?php echo get_permalink($architect_page->ID); ?>" class="tag-post-title">The Architect</a>
-            <p class="tag-post-excerpt">First-principles systems engineering. Dismantling abstractions. Building from the ground up.</p>
+            <p class="tag-post-excerpt">I build systems that make complex information understandable, maintainable, and reusable.</p>
         </div>
         <?php endif; ?>
         
