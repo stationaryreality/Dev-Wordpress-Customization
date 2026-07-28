@@ -209,7 +209,7 @@ endif;
             <?php
     $recent_records = new WP_Query([
         'post_type' => 'record',
-        'posts_per_page' => -1,
+        'posts_per_page' => 6,
         'post_status' => 'publish',
         'meta_key' => 'record_number',
         'orderby' => 'meta_value',
