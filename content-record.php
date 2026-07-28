@@ -105,12 +105,20 @@ if ($summary) {
 
 <section class="record-source">
 
+<section class="record-source">
+
 <h3>
 Source Information
 </h3>
 
 
 <ul>
+
+<li>
+SQLite ID:
+<?php echo esc_html(get_field('sqlite_id')); ?>
+</li>
+
 
 <li>
 Original Title:
