@@ -213,7 +213,7 @@ endif;
         'post_status' => 'publish',
         'meta_key' => 'record_number',
         'orderby' => 'meta_value',
-        'order' => 'ASC'
+        'order' => 'DESC'
     ]);
             if ($recent_records->have_posts()) : while ($recent_records->have_posts()) : $recent_records->the_post();
                 $record_date = get_field('create_time');
