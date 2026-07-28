@@ -207,14 +207,14 @@ endif;
             <!-- Recent Records (NEW) -->
             <h3 class="pulse-column-title" style="margin-top: 1.5rem;">DEVELOPMENT TIMELINE</h3>
             <?php
-    $records = new WP_Query([
+    $recent_records = new WP_Query([
         'post_type' => 'record',
         'posts_per_page' => -1,
         'post_status' => 'publish',
         'meta_key' => 'record_number',
         'orderby' => 'meta_value',
         'order' => 'ASC'
-            ]);
+    ]);
             if ($recent_records->have_posts()) : while ($recent_records->have_posts()) : $recent_records->the_post();
                 $record_date = get_field('create_time');
             ?>
