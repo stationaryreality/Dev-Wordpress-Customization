@@ -28,11 +28,12 @@ wp_enqueue_style(
 
     <?php
 
+    // ✅ Changed: Sorting by record_number instead of create_time
     $records = new WP_Query([
         'post_type' => 'record',
         'posts_per_page' => -1,
         'post_status' => 'publish',
-        'meta_key' => 'create_time',
+        'meta_key' => 'record_number',
         'orderby' => 'meta_value',
         'order' => 'ASC'
     ]);
@@ -45,6 +46,7 @@ wp_enqueue_style(
         <table class="engineering-timeline">
             <thead>
                 <tr>
+                    <th class="col-id">Record ID</th>
                     <th class="col-date">Date</th>
                     <th class="col-record">Record</th>
                     <th class="col-project">Project</th>
@@ -65,13 +67,13 @@ wp_enqueue_style(
 
                 <tr class="timeline-row importance-<?php echo esc_attr($importance); ?>">
                     
+                    <td class="col-id">
+                        <?php echo esc_html(get_field('record_number')); ?>
+                    </td>
+
                     <td class="col-date">
                         <time datetime="<?php echo esc_attr($record_date); ?>">
-                            <?php 
-                            echo esc_html(
-                                date('Y-m-d', strtotime($record_date))
-                            ); 
-                            ?>
+                            <?php echo esc_html(date('Y-m-d', strtotime($record_date))); ?>
                         </time>
                     </td>
 
@@ -85,6 +87,7 @@ wp_enqueue_style(
                         <?php
                         if ($projects && !is_wp_error($projects)) {
                             $project_links = [];
+
                             foreach ($projects as $project) {
                                 $project_links[] = sprintf(
                                     '<a href="%s" class="project-tag">%s</a>',
@@ -92,7 +95,9 @@ wp_enqueue_style(
                                     esc_html($project->name)
                                 );
                             }
+
                             echo implode(' ', $project_links);
+
                         } else {
                             echo '<span class="no-project">—</span>';
                         }
@@ -103,9 +108,11 @@ wp_enqueue_style(
                         <span class="status-badge status-<?php echo esc_attr($review_status); ?>">
                             <?php 
                             $status_labels = [
+                                'imported' => 'Imported',       // ✅ Added for your restored status
                                 'needs_review' => 'Needs Review',
                                 'reviewed' => 'Reviewed'
                             ];
+
                             echo esc_html($status_labels[$review_status] ?? $review_status);
                             ?>
                         </span>
