@@ -50,7 +50,7 @@ wp_enqueue_style(
                     <th class="col-date">Date</th>
                     <th class="col-record">Record</th>
                     <th class="col-project">Project</th>
-                    <th class="col-sqlite">SQLite ID</th>
+                    <th class="col-sqlite">ID</th>
                     <th class="col-status">Status</th>
                 </tr>
             </thead>
@@ -108,7 +108,7 @@ wp_enqueue_style(
                     <td class="col-sqlite">
                             <?php echo esc_html(get_field('sqlite_id')); ?>
                     </td>
-                    
+
                     <td class="col-status">
                         <span class="status-badge status-<?php echo esc_attr($review_status); ?>">
                             <?php 
