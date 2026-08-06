@@ -384,6 +384,32 @@ function dev_site_enqueue_styles() {
 add_action('wp_enqueue_scripts', 'dev_site_enqueue_styles');
 
 
+//2026-08-06
+/**
+ * Get color for a project based on its slug
+ * Uses a curated palette of 10 colors that cycle through projects
+ */
+function get_project_color($project_slug) {
+    $color_palette = [
+        '#3498db', // Blue
+        '#e74c3c', // Red
+        '#2ecc71', // Green
+        '#f39c12', // Orange
+        '#9b59b6', // Purple
+        '#1abc9c', // Teal
+        '#e67e22', // Dark Orange
+        '#34495e', // Dark Blue
+        '#16a085', // Dark Teal
+        '#c0392b', // Dark Red
+    ];
+    
+    // Convert slug to a consistent index
+    $hash = crc32($project_slug);
+    $index = abs($hash) % count($color_palette);
+    
+    return $color_palette[$index];
+}
+
 // 2026-7-27
 
 

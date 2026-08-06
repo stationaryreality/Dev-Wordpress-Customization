@@ -128,7 +128,7 @@
 }
 
 /* =====================================================
-   PROJECTS SECTION (Top of Activity Dashboard)
+   TOP 10 PROJECTS SECTION
    ===================================================== */
 .projects-section {
     margin-bottom: 2rem;
@@ -150,6 +150,7 @@
     padding: 0.5rem 0.75rem;
     background: #f9f9f9;
     border: 1px solid #e0e0e0;
+    border-left-width: 4px;
     border-radius: 4px;
     text-decoration: none;
     transition: all 0.2s ease;
@@ -183,24 +184,12 @@
 
 .projects-footer {
     margin-top: 0.75rem;
-}
-
-.projects-footer.centered {
     text-align: center;
-}
-
-.projects-footer.right-aligned {
-    text-align: right;
 }
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .projects-grid {
         grid-template-columns: 1fr;
-    }
-    
-    .projects-footer.centered,
-    .projects-footer.right-aligned {
-        text-align: center;
     }
 }

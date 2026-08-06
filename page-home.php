@@ -161,51 +161,67 @@ endif;
 |--------------------------------------------------------------------------
 */
 
-// Get all projects with record counts
-$projects = get_terms([
+// Get all projects with record counts, sorted by count (desc) then name (asc)
+$all_projects = get_terms([
     'taxonomy' => 'project',
     'hide_empty' => false,
-    'orderby' => 'name',
-    'order' => 'ASC'
 ]);
 
-$project_count = is_array($projects) ? count($projects) : 0;
-$footer_alignment = ($project_count % 2 === 0) ? 'centered' : 'right-aligned';
-?>
-<section class="homepage-section activity-dashboard-section">
-    <h2 class="page-section-title">Activity Dashboard</h2>
+if (!empty($all_projects) && !is_wp_error($all_projects)) {
+    // Count records for each project
+    $projects_with_counts = [];
+    foreach ($all_projects as $project) {
+        $record_count_query = new WP_Query([
+            'post_type' => 'record',
+            'posts_per_page' => -1,
+            'post_status' => 'publish',
+            'tax_query' => [[
+                'taxonomy' => 'project',
+                'field' => 'slug',
+                'terms' => $project->slug
+            ]]
+        ]);
+        $projects_with_counts[] = [
+            'term' => $project,
+            'count' => $record_count_query->found_posts
+        ];
+        wp_reset_postdata();
+    }
     
-    <!-- PROJECTS (Full Width, 2-Column Grid) -->
-    <?php if (!empty($projects) && !is_wp_error($projects)) : ?>
-    <div class="projects-section">
-        <h3 class="pulse-column-title">Projects</h3>
-        <div class="projects-grid">
-            <?php foreach ($projects as $project) : 
-                // Count records for this project
-                $record_count_query = new WP_Query([
-                    'post_type' => 'record',
-                    'posts_per_page' => -1,
-                    'post_status' => 'publish',
-                    'tax_query' => [[
-                        'taxonomy' => 'project',
-                        'field' => 'slug',
-                        'terms' => $project->slug
-                    ]]
-                ]);
-                $record_count = $record_count_query->found_posts;
-                wp_reset_postdata();
-            ?>
-                <a href="<?php echo esc_url(get_term_link($project)); ?>" class="project-item">
-                    <span class="project-name"><?php echo esc_html($project->name); ?></span>
-                    <span class="project-count"><?php echo $record_count; ?> <?php echo $record_count === 1 ? 'record' : 'records'; ?></span>
-                </a>
-            <?php endforeach; ?>
-        </div>
-        <div class="projects-footer <?php echo $footer_alignment; ?>">
-            <a href="/projects/" class="pulse-link">View All Projects →</a>
-        </div>
+    // Sort by count (desc), then by name (asc)
+    usort($projects_with_counts, function($a, $b) {
+        if ($a['count'] === $b['count']) {
+            return strcmp($a['term']->name, $b['term']->name);
+        }
+        return $b['count'] - $a['count'];
+    });
+    
+    // Get top 10
+    $top_projects = array_slice($projects_with_counts, 0, 10);
+}
+?>
+
+<!-- TOP 10 PROJECTS -->
+<?php if (!empty($top_projects)) : ?>
+<div class="projects-section">
+    <h3 class="pulse-column-title">Top 10 Projects</h3>
+    <div class="projects-grid">
+        <?php foreach ($top_projects as $project_data) : 
+            $project = $project_data['term'];
+            $count = $project_data['count'];
+            $color = get_project_color($project->slug);
+        ?>
+            <a href="<?php echo esc_url(get_term_link($project)); ?>" class="project-item" style="border-left: 4px solid <?php echo $color; ?>;">
+                <span class="project-name"><?php echo esc_html($project->name); ?></span>
+                <span class="project-count"><?php echo $count; ?> <?php echo $count === 1 ? 'record' : 'records'; ?></span>
+            </a>
+        <?php endforeach; ?>
     </div>
-    <?php endif; ?>
+    <div class="projects-footer centered">
+        <a href="/projects/" class="pulse-link">View All Projects →</a>
+    </div>
+</div>
+<?php endif; ?>
     
     <div class="pulse-grid">
         
@@ -234,7 +250,7 @@ $footer_alignment = ($project_count % 2 === 0) ? 'centered' : 'right-aligned';
             <?php
             $completed_tasks = new WP_Query([
                 'post_type' => 'task',
-                'posts_per_page' => 6,
+                'posts_per_page' => 5,
                 'orderby' => 'date',
                 'order' => 'DESC',
                 'tax_query' => [['taxonomy' => 'task_status', 'field' => 'slug', 'terms' => 'completed']]
