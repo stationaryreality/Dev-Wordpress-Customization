@@ -29,11 +29,66 @@
     margin-right: 1rem;
 }
 
-.nav-subheading {
-    margin-top: 1rem;
-    margin-bottom: .35rem;
-    font-size: .9rem;
-    font-weight: 600;
+
+/* =====================================================
+   UNIFIED SIDEBAR NAVIGATION
+   ===================================================== */
+.dev-sidebar-nav {
+    font-size: 0.9rem;
+}
+
+.nav-block {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.nav-block:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.nav-block-title {
+    font-size: 0.85rem;
+    font-weight: 700;
     text-transform: uppercase;
-    opacity: .7;
+    letter-spacing: 0.08em;
+    color: #333;
+    margin: 0 0 0.75rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #0073aa; /* Matches your accent color */
+    display: inline-block;
+}
+
+.nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-list li {
+    margin-bottom: 0.4rem;
+}
+
+.nav-list li a {
+    color: #555;
+    text-decoration: none;
+    display: block;
+    padding: 0.25rem 0;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+    line-height: 1.4;
+}
+
+.nav-list li a:hover {
+    color: #0073aa;
+    padding-left: 4px; /* Subtle slide effect on hover */
+}
+
+/* Highlight the current page in the sidebar */
+.nav-list li.current_page_item a,
+.nav-list li.current-menu-item a {
+    color: #0073aa;
+    font-weight: 600;
+    border-left: 3px solid #0073aa;
+    padding-left: 0.5rem;
 }

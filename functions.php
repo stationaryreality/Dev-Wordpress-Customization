@@ -107,225 +107,175 @@ function disable_feeds() {
     wp_die(__('No feed available, please visit the homepage.'));
 }
 
-
 // =====================================================
-// SHORTCODE REGISTRATION
+// UNIFIED SIDEBAR NAVIGATION SHORTCODE
 // =====================================================
 
 add_action('init', function () {
-
-    $shortcodes = [
-
-        'site_resources_nav' => 'generate_site_resources_nav',
-        'engine_nav'         => 'generate_engine_nav',
-
-        'demystifying_nav'   => 'generate_demystifying_nav',
-        'guides_nav'         => 'generate_guides_nav',
-
-    ];
-
-    foreach ($shortcodes as $tag => $callback) {
-
-        if (function_exists($callback)) {
-            add_shortcode($tag, $callback);
-        }
-
-    }
-
+    // Register the single unified shortcode
+    add_shortcode('dev_unified_nav', 'generate_unified_dev_nav');
 });
 
+if (!function_exists('generate_unified_dev_nav')) {
+    function generate_unified_dev_nav() {
+        ob_start(); // Start output buffering to build clean HTML
+        ?>
+        <nav class="dev-sidebar-nav">
+            
+            <?php 
+            // ---------------------------------------------------------
+            // 1. BEHIND THE BUILD
+            // ---------------------------------------------------------
+            $behind_build_slugs = ['main-site', 'platform-overview', 'timeline', 'the-architect'];
+            $behind_build_ids = [];
+            foreach ($behind_build_slugs as $slug) {
+                $page = get_page_by_path($slug);
+                if ($page) $behind_build_ids[] = $page->ID;
+            }
 
-// =====================================================
-// SAFE NAV HTML RENDERER
-// =====================================================
+            if (!empty($behind_build_ids)) :
+                $bb_query = new WP_Query(['post_type' => 'page', 'post__in' => $behind_build_ids, 'orderby' => 'post__in', 'posts_per_page' => -1]);
+                if ($bb_query->have_posts()) :
+            ?>
+            <div class="nav-block">
+                <h3 class="nav-block-title">Behind the Build</h3>
+                <ul class="nav-list">
+                    <?php while ($bb_query->have_posts()) : $bb_query->the_post(); ?>
+                        <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+                    <?php endwhile; wp_reset_postdata(); ?>
+                </ul>
+            </div>
+            <?php 
+                endif;
+            endif; 
+            ?>
 
-if (!function_exists('generate_nav_html')) {
+            <?php 
+            // ---------------------------------------------------------
+            // 2. PLATFORM DIRECTORY & RESOURCES
+            // ---------------------------------------------------------
+            $resource_slugs = ['site-updates', 'active-and-complete-tasks', 'engineering-logs', 'documents', 'site-tools', 'wordpress-customization-github'];
+            $resource_ids = [];
+            foreach ($resource_slugs as $slug) {
+                $page = get_page_by_path($slug);
+                if ($page) $resource_ids[] = $page->ID;
+            }
 
-    function generate_nav_html($query, $title = '') {
+            if (!empty($resource_ids)) :
+                $res_query = new WP_Query(['post_type' => 'page', 'post__in' => $resource_ids, 'orderby' => 'post__in', 'posts_per_page' => -1]);
+                if ($res_query->have_posts()) :
+            ?>
+            <div class="nav-block">
+                <h3 class="nav-block-title">Platform Directory</h3>
+                <ul class="nav-list">
+                    <?php while ($res_query->have_posts()) : $res_query->the_post(); ?>
+                        <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+                    <?php endwhile; wp_reset_postdata(); ?>
+                </ul>
+            </div>
+            <?php 
+                endif;
+            endif; 
+            ?>
 
-        if (!$query instanceof WP_Query || !$query->have_posts()) {
-            return '';
-        }
+            <?php 
+            // ---------------------------------------------------------
+            // 3. TECHNICAL DOMAINS
+            // ---------------------------------------------------------
+            $domain_slugs = [
+                'virtual-private-server', 'linux-server-configuration', 'dns-content-delivery',
+                'wordpress-content-management', 'security-hardening', 'performance-optimization',
+                'media-handling-image-strategy', 'content-structure-taxonomy', 'backup-strategies-recovery',
+                'contact-systems-email-forms', 'development-tools-workflows', 'using-ai-in-site-development',
+            ];
+            $domain_ids = [];
+            foreach ($domain_slugs as $slug) {
+                $page = get_page_by_path($slug);
+                if ($page) $domain_ids[] = $page->ID;
+            }
 
-        $output = '<div class="nav-block">';
-        $output .= '<h2>' . esc_html($title) . '</h2>';
-        $output .= '<ul>';
+            if (!empty($domain_ids)) :
+                $dom_query = new WP_Query(['post_type' => 'page', 'post__in' => $domain_ids, 'orderby' => 'post__in', 'posts_per_page' => -1]);
+                if ($dom_query->have_posts()) :
+            ?>
+            <div class="nav-block">
+                <h3 class="nav-block-title">Technical Domains</h3>
+                <ul class="nav-list">
+                    <?php while ($dom_query->have_posts()) : $dom_query->the_post(); ?>
+                        <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+                    <?php endwhile; wp_reset_postdata(); ?>
+                </ul>
+            </div>
+            <?php 
+                endif;
+            endif; 
+            ?>
 
-        while ($query->have_posts()) {
+            <?php 
+            // ---------------------------------------------------------
+            // 4. LEARNING SERIES: DEMYSTIFYING CODE
+            // ---------------------------------------------------------
+            $demo_query = new WP_Query([
+                'post_type' => 'article',
+                'posts_per_page' => -1,
+                'orderby' => 'menu_order',
+                'order' => 'ASC',
+                'tax_query' => [['taxonomy' => 'series', 'field' => 'slug', 'terms' => 'demystifying-code']]
+            ]);
 
-            $query->the_post();
+            if ($demo_query->have_posts()) :
+            ?>
+            <div class="nav-block">
+                <h3 class="nav-block-title">Demystifying Code</h3>
+                <ul class="nav-list">
+                    <?php while ($demo_query->have_posts()) : $demo_query->the_post(); ?>
+                        <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+                    <?php endwhile; wp_reset_postdata(); ?>
+                </ul>
+            </div>
+            <?php endif; ?>
 
-            $output .= '<li>';
-            $output .= '<a href="' . esc_url(get_permalink()) . '">';
-            $output .= esc_html(get_the_title());
-            $output .= '</a>';
-            $output .= '</li>';
+            <?php 
+            // ---------------------------------------------------------
+            // 5. GUIDES (Temporary - Remove when migrating to new site)
+            // ---------------------------------------------------------
+            $guides_query = new WP_Query([
+                'post_type' => 'article',
+                'posts_per_page' => -1,
+                'orderby' => 'menu_order',
+                'order' => 'ASC',
+                'tax_query' => [['taxonomy' => 'series', 'field' => 'slug', 'terms' => 'guides-unrelated']]
+            ]);
 
-        }
+            if ($guides_query->have_posts()) :
+            ?>
+            <div class="nav-block">
+                <h3 class="nav-block-title">Guides & Unrelated</h3>
+                <ul class="nav-list">
+                    <?php while ($guides_query->have_posts()) : $guides_query->the_post(); ?>
+                        <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+                    <?php endwhile; wp_reset_postdata(); ?>
+                </ul>
+            </div>
+            <?php endif; ?>
 
-        $output .= '</ul>';
-        $output .= '</div>';
+            <?php 
+            // ---------------------------------------------------------
+            // 6. PROJECTS LINK
+            // ---------------------------------------------------------
+            ?>
+            <div class="nav-block">
+                <h3 class="nav-block-title">Projects</h3>
+                <ul class="nav-list">
+                    <li><a href="/projects/">View All Projects →</a></li>
+                </ul>
+            </div>
 
-        wp_reset_postdata();
-
-        return $output;
+        </nav>
+        <?php
+        return ob_get_clean(); // Return the buffered HTML
     }
-
 }
-
-    /*
-    |--------------------------------------------------------------------------
-    | SITE RESOURCES
-    |--------------------------------------------------------------------------
-    */
-
-function generate_site_resources_nav() {
-
-    $resource_pages = [
-
-    'main-site',
-    'site-updates',
-    'active-and-complete-tasks',
-    'engineering-logs',
-    'site-tools',
-    'wordpress-customization-github',
-
-    ];
-
-    $resource_ids = [];
-
-    foreach ($resource_pages as $slug) {
-
-        $page = get_page_by_path($slug);
-
-        if ($page) {
-            $resource_ids[] = $page->ID;
-        }
-    }
-
-    if (empty($resource_ids)) {
-        return '';
-    }
-
-    $query = new WP_Query([
-
-        'post_type'      => 'page',
-        'post__in'       => $resource_ids,
-        'orderby'        => 'post__in',
-        'posts_per_page' => -1,
-
-    ]);
-
-    return generate_nav_html(
-        $query,
-        'Site Resources'
-    );
-}
-
-    /*
-    |--------------------------------------------------------------------------
-    | ENGINE
-    |--------------------------------------------------------------------------
-    */
-
-function generate_engine_nav() {
-
-    $exclude_slugs = [
-    'home',
-    'main-site',
-    'site-updates',
-    'active-and-complete-tasks',
-    'engineering-logs',
-    'site-tools',
-    'wordpress-customization-github',
-
-    ];
-
-    $exclude_ids = [];
-
-    foreach ($exclude_slugs as $slug) {
-
-        $page = get_page_by_path($slug);
-
-        if ($page) {
-            $exclude_ids[] = $page->ID;
-        }
-    }
-
-    $query = new WP_Query([
-
-        'post_type'      => 'page',
-        'posts_per_page' => -1,
-        'post__not_in'   => $exclude_ids,
-        'orderby'        => 'menu_order',
-        'order'          => 'ASC',
-
-    ]);
-
-    return generate_nav_html(
-        $query,
-        'The Engine'
-    );
-}
-
-// =====================================================
-// DEMYSTIFYING CODE
-// =====================================================
-
-function generate_demystifying_nav() {
-
-    $query = new WP_Query([
-
-        'post_type'      => 'article',
-        'posts_per_page' => -1,
-        'orderby'        => 'menu_order',
-        'order'          => 'ASC',
-
-        'tax_query' => [
-            [
-                'taxonomy' => 'series',
-                'field'    => 'slug',
-                'terms'    => 'demystifying-code',
-            ]
-        ]
-
-    ]);
-
-    return generate_nav_html(
-        $query,
-        'Demystifying Code'
-    );
-}
-
-// =====================================================
-// GUIDES & UNRELATED
-// =====================================================
-
-function generate_guides_nav() {
-
-    $query = new WP_Query([
-
-        'post_type'      => 'article',
-        'posts_per_page' => -1,
-        'orderby'        => 'menu_order',
-        'order'          => 'ASC',
-
-        'tax_query' => [
-            [
-                'taxonomy' => 'series',
-                'field'    => 'slug',
-                'terms'    => 'guides-unrelated',
-            ]
-        ]
-
-    ]);
-
-    return generate_nav_html(
-        $query,
-        'Guides & Unrelated'
-    );
-}
-
 
 /**
  * Global Excerpt Cleaner
