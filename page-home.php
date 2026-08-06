@@ -280,7 +280,7 @@ if (!empty($all_projects) && !is_wp_error($all_projects)) {
                     <span class="pulse-date"><?php echo esc_html(date('M j', strtotime($record_date))); ?></span>
                 </div>
             <?php endwhile; wp_reset_postdata(); endif; ?>
-            <a href="/site-development-timeline/" class="pulse-link">View Full Timeline →</a>
+            <a href="/timeline/" class="pulse-link">View Full Timeline →</a>
         </div>
 
         <!-- RIGHT COLUMN: Updates + Logs + Documents -->
