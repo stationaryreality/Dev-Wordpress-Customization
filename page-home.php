@@ -253,7 +253,7 @@ $footer_alignment = ($project_count % 2 === 0) ? 'centered' : 'right-aligned';
             <?php
             $recent_records = new WP_Query([
                 'post_type' => 'record',
-                'posts_per_page' => 6,
+                'posts_per_page' => 5,
                 'post_status' => 'publish',
                 'meta_key' => 'create_time',
                 'orderby' => 'meta_value',
@@ -315,7 +315,7 @@ $footer_alignment = ($project_count % 2 === 0) ? 'centered' : 'right-aligned';
             <?php
             $docs_query = new WP_Query([
                 'post_type' => 'document',
-                'posts_per_page' => 4,
+                'posts_per_page' => 5,
                 'orderby' => 'date',
                 'order' => 'DESC'
             ]);
