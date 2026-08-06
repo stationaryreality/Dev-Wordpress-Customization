@@ -157,12 +157,56 @@ endif;
 <?php
 /*
 |--------------------------------------------------------------------------
-| 3. ACTIVITY DASHBOARD (Unified 2-Column Feed for All CPTs)
+| 4. ACTIVITY DASHBOARD (Unified 2-Column Feed for All CPTs)
 |--------------------------------------------------------------------------
 */
+
+// Get all projects with record counts
+$projects = get_terms([
+    'taxonomy' => 'project',
+    'hide_empty' => false,
+    'orderby' => 'name',
+    'order' => 'ASC'
+]);
+
+$project_count = is_array($projects) ? count($projects) : 0;
+$footer_alignment = ($project_count % 2 === 0) ? 'centered' : 'right-aligned';
 ?>
 <section class="homepage-section activity-dashboard-section">
     <h2 class="page-section-title">Activity Dashboard</h2>
+    
+    <!-- PROJECTS (Full Width, 2-Column Grid) -->
+    <?php if (!empty($projects) && !is_wp_error($projects)) : ?>
+    <div class="projects-section">
+        <h3 class="pulse-column-title">Projects</h3>
+        <div class="projects-grid">
+            <?php foreach ($projects as $project) : 
+                // Count records for this project
+                $record_count_query = new WP_Query([
+                    'post_type' => 'record',
+                    'posts_per_page' => -1,
+                    'post_status' => 'publish',
+                    'tax_query' => [[
+                        'taxonomy' => 'project',
+                        'field' => 'slug',
+                        'terms' => $project->slug
+                    ]]
+                ]);
+                $record_count = $record_count_query->found_posts;
+                wp_reset_postdata();
+            ?>
+                <a href="<?php echo esc_url(get_term_link($project)); ?>" class="project-item">
+                    <span class="project-name"><?php echo esc_html($project->name); ?></span>
+                    <span class="project-count"><?php echo $record_count; ?> <?php echo $record_count === 1 ? 'record' : 'records'; ?></span>
+                </a>
+            <?php endforeach; ?>
+        </div>
+        <div class="projects-footer <?php echo $footer_alignment; ?>">
+            <a href="/projects/" class="pulse-link">View All Projects →</a>
+        </div>
+    </div>
+    <?php endif; ?>
+    
     <div class="pulse-grid">
         
         <!-- LEFT COLUMN: Tasks + Records -->
@@ -204,17 +248,17 @@ endif;
             <?php endwhile; wp_reset_postdata(); endif; ?>
             <a href="/active-and-complete-tasks/" class="pulse-link">View All Tasks →</a>
 
-            <!-- Recent Records (NEW) -->
-            <h3 class="pulse-column-title" style="margin-top: 1.5rem;">DEVELOPMENT TIMELINE</h3>
+            <!-- Recent Records -->
+            <h3 class="pulse-column-title" style="margin-top: 1.5rem;">Recent Records</h3>
             <?php
-    $recent_records = new WP_Query([
-        'post_type' => 'record',
-        'posts_per_page' => 6,
-        'post_status' => 'publish',
-        'meta_key' => 'record_number',
-        'orderby' => 'meta_value',
-        'order' => 'DESC'
-    ]);
+            $recent_records = new WP_Query([
+                'post_type' => 'record',
+                'posts_per_page' => 6,
+                'post_status' => 'publish',
+                'meta_key' => 'create_time',
+                'orderby' => 'meta_value',
+                'order' => 'DESC'
+            ]);
             if ($recent_records->have_posts()) : while ($recent_records->have_posts()) : $recent_records->the_post();
                 $record_date = get_field('create_time');
             ?>
@@ -224,7 +268,7 @@ endif;
                     <span class="pulse-date"><?php echo esc_html(date('M j', strtotime($record_date))); ?></span>
                 </div>
             <?php endwhile; wp_reset_postdata(); endif; ?>
-            <a href="/timeline/" class="pulse-link">View Full Timeline →</a>
+            <a href="/site-development-timeline/" class="pulse-link">View Full Timeline →</a>
         </div>
 
         <!-- RIGHT COLUMN: Updates + Logs + Documents -->
@@ -266,12 +310,12 @@ endif;
             <?php endwhile; wp_reset_postdata(); endif; ?>
             <a href="/engineering-logs/" class="pulse-link">View All Logs →</a>
 
-            <!-- Recent Documents (NEW) -->
+            <!-- Recent Documents -->
             <h3 class="pulse-column-title" style="margin-top: 1.5rem;">Documents</h3>
             <?php
             $docs_query = new WP_Query([
                 'post_type' => 'document',
-                'posts_per_page' => 5,
+                'posts_per_page' => 4,
                 'orderby' => 'date',
                 'order' => 'DESC'
             ]);
