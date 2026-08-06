@@ -161,11 +161,13 @@ endif;
 |--------------------------------------------------------------------------
 */
 
-// Get all projects with record counts, sorted by count (desc) then name (asc)
+// Get all projects
 $all_projects = get_terms([
     'taxonomy' => 'project',
     'hide_empty' => false,
 ]);
+
+$top_projects = [];
 
 if (!empty($all_projects) && !is_wp_error($all_projects)) {
     // Count records for each project
@@ -206,10 +208,24 @@ if (!empty($all_projects) && !is_wp_error($all_projects)) {
 <div class="projects-section">
     <h3 class="pulse-column-title">Top 10 Projects</h3>
     <div class="projects-grid">
-        <?php foreach ($top_projects as $project_data) : 
+        <?php 
+        $color_palette = [
+            '#3498db', // Blue
+            '#e74c3c', // Red
+            '#2ecc71', // Green
+            '#f39c12', // Orange
+            '#9b59b6', // Purple
+            '#1abc9c', // Teal
+            '#e67e22', // Dark Orange
+            '#34495e', // Dark Blue
+            '#16a085', // Dark Teal
+            '#c0392b', // Dark Red
+        ];
+        
+        foreach ($top_projects as $index => $project_data) : 
             $project = $project_data['term'];
             $count = $project_data['count'];
-            $color = get_project_color($project->slug);
+            $color = $color_palette[$index % count($color_palette)];
         ?>
             <a href="<?php echo esc_url(get_term_link($project)); ?>" class="project-item" style="border-left: 4px solid <?php echo $color; ?>;">
                 <span class="project-name"><?php echo esc_html($project->name); ?></span>
@@ -269,7 +285,7 @@ if (!empty($all_projects) && !is_wp_error($all_projects)) {
             <?php
             $recent_records = new WP_Query([
                 'post_type' => 'record',
-                'posts_per_page' => 5,
+                'posts_per_page' => 6,
                 'post_status' => 'publish',
                 'meta_key' => 'create_time',
                 'orderby' => 'meta_value',
