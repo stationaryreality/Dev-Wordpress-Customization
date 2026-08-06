@@ -203,57 +203,52 @@ if (!empty($all_projects) && !is_wp_error($all_projects)) {
 }
 ?>
 
-<!-- TOP 10 PROJECTS -->
-<?php if (!empty($top_projects)) : ?>
-<div class="projects-section">
-    <h3 class="pulse-column-title">Top 10 Projects</h3>
-    <div class="projects-grid">
-        <?php 
-        $color_palette = [
-            '#3498db', // Blue
-            '#e74c3c', // Red
-            '#2ecc71', // Green
-            '#f39c12', // Orange
-            '#9b59b6', // Purple
-            '#1abc9c', // Teal
-            '#e67e22', // Dark Orange
-            '#34495e', // Dark Blue
-            '#16a085', // Dark Teal
-            '#c0392b', // Dark Red
-        ];
-        
-        foreach ($top_projects as $index => $project_data) : 
-            $project = $project_data['term'];
-            $count = $project_data['count'];
-            $color = $color_palette[$index % count($color_palette)];
-        ?>
-            <a href="<?php echo esc_url(get_term_link($project)); ?>" class="project-item" style="border-left: 4px solid <?php echo $color; ?>;">
-                <span class="project-name"><?php echo esc_html($project->name); ?></span>
-                <span class="project-count"><?php echo $count; ?> <?php echo $count === 1 ? 'record' : 'records'; ?></span>
-            </a>
-        <?php endforeach; ?>
+<section class="homepage-section activity-dashboard-section">
+    <h2 class="page-section-title">Activity Dashboard</h2>
+
+    <!-- TOP 10 PROJECTS -->
+    <?php if (!empty($top_projects)) : ?>
+    <div class="projects-section">
+        <h3 class="pulse-column-title">Top 10 Projects</h3>
+        <div class="projects-grid">
+            <?php 
+            $color_palette = [
+                '#3498db', // 1. Blue
+                '#e74c3c', // 2. Red
+                '#2ecc71', // 3. Green
+                '#f39c12', // 4. Orange
+                '#9b59b6', // 5. Purple
+                '#1abc9c', // 6. Teal
+                '#e67e22', // 7. Dark Orange
+                '#34495e', // 8. Dark Blue
+                '#16a085', // 9. Dark Teal
+                '#c0392b', // 10. Dark Red
+            ];
+            
+            foreach ($top_projects as $index => $project_data) : 
+                $project = $project_data['term'];
+                $count = $project_data['count'];
+                $color = $color_palette[$index % count($color_palette)];
+            ?>
+                <a href="<?php echo esc_url(get_term_link($project)); ?>" class="project-item" style="border-left: 4px solid <?php echo $color; ?>;">
+                    <span class="project-name"><?php echo esc_html($project->name); ?></span>
+                    <span class="project-count"><?php echo $count; ?> <?php echo $count === 1 ? 'record' : 'records'; ?></span>
+                </a>
+            <?php endforeach; ?>
+        </div>
+        <div class="projects-footer centered">
+            <a href="/projects/" class="pulse-link">View All Projects →</a>
+        </div>
     </div>
-    <div class="projects-footer centered">
-        <a href="/projects/" class="pulse-link">View All Projects →</a>
-    </div>
-</div>
-<?php endif; ?>
+    <?php endif; ?>
     
     <div class="pulse-grid">
-        
         <!-- LEFT COLUMN: Tasks + Records -->
         <div class="pulse-column">
             <h3 class="pulse-column-title">Tasks</h3>
             
-            <!-- Active Tasks -->
             <?php
-            $active_tasks = new WP_Query([
-                'post_type' => 'task',
-                'posts_per_page' => 5,
-                'orderby' => 'date',
-                'order' => 'DESC',
-                'tax_query' => [['taxonomy' => 'task_status', 'field' => 'slug', 'terms' => 'active']]
-            ]);
+            $active_tasks = new WP_Query(['post_type' => 'task', 'posts_per_page' => 5, 'orderby' => 'date', 'order' => 'DESC', 'tax_query' => [['taxonomy' => 'task_status', 'field' => 'slug', 'terms' => 'active']]]);
             if ($active_tasks->have_posts()) : while ($active_tasks->have_posts()) : $active_tasks->the_post(); ?>
                 <div class="pulse-item">
                     <span class="pulse-status active">Active</span>
@@ -262,15 +257,8 @@ if (!empty($all_projects) && !is_wp_error($all_projects)) {
                 </div>
             <?php endwhile; wp_reset_postdata(); endif; ?>
 
-            <!-- Completed Tasks -->
             <?php
-            $completed_tasks = new WP_Query([
-                'post_type' => 'task',
-                'posts_per_page' => 5,
-                'orderby' => 'date',
-                'order' => 'DESC',
-                'tax_query' => [['taxonomy' => 'task_status', 'field' => 'slug', 'terms' => 'completed']]
-            ]);
+            $completed_tasks = new WP_Query(['post_type' => 'task', 'posts_per_page' => 5, 'orderby' => 'date', 'order' => 'DESC', 'tax_query' => [['taxonomy' => 'task_status', 'field' => 'slug', 'terms' => 'completed']]]);
             if ($completed_tasks->have_posts()) : while ($completed_tasks->have_posts()) : $completed_tasks->the_post(); ?>
                 <div class="pulse-item">
                     <span class="pulse-status completed">Done</span>
@@ -280,17 +268,9 @@ if (!empty($all_projects) && !is_wp_error($all_projects)) {
             <?php endwhile; wp_reset_postdata(); endif; ?>
             <a href="/active-and-complete-tasks/" class="pulse-link">View All Tasks →</a>
 
-            <!-- Recent Records -->
             <h3 class="pulse-column-title" style="margin-top: 1.5rem;">Recent Records</h3>
             <?php
-            $recent_records = new WP_Query([
-                'post_type' => 'record',
-                'posts_per_page' => 6,
-                'post_status' => 'publish',
-                'meta_key' => 'create_time',
-                'orderby' => 'meta_value',
-                'order' => 'DESC'
-            ]);
+            $recent_records = new WP_Query(['post_type' => 'record', 'posts_per_page' => 6, 'post_status' => 'publish', 'meta_key' => 'create_time', 'orderby' => 'meta_value', 'order' => 'DESC']);
             if ($recent_records->have_posts()) : while ($recent_records->have_posts()) : $recent_records->the_post();
                 $record_date = get_field('create_time');
             ?>
@@ -307,14 +287,8 @@ if (!empty($all_projects) && !is_wp_error($all_projects)) {
         <div class="pulse-column">
             <h3 class="pulse-column-title">Updates</h3>
             
-            <!-- Recent Updates -->
             <?php
-            $updates_query = new WP_Query([
-                'post_type' => 'update',
-                'posts_per_page' => 4,
-                'orderby' => 'date',
-                'order' => 'DESC'
-            ]);
+            $updates_query = new WP_Query(['post_type' => 'update', 'posts_per_page' => 4, 'orderby' => 'date', 'order' => 'DESC']);
             if ($updates_query->have_posts()) : while ($updates_query->have_posts()) : $updates_query->the_post(); ?>
                 <div class="pulse-item">
                     <span class="pulse-status update">Update</span>
@@ -324,15 +298,9 @@ if (!empty($all_projects) && !is_wp_error($all_projects)) {
             <?php endwhile; wp_reset_postdata(); endif; ?>
             <a href="/site-updates/" class="pulse-link">View All Updates →</a>
 
-            <!-- Engineering Logs -->
             <h3 class="pulse-column-title" style="margin-top: 1.5rem;">Engineering Logs</h3>
             <?php
-            $logs_query = new WP_Query([
-                'post_type' => 'note',
-                'posts_per_page' => 4,
-                'orderby' => 'date',
-                'order' => 'DESC'
-            ]);
+            $logs_query = new WP_Query(['post_type' => 'note', 'posts_per_page' => 4, 'orderby' => 'date', 'order' => 'DESC']);
             if ($logs_query->have_posts()) : while ($logs_query->have_posts()) : $logs_query->the_post(); ?>
                 <div class="pulse-item">
                     <span class="pulse-status log">Log</span>
@@ -342,15 +310,9 @@ if (!empty($all_projects) && !is_wp_error($all_projects)) {
             <?php endwhile; wp_reset_postdata(); endif; ?>
             <a href="/engineering-logs/" class="pulse-link">View All Logs →</a>
 
-            <!-- Recent Documents -->
             <h3 class="pulse-column-title" style="margin-top: 1.5rem;">Documents</h3>
             <?php
-            $docs_query = new WP_Query([
-                'post_type' => 'document',
-                'posts_per_page' => 5,
-                'orderby' => 'date',
-                'order' => 'DESC'
-            ]);
+            $docs_query = new WP_Query(['post_type' => 'document', 'posts_per_page' => 5, 'orderby' => 'date', 'order' => 'DESC']);
             if ($docs_query->have_posts()) : while ($docs_query->have_posts()) : $docs_query->the_post(); ?>
                 <div class="pulse-item">
                     <span class="pulse-status document">Doc</span>

@@ -139,6 +139,8 @@
 .projects-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(5, 1fr); /* Exactly 5 rows */
+    grid-auto-flow: column; /* Fills left column first, then right! */
     gap: 0.5rem;
     margin-top: 0.75rem;
 }
@@ -191,5 +193,7 @@
 @media (max-width: 768px) {
     .projects-grid {
         grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-auto-flow: row; /* Revert to normal stacking on mobile */
     }
 }
