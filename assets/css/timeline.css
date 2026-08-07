@@ -22,7 +22,39 @@
     line-height: 1.5;
 }
 
-/* Table Styles */
+/* =====================================================
+   TIMELINE LEGEND / KEY
+   ===================================================== */
+.timeline-legend {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    background: #f9f9f9;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #555;
+    font-weight: 500;
+}
+
+.legend-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* =====================================================
+   Table Styles
+   ===================================================== */
 .engineering-timeline {
     width: 100%;
     border-collapse: collapse;
@@ -43,12 +75,27 @@
     font-size: 0.9rem;
 }
 
+/* Importance Row Tints (Subtle Backgrounds) */
+.engineering-timeline tbody tr.importance-minor { 
+    background-color: #ffffff; 
+}
+.engineering-timeline tbody tr.importance-normal { 
+    background-color: #f8fbff; /* Faint sky blue */
+}
+.engineering-timeline tbody tr.importance-major { 
+    background-color: #fffbf0; /* Faint amber */
+}
+.engineering-timeline tbody tr.importance-milestone { 
+    background-color: #fff5f5; /* Faint red/pink */
+}
+
 .engineering-timeline tbody tr {
     border-bottom: 1px solid #eee;
+    transition: background-color 0.15s ease;
 }
 
 .engineering-timeline tbody tr:hover {
-    background-color: #fafafa;
+    background-color: #f0f4f8 !important; 
 }
 
 .engineering-timeline td {
@@ -57,6 +104,13 @@
 }
 
 /* Column Widths */
+.col-id {
+    width: 90px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: #666;
+}
+
 .col-date {
     width: 120px;
     color: #666;
@@ -71,11 +125,18 @@
     width: 200px;
 }
 
+.col-sqlite {
+    width: 100px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: #666;
+}
+
 .col-status {
     width: 140px;
 }
 
-/* Record Link - Make it obviously clickable */
+/* Record Link */
 .record-link {
     color: #0066cc;
     text-decoration: underline;
@@ -86,23 +147,22 @@
     color: #004499;
 }
 
-/* Project Tags - Keep the light blue */
+/* Dynamic Project Tags */
 .project-tag {
     display: inline-block;
     padding: 0.25rem 0.6rem;
-    background: #e3f2fd;
-    color: #1565c0;
     border-radius: 4px;
     font-size: 0.85rem;
     text-decoration: none;
     margin-right: 0.4rem;
     margin-bottom: 0.2rem;
-    border: 1px solid #bbdefb;
+    border: 1px solid;
+    font-weight: 500;
+    transition: all 0.2s ease;
 }
 
 .project-tag:hover {
-    background: #bbdefb;
-    color: #0d47a1;
+    opacity: 0.85;
     text-decoration: underline;
 }
 
@@ -122,8 +182,15 @@
         padding: 1rem;
     }
 
+    .timeline-legend {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
     .engineering-timeline {
         font-size: 0.85rem;
+        display: block;
+        overflow-x: auto;
     }
 
     .engineering-timeline thead th,
@@ -138,13 +205,6 @@
     .col-project {
         width: 150px;
     }
-
-    .col-sqlite {
-    width: 100px;
-    font-family: monospace;
-    font-size: 0.85rem;
-    color: #666;
-}
 
     .col-status {
         width: 110px;
