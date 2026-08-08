@@ -64,15 +64,17 @@ if (!empty($projects) && !is_wp_error($projects)) {
             $count = $project_data['count'];
             $color = $color_palette[$index % count($color_palette)];
         ?>
-            <a href="<?php echo esc_url(get_term_link($project)); ?>" class="project-card" style="border-left: 4px solid <?php echo $color; ?>;">
-                <div class="project-card-content">
-                    <h3 class="project-card-title"><?php echo esc_html($project->name); ?></h3>
-                    <?php if (!empty($project->description)) : ?>
-                        <p class="project-card-description"><?php echo esc_html($project->description); ?></p>
-                    <?php endif; ?>
-                    <span class="project-card-count"><?php echo $count; ?> <?php echo $count === 1 ? 'record' : 'records'; ?></span>
-                </div>
-            </a>
+<a href="<?php echo esc_url(get_term_link($project)); ?>" class="project-card">
+    <div class="project-card-header" style="background: <?php echo $color; ?>;">
+        <h3 class="project-card-title"><?php echo esc_html($project->name); ?></h3>
+    </div>
+    <div class="project-card-content">
+        <?php if (!empty($project->description)) : ?>
+            <p class="project-card-description"><?php echo esc_html($project->description); ?></p>
+        <?php endif; ?>
+        <span class="project-card-count"><?php echo $count; ?> <?php echo $count === 1 ? 'record' : 'records'; ?></span>
+    </div>
+</a>
         <?php endforeach; ?>
     </div>
     <?php else : ?>
