@@ -1,11 +1,22 @@
 <?php
 /**
- * Template Name: All Projects — Self-Contained Fix
+ * Template Name: All Projects
  * Template Post Type: page
  *
- * Temporary isolation version.
- * This deliberately embeds its own CSS so we can rule out external CSS conflicts.
+ * Final Projects archive page.
+ * Uses isolated dpa-* classes to avoid conflicts with older project card CSS.
  */
+
+$dev_projects_css_path = get_stylesheet_directory() . '/assets/css/projects-archive.css';
+
+if (file_exists($dev_projects_css_path)) {
+    wp_enqueue_style(
+        'author-child-projects-archive',
+        get_stylesheet_directory_uri() . '/assets/css/projects-archive.css',
+        array(),
+        filemtime($dev_projects_css_path)
+    );
+}
 
 if (!function_exists('dpa_projects_palette')) {
     function dpa_projects_palette() {
@@ -71,6 +82,9 @@ if (!function_exists('dpa_projects_get_color')) {
             }
         }
 
+        /*
+         * Fallback palette if get_project_color() is unavailable or invalid.
+         */
         $palette = dpa_projects_palette();
 
         return $palette[$index % count($palette)];
@@ -90,6 +104,10 @@ if (!function_exists('dpa_projects_get_sorted_terms')) {
             return array();
         }
 
+        /*
+         * Match the homepage sorting:
+         * record count descending, then project name ascending.
+         */
         usort(
             $terms,
             function ($a, $b) {
@@ -109,191 +127,6 @@ $dev_projects_terms = dpa_projects_get_sorted_terms();
 
 get_header();
 ?>
-
-<style id="dpa-projects-archive-isolation-css">
-    .dpa-projects-archive {
-        padding: 0;
-    }
-
-    .dpa-wrap {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 32px 20px 72px;
-    }
-
-    .dpa-header {
-        margin: 0 0 28px;
-        max-width: 80ch;
-    }
-
-    .dpa-page-title {
-        margin: 0 0 10px;
-        font-size: 2rem;
-        line-height: 1.2;
-    }
-
-    .dpa-intro {
-        color: #5c6675;
-    }
-
-    .dpa-intro p {
-        margin: 0 0 1em;
-    }
-
-    .dpa-intro p:last-child {
-        margin-bottom: 0;
-    }
-
-    .dpa-empty {
-        padding: 18px;
-        border: 1px dashed #ccd5e0;
-        border-radius: 10px;
-        background: #f8fafc;
-        color: #4a5563;
-    }
-
-    .dpa-grid {
-        display: grid !important;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
-        gap: 18px;
-        align-items: start;
-        width: 100%;
-    }
-
-    .dpa-card {
-        position: relative;
-        display: block;
-        width: auto;
-        min-width: 0;
-        background: #fff;
-        border: 1px solid #e5e9f0;
-        border-left: 3px solid #e6eaf0;
-        border-radius: 12px;
-        padding: 18px;
-        box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04);
-        transition:
-            transform 0.16s ease,
-            box-shadow 0.16s ease,
-            border-color 0.16s ease;
-    }
-
-    .dpa-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 24px rgba(17, 24, 39, 0.08);
-        border-color: #d5dbe5;
-    }
-
-    .dpa-card-head {
-        display: grid !important;
-        grid-template-columns: 18px minmax(0, 1fr) auto;
-        gap: 10px;
-        align-items: center;
-        margin-bottom: 10px;
-        min-width: 0;
-        width: 100%;
-    }
-
-    .dpa-swatch {
-        width: 18px;
-        height: 18px;
-        border-radius: 5px;
-        background: var(--dpa-color, #94a3b8);
-        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
-    }
-
-    .dpa-title {
-        margin: 0;
-        font-size: 1.03rem;
-        line-height: 1.4;
-        font-weight: 600;
-        min-width: 0;
-        overflow-wrap: break-word;
-        word-break: break-word;
-    }
-
-    .dpa-title a {
-        color: #1d2733;
-        text-decoration: none;
-        overflow-wrap: break-word;
-        word-break: break-word;
-    }
-
-    .dpa-title a:hover,
-    .dpa-title a:focus {
-        color: #0f62fe;
-        text-decoration: underline;
-    }
-
-    .dpa-count {
-        justify-self: end;
-        padding: 4px 9px;
-        border-radius: 999px;
-        background: #f3f5f8;
-        color: #4b5565;
-        font-size: 0.78rem;
-        font-weight: 600;
-        white-space: nowrap;
-    }
-
-    .dpa-body {
-        min-width: 0;
-        width: 100%;
-    }
-
-    .dpa-body p {
-        margin: 0;
-        color: #5d6877;
-        font-size: 0.93rem;
-        line-height: 1.55;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 3;
-        line-clamp: 3;
-        overflow: hidden;
-        overflow-wrap: break-word;
-    }
-
-    @supports (background: color-mix(in srgb, red, white)) {
-        .dpa-card {
-            border-left-color: color-mix(in srgb, var(--dpa-color, #94a3b8) 45%, #ffffff);
-        }
-
-        .dpa-count {
-            background: color-mix(in srgb, var(--dpa-color, #94a3b8) 12%, #ffffff);
-            color: color-mix(in srgb, var(--dpa-color, #94a3b8) 78%, #111827);
-        }
-    }
-
-    @media (max-width: 900px) {
-        .dpa-grid {
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .dpa-wrap {
-            padding: 20px 16px 56px;
-        }
-
-        .dpa-page-title {
-            font-size: 1.65rem;
-        }
-
-        .dpa-grid {
-            grid-template-columns: 1fr !important;
-        }
-
-        .dpa-card-head {
-            grid-template-columns: 18px minmax(0, 1fr);
-        }
-
-        .dpa-count {
-            grid-column: 2;
-            justify-self: start;
-            margin-top: 6px;
-        }
-    }
-</style>
 
 <main id="main" class="site-main dpa-projects-archive">
     <div class="dpa-wrap">
