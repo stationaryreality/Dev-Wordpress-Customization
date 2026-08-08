@@ -195,8 +195,128 @@ if (!function_exists('tda_get_task_count_label')) {
     }
 }
 
-if (!function_exists('tda_render_task_section')) {
-    function tda_render_task_section($key, $label, $description, $groups, $icon) {
+if (!function_exists('tda_balance_weighted_groups')) {
+    function tda_balance_weighted_groups($groups, $base_weight = 4) {
+        $items = array();
+
+        foreach ($groups as $group) {
+            $task_count   = count($group['posts']);
+            $title_length = function_exists('mb_strlen')
+                ? mb_strlen($group['term']->name)
+                : strlen($group['term']->name);
+
+            /*
+             * Weight is intentionally simple:
+             * card overhead + task count + small allowance for long project names.
+             */
+            $weight = $base_weight + $task_count + floor($title_length / 30);
+
+            $items[] = array(
+                'term'   => $group['term'],
+                'posts'  => $group['posts'],
+                'weight' => (int) $weight,
+            );
+        }
+
+        /*
+         * Sort heaviest first for better greedy balancing.
+         */
+        usort(
+            $items,
+            function ($a, $b) {
+                if ($a['weight'] === $b['weight']) {
+                    return strcasecmp($a['term']->name, $b['term']->name);
+                }
+
+                return $b['weight'] <=> $a['weight'];
+            }
+        );
+
+        $columns = array(
+            array(),
+            array(),
+        );
+
+        $weights = array(
+            0,
+            0,
+        );
+
+        /*
+         * Assign each item to whichever column is currently shorter.
+         */
+        foreach ($items as $item) {
+            $target = ($weights[0] <= $weights[1]) ? 0 : 1;
+
+            $columns[$target][] = $item;
+            $weights[$target]  += $item['weight'];
+        }
+
+        /*
+         * Sort each column so lighter/smaller cards appear nearer the top.
+         */
+        foreach ($columns as $index => $column) {
+            usort(
+                $column,
+                function ($a, $b) {
+                    if ($a['weight'] === $b['weight']) {
+                        return strcasecmp($a['term']->name, $b['term']->name);
+                    }
+
+                    return $a['weight'] <=> $b['weight'];
+                }
+            );
+
+            $columns[$index] = $column;
+        }
+
+        return $columns;
+    }
+}
+
+if (!function_exists('tda_render_project_card')) {
+    function tda_render_project_card($item, $status_key, $icon) {
+        $color       = tda_get_project_color($item['term']->term_id);
+        $task_count  = count($item['posts']);
+        $count_label = tda_get_task_count_label($task_count);
+        ?>
+        <article class="tda-project-card" style="--tda-project-color: <?php echo esc_attr($color); ?>;">
+            <header class="tda-project-card-head">
+                <span class="tda-project-swatch" aria-hidden="true"></span>
+
+                <h3 class="tda-project-title">
+                    <?php echo esc_html($item['term']->name); ?>
+                </h3>
+
+                <span class="tda-project-count">
+                    <?php echo esc_html($count_label); ?>
+                </span>
+            </header>
+
+            <ul class="tda-task-list">
+                <?php foreach ($item['posts'] as $task) : ?>
+                    <li class="tda-task-item tda-task-item--<?php echo esc_attr($status_key); ?>">
+                        <span class="tda-task-icon" aria-hidden="true">
+                            <?php echo esc_html($icon); ?>
+                        </span>
+
+                        <a class="tda-task-link" href="<?php echo esc_url(get_permalink($task->ID)); ?>">
+                            <?php echo esc_html(get_the_title($task->ID)); ?>
+                        </a>
+
+                        <span class="tda-task-date">
+                            <?php echo esc_html(get_the_modified_date('M j, Y', $task->ID)); ?>
+                        </span>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </article>
+        <?php
+    }
+}
+
+if (!function_exists('tda_render_card_section')) {
+    function tda_render_card_section($key, $label, $description, $groups, $icon) {
         $total_tasks = 0;
 
         foreach ($groups as $group) {
@@ -228,47 +348,119 @@ if (!function_exists('tda_render_task_section')) {
                     No <?php echo esc_html(strtolower($label)); ?> found.
                 </div>
             <?php else : ?>
-                <div class="tda-project-grid">
-                    <?php
-                    foreach ($groups as $group) :
-                        $color       = tda_get_project_color($group['term']->term_id);
-                        $task_count  = count($group['posts']);
-                        $count_label = tda_get_task_count_label($task_count);
-                        ?>
-                        <article class="tda-project-card" style="--tda-project-color: <?php echo esc_attr($color); ?>;">
-                            <header class="tda-project-card-head">
-                                <span class="tda-project-swatch" aria-hidden="true"></span>
+                <?php
+                $columns   = tda_balance_weighted_groups($groups, 4);
+                $has_two   = !empty($columns[1]);
+                $css_class = $has_two ? 'tda-columns--two' : 'tda-columns--single';
+                ?>
+                <div class="tda-columns <?php echo esc_attr($css_class); ?>">
+                    <?php foreach ($columns as $column_index => $column_items) : ?>
+                        <?php if (empty($column_items)) : ?>
+                            <?php continue; ?>
+                        <?php endif; ?>
 
-                                <h3 class="tda-project-title">
-                                    <?php echo esc_html($group['term']->name); ?>
-                                </h3>
+                        <div class="tda-column <?php echo $has_two ? '' : 'tda-column--single'; ?>">
+                            <?php
+                            foreach ($column_items as $item) {
+                                tda_render_project_card($item, $key, $icon);
+                            }
+                            ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </section>
+        <?php
+    }
+}
 
-                                <span class="tda-project-count">
-                                    <?php echo esc_html($count_label); ?>
-                                </span>
-                            </header>
+if (!function_exists('tda_render_archive_group')) {
+    function tda_render_archive_group($item) {
+        $color       = tda_get_project_color($item['term']->term_id);
+        $task_count  = count($item['posts']);
+        $count_label = tda_get_task_count_label($task_count);
+        ?>
+        <div class="tda-archive-group" style="--tda-project-color: <?php echo esc_attr($color); ?>;">
+            <header class="tda-archive-group-head">
+                <span class="tda-archive-dot" aria-hidden="true"></span>
 
-                            <ul class="tda-task-list">
-                                <?php foreach ($group['posts'] as $task) : ?>
-                                    <li class="tda-task-item tda-task-item--<?php echo esc_attr($key); ?>">
-                                        <span class="tda-task-icon" aria-hidden="true">
-                                            <?php echo esc_html($icon); ?>
-                                        </span>
+                <h3 class="tda-archive-title">
+                    <?php echo esc_html($item['term']->name); ?>
+                </h3>
 
-                                        <a class="tda-task-link" href="<?php echo esc_url(get_permalink($task->ID)); ?>">
-                                            <?php echo esc_html(get_the_title($task->ID)); ?>
-                                        </a>
+                <span class="tda-archive-count">
+                    <?php echo esc_html($count_label); ?>
+                </span>
+            </header>
 
-                                        <span class="tda-task-date">
-                                            <?php echo esc_html(get_the_modified_date('M j, Y', $task->ID)); ?>
-                                        </span>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </article>
-                        <?php
-                    endforeach;
-                    ?>
+            <ul class="tda-archive-list">
+                <?php foreach ($item['posts'] as $task) : ?>
+                    <li>
+                        <a href="<?php echo esc_url(get_permalink($task->ID)); ?>">
+                            <?php echo esc_html(get_the_title($task->ID)); ?>
+                        </a>
+
+                        <span class="tda-archive-date">
+                            <?php echo esc_html(get_the_modified_date('M j, Y', $task->ID)); ?>
+                        </span>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <?php
+    }
+}
+
+if (!function_exists('tda_render_archived_section')) {
+    function tda_render_archived_section($groups) {
+        $total_tasks = 0;
+
+        foreach ($groups as $group) {
+            $total_tasks += count($group['posts']);
+        }
+
+        ?>
+        <section class="tda-section tda-section--archived">
+            <header class="tda-section-header">
+                <span class="tda-status-dot" aria-hidden="true"></span>
+
+                <h2 class="tda-section-title">
+                    Archived Tasks
+                </h2>
+
+                <span class="tda-section-count">
+                    <?php echo esc_html(tda_get_task_count_label($total_tasks)); ?>
+                </span>
+            </header>
+
+            <p class="tda-section-description">
+                Retired, abandoned, replaced, or otherwise archived tasks.
+            </p>
+
+            <?php if (empty($groups)) : ?>
+                <div class="tda-empty">
+                    No archived tasks found.
+                </div>
+            <?php else : ?>
+                <?php
+                $columns   = tda_balance_weighted_groups($groups, 2);
+                $has_two   = !empty($columns[1]);
+                $css_class = $has_two ? 'tda-archive-columns--two' : 'tda-archive-columns--single';
+                ?>
+                <div class="tda-archive-columns <?php echo esc_attr($css_class); ?>">
+                    <?php foreach ($columns as $column_index => $column_items) : ?>
+                        <?php if (empty($column_items)) : ?>
+                            <?php continue; ?>
+                        <?php endif; ?>
+
+                        <div class="tda-archive-column <?php echo $has_two ? '' : 'tda-archive-column--single'; ?>">
+                            <?php
+                            foreach ($column_items as $item) {
+                                tda_render_archive_group($item);
+                            }
+                            ?>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             <?php endif; ?>
         </section>
@@ -338,7 +530,7 @@ get_header();
         </header>
 
         <?php
-        tda_render_task_section(
+        tda_render_card_section(
             'active',
             'Active Tasks',
             'Tasks currently in progress.',
@@ -346,7 +538,7 @@ get_header();
             '□'
         );
 
-        tda_render_task_section(
+        tda_render_card_section(
             'completed',
             'Completed Tasks',
             'Finished tasks kept for documentation and reference.',
@@ -354,13 +546,7 @@ get_header();
             '✓'
         );
 
-        tda_render_task_section(
-            'archived',
-            'Archived Tasks',
-            'Retired, deprioritized, or otherwise archived tasks.',
-            $tda_archived_groups,
-            '▤'
-        );
+        tda_render_archived_section($tda_archived_groups);
         ?>
 
         <?php if ($tda_uncategorized->have_posts()) : ?>
@@ -381,41 +567,43 @@ get_header();
                     Tasks that are not currently assigned to a project.
                 </p>
 
-                <div class="tda-project-grid">
-                    <article class="tda-project-card tda-project-card--full" style="--tda-project-color: #94a3b8;">
-                        <header class="tda-project-card-head">
-                            <span class="tda-project-swatch" aria-hidden="true"></span>
+                <div class="tda-columns tda-columns--single">
+                    <div class="tda-column tda-column--single">
+                        <article class="tda-project-card" style="--tda-project-color: #94a3b8;">
+                            <header class="tda-project-card-head">
+                                <span class="tda-project-swatch" aria-hidden="true"></span>
 
-                            <h3 class="tda-project-title">
-                                No Project Assigned
-                            </h3>
+                                <h3 class="tda-project-title">
+                                    No Project Assigned
+                                </h3>
 
-                            <span class="tda-project-count">
-                                <?php echo esc_html(tda_get_task_count_label($tda_uncategorized_count)); ?>
-                            </span>
-                        </header>
+                                <span class="tda-project-count">
+                                    <?php echo esc_html(tda_get_task_count_label($tda_uncategorized_count)); ?>
+                                </span>
+                            </header>
 
-                        <ul class="tda-task-list">
-                            <?php
-                            while ($tda_uncategorized->have_posts()) :
-                                $tda_uncategorized->the_post();
-                                ?>
-                                <li class="tda-task-item tda-task-item--uncategorized">
-                                    <span class="tda-task-icon" aria-hidden="true">•</span>
-
-                                    <a class="tda-task-link" href="<?php the_permalink(); ?>">
-                                        <?php the_title(); ?>
-                                    </a>
-
-                                    <span class="tda-task-date">
-                                        <?php echo esc_html(get_the_modified_date('M j, Y')); ?>
-                                    </span>
-                                </li>
+                            <ul class="tda-task-list">
                                 <?php
-                            endwhile;
-                            ?>
-                        </ul>
-                    </article>
+                                while ($tda_uncategorized->have_posts()) :
+                                    $tda_uncategorized->the_post();
+                                    ?>
+                                    <li class="tda-task-item tda-task-item--uncategorized">
+                                        <span class="tda-task-icon" aria-hidden="true">•</span>
+
+                                        <a class="tda-task-link" href="<?php the_permalink(); ?>">
+                                            <?php the_title(); ?>
+                                        </a>
+
+                                        <span class="tda-task-date">
+                                            <?php echo esc_html(get_the_modified_date('M j, Y')); ?>
+                                        </span>
+                                    </li>
+                                    <?php
+                                endwhile;
+                                ?>
+                            </ul>
+                        </article>
+                    </div>
                 </div>
             </section>
         <?php endif; ?>

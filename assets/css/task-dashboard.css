@@ -1,7 +1,7 @@
 /*
 Task Dashboard — Final
-Unified with the Projects archive visual language.
-Uses isolated tda-* classes.
+Balanced two-column Active/Completed card sections.
+Lightweight two-column Archived section.
 */
 
 .tda-dashboard {
@@ -102,20 +102,33 @@ Uses isolated tda-* classes.
     color: #4a5563;
 }
 
-/* Project card grid: 2 columns per section on wider screens */
-.tda-project-grid {
+/* Balanced card columns for Active and Completed */
+.tda-columns {
     display: grid;
     grid-template-columns: 1fr;
     gap: 18px;
     align-items: start;
 }
 
+.tda-column {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    align-content: start;
+    min-width: 0;
+}
+
+.tda-column--single {
+    max-width: 860px;
+}
+
 @media (min-width: 900px) {
-    .tda-project-grid {
+    .tda-columns--two {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
+/* Project cards */
 .tda-project-card {
     position: relative;
     background: #fff;
@@ -135,10 +148,6 @@ Uses isolated tda-* classes.
     transform: translateY(-2px);
     box-shadow: 0 10px 24px rgba(17, 24, 39, 0.08);
     border-color: #d5dbe5;
-}
-
-.tda-project-card--full {
-    grid-column: 1 / -1;
 }
 
 .tda-project-card-head {
@@ -247,6 +256,115 @@ Uses isolated tda-* classes.
     color: #334155;
 }
 
+/* Archived lightweight text layout */
+.tda-archive-columns {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    align-items: start;
+}
+
+.tda-archive-column {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    align-content: start;
+    min-width: 0;
+}
+
+.tda-archive-column--single {
+    max-width: 860px;
+}
+
+@media (min-width: 900px) {
+    .tda-archive-columns--two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.tda-archive-group {
+    background: #fff;
+    border: 1px solid #e5e9f0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    min-width: 0;
+}
+
+.tda-archive-group-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    min-width: 0;
+}
+
+.tda-archive-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--tda-project-color, #94a3b8);
+    flex: 0 0 auto;
+}
+
+.tda-archive-title {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.35;
+    font-weight: 600;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.tda-archive-count {
+    margin-left: auto;
+    color: #8a94a3;
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+.tda-archive-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+}
+
+.tda-archive-list li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    align-items: baseline;
+    padding: 5px 0;
+    border-top: 1px solid #f1f4f8;
+    min-width: 0;
+}
+
+.tda-archive-list li:first-child {
+    border-top: 0;
+}
+
+.tda-archive-list a {
+    color: #5f6b7a;
+    text-decoration: none;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.tda-archive-list a:hover,
+.tda-archive-list a:focus {
+    color: #0f62fe;
+    text-decoration: underline;
+}
+
+.tda-archive-date {
+    color: #9aa4b2;
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
 /* color-mix enhancement */
 @supports (background: color-mix(in srgb, red, white)) {
     .tda-project-card {
@@ -292,5 +410,15 @@ Uses isolated tda-* classes.
         grid-column: 2;
         justify-self: start;
         margin-top: 6px;
+    }
+
+    .tda-archive-list li {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .tda-archive-date {
+        grid-column: 1;
+        justify-self: start;
+        margin-top: 2px;
     }
 }
