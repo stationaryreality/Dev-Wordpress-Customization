@@ -1,25 +1,14 @@
 <?php
 /**
- * Template Name: All Projects
+ * Template Name: All Projects — Self-Contained Fix
  * Template Post Type: page
  *
- * Final Projects archive page.
- * Uses Option D card treatment: compact swatch, subtle left accent, tinted count badge.
+ * Temporary isolation version.
+ * This deliberately embeds its own CSS so we can rule out external CSS conflicts.
  */
 
-$dev_projects_css_path = get_stylesheet_directory() . '/assets/css/projects-archive.css';
-
-if (file_exists($dev_projects_css_path)) {
-    wp_enqueue_style(
-        'author-child-projects-archive',
-        get_stylesheet_directory_uri() . '/assets/css/projects-archive.css',
-        array(),
-        filemtime($dev_projects_css_path)
-    );
-}
-
-if (!function_exists('dev_projects_archive_palette')) {
-    function dev_projects_archive_palette() {
+if (!function_exists('dpa_projects_palette')) {
+    function dpa_projects_palette() {
         return array(
             '#1565c0',
             '#2e7d32',
@@ -35,8 +24,8 @@ if (!function_exists('dev_projects_archive_palette')) {
     }
 }
 
-if (!function_exists('dev_projects_archive_is_valid_color')) {
-    function dev_projects_archive_is_valid_color($color) {
+if (!function_exists('dpa_projects_is_valid_color')) {
+    function dpa_projects_is_valid_color($color) {
         if (!is_string($color)) {
             return false;
         }
@@ -54,49 +43,42 @@ if (!function_exists('dev_projects_archive_is_valid_color')) {
     }
 }
 
-if (!function_exists('dev_projects_archive_get_color')) {
-    function dev_projects_archive_get_color($index, $term = null) {
+if (!function_exists('dpa_projects_get_color')) {
+    function dpa_projects_get_color($index, $term = null) {
         /*
          * Primary method:
-         * Use the same position-based color mapper used by the homepage project grid.
+         * Use the same position-based color mapper used by the homepage grid.
          */
         if (function_exists('get_project_color')) {
             $color = get_project_color($index);
 
-            if (dev_projects_archive_is_valid_color($color)) {
+            if (dpa_projects_is_valid_color($color)) {
                 return trim($color);
             }
 
-            /*
-             * Fallback only if the main call does not return a usable color.
-             * This can help if the existing function expects a term object or term ID.
-             */
             if ($term instanceof WP_Term) {
                 $color = get_project_color($term->term_id);
 
-                if (dev_projects_archive_is_valid_color($color)) {
+                if (dpa_projects_is_valid_color($color)) {
                     return trim($color);
                 }
 
                 $color = get_project_color($term);
 
-                if (dev_projects_archive_is_valid_color($color)) {
+                if (dpa_projects_is_valid_color($color)) {
                     return trim($color);
                 }
             }
         }
 
-        /*
-         * Hard fallback if get_project_color() is unavailable or returns invalid data.
-         */
-        $palette = dev_projects_archive_palette();
+        $palette = dpa_projects_palette();
 
         return $palette[$index % count($palette)];
     }
 }
 
-if (!function_exists('dev_projects_archive_get_sorted_terms')) {
-    function dev_projects_archive_get_sorted_terms() {
+if (!function_exists('dpa_projects_get_sorted_terms')) {
+    function dpa_projects_get_sorted_terms() {
         $terms = get_terms(
             array(
                 'taxonomy'   => 'project',
@@ -108,10 +90,6 @@ if (!function_exists('dev_projects_archive_get_sorted_terms')) {
             return array();
         }
 
-        /*
-         * Match the homepage sorting:
-         * record count descending, then project name ascending.
-         */
         usort(
             $terms,
             function ($a, $b) {
@@ -127,24 +105,209 @@ if (!function_exists('dev_projects_archive_get_sorted_terms')) {
     }
 }
 
-$dev_projects_terms = dev_projects_archive_get_sorted_terms();
+$dev_projects_terms = dpa_projects_get_sorted_terms();
 
 get_header();
 ?>
 
-<main id="main" class="site-main projects-archive">
-    <div class="projects-archive-wrap">
+<style id="dpa-projects-archive-isolation-css">
+    .dpa-projects-archive {
+        padding: 0;
+    }
+
+    .dpa-wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 32px 20px 72px;
+    }
+
+    .dpa-header {
+        margin: 0 0 28px;
+        max-width: 80ch;
+    }
+
+    .dpa-page-title {
+        margin: 0 0 10px;
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+
+    .dpa-intro {
+        color: #5c6675;
+    }
+
+    .dpa-intro p {
+        margin: 0 0 1em;
+    }
+
+    .dpa-intro p:last-child {
+        margin-bottom: 0;
+    }
+
+    .dpa-empty {
+        padding: 18px;
+        border: 1px dashed #ccd5e0;
+        border-radius: 10px;
+        background: #f8fafc;
+        color: #4a5563;
+    }
+
+    .dpa-grid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+        gap: 18px;
+        align-items: start;
+        width: 100%;
+    }
+
+    .dpa-card {
+        position: relative;
+        display: block;
+        width: auto;
+        min-width: 0;
+        background: #fff;
+        border: 1px solid #e5e9f0;
+        border-left: 3px solid #e6eaf0;
+        border-radius: 12px;
+        padding: 18px;
+        box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04);
+        transition:
+            transform 0.16s ease,
+            box-shadow 0.16s ease,
+            border-color 0.16s ease;
+    }
+
+    .dpa-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px rgba(17, 24, 39, 0.08);
+        border-color: #d5dbe5;
+    }
+
+    .dpa-card-head {
+        display: grid !important;
+        grid-template-columns: 18px minmax(0, 1fr) auto;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 10px;
+        min-width: 0;
+        width: 100%;
+    }
+
+    .dpa-swatch {
+        width: 18px;
+        height: 18px;
+        border-radius: 5px;
+        background: var(--dpa-color, #94a3b8);
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+    }
+
+    .dpa-title {
+        margin: 0;
+        font-size: 1.03rem;
+        line-height: 1.4;
+        font-weight: 600;
+        min-width: 0;
+        overflow-wrap: break-word;
+        word-break: break-word;
+    }
+
+    .dpa-title a {
+        color: #1d2733;
+        text-decoration: none;
+        overflow-wrap: break-word;
+        word-break: break-word;
+    }
+
+    .dpa-title a:hover,
+    .dpa-title a:focus {
+        color: #0f62fe;
+        text-decoration: underline;
+    }
+
+    .dpa-count {
+        justify-self: end;
+        padding: 4px 9px;
+        border-radius: 999px;
+        background: #f3f5f8;
+        color: #4b5565;
+        font-size: 0.78rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .dpa-body {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .dpa-body p {
+        margin: 0;
+        color: #5d6877;
+        font-size: 0.93rem;
+        line-height: 1.55;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+        overflow: hidden;
+        overflow-wrap: break-word;
+    }
+
+    @supports (background: color-mix(in srgb, red, white)) {
+        .dpa-card {
+            border-left-color: color-mix(in srgb, var(--dpa-color, #94a3b8) 45%, #ffffff);
+        }
+
+        .dpa-count {
+            background: color-mix(in srgb, var(--dpa-color, #94a3b8) 12%, #ffffff);
+            color: color-mix(in srgb, var(--dpa-color, #94a3b8) 78%, #111827);
+        }
+    }
+
+    @media (max-width: 900px) {
+        .dpa-grid {
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .dpa-wrap {
+            padding: 20px 16px 56px;
+        }
+
+        .dpa-page-title {
+            font-size: 1.65rem;
+        }
+
+        .dpa-grid {
+            grid-template-columns: 1fr !important;
+        }
+
+        .dpa-card-head {
+            grid-template-columns: 18px minmax(0, 1fr);
+        }
+
+        .dpa-count {
+            grid-column: 2;
+            justify-self: start;
+            margin-top: 6px;
+        }
+    }
+</style>
+
+<main id="main" class="site-main dpa-projects-archive">
+    <div class="dpa-wrap">
 
         <?php if (have_posts()) : ?>
             <?php
             while (have_posts()) :
                 the_post();
                 ?>
-                <header class="projects-archive-header">
-                    <?php the_title('<h1 class="projects-archive-title">', '</h1>'); ?>
+                <header class="dpa-header">
+                    <?php the_title('<h1 class="dpa-page-title">', '</h1>'); ?>
 
                     <?php if (trim(get_the_content())) : ?>
-                        <div class="projects-archive-intro">
+                        <div class="dpa-intro">
                             <?php the_content(); ?>
                         </div>
                     <?php endif; ?>
@@ -155,20 +318,20 @@ get_header();
             wp_reset_postdata();
             ?>
         <?php else : ?>
-            <header class="projects-archive-header">
-                <h1 class="projects-archive-title">All Projects</h1>
+            <header class="dpa-header">
+                <h1 class="dpa-page-title">All Projects</h1>
             </header>
         <?php endif; ?>
 
         <?php if (empty($dev_projects_terms)) : ?>
-            <div class="projects-archive-empty">
+            <div class="dpa-empty">
                 No projects found.
             </div>
         <?php else : ?>
-            <div class="projects-grid">
+            <div class="dpa-grid">
                 <?php
                 foreach ($dev_projects_terms as $index => $term) {
-                    $color = dev_projects_archive_get_color($index, $term);
+                    $color = dpa_projects_get_color($index, $term);
 
                     $link = get_term_link($term);
 
@@ -189,23 +352,23 @@ get_header();
                         );
                     }
                     ?>
-                    <article class="project-card" style="--project-color: <?php echo esc_attr($color); ?>;">
-                        <header class="project-card-head">
-                            <span class="project-swatch" aria-hidden="true"></span>
+                    <article class="dpa-card" style="--dpa-color: <?php echo esc_attr($color); ?>;">
+                        <div class="dpa-card-head">
+                            <span class="dpa-swatch" aria-hidden="true"></span>
 
-                            <h2 class="project-card-title">
+                            <h2 class="dpa-title">
                                 <a href="<?php echo esc_url($link); ?>">
                                     <?php echo esc_html($term->name); ?>
                                 </a>
                             </h2>
 
-                            <span class="project-card-count">
+                            <span class="dpa-count">
                                 <?php echo esc_html($count_label); ?>
                             </span>
-                        </header>
+                        </div>
 
                         <?php if ($excerpt) : ?>
-                            <div class="project-card-body">
+                            <div class="dpa-body">
                                 <p><?php echo esc_html($excerpt); ?></p>
                             </div>
                         <?php endif; ?>
