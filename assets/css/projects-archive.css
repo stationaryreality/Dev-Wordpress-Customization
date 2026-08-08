@@ -1,90 +1,43 @@
 /*
-Projects Archive Preview
-Temporary comparison styles for project card treatments.
+Projects Archive — Final
+Option D: compact swatch, subtle left accent, tinted count badge.
 */
 
-.projects-preview {
-    padding: 0;
-}
-
-.projects-preview-wrap {
+.projects-archive-wrap {
     max-width: 1200px;
     margin: 0 auto;
     padding: 32px 20px 72px;
 }
 
-.projects-preview-header {
-    margin-bottom: 40px;
+.projects-archive-header {
+    margin: 0 0 28px;
+    max-width: 80ch;
 }
 
-.projects-preview-header h1 {
+.projects-archive-title {
     margin: 0 0 10px;
     font-size: 2rem;
     line-height: 1.2;
 }
 
-.projects-preview-header p {
-    margin: 0;
-    max-width: 75ch;
+.projects-archive-intro {
     color: #5c6675;
 }
 
-.projects-preview-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 18px 0 0;
-    padding: 0;
-    list-style: none;
+.projects-archive-intro p {
+    margin: 0 0 1em;
 }
 
-.projects-preview-nav a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 36px;
-    padding: 6px 12px;
-    border: 1px solid #d8dee8;
-    border-radius: 999px;
-    background: #fff;
-    color: #223042;
-    text-decoration: none;
-    font-size: 0.875rem;
+.projects-archive-intro p:last-child {
+    margin-bottom: 0;
 }
 
-.projects-preview-nav a:hover,
-.projects-preview-nav a:focus {
-    background: #f3f6fb;
-    border-color: #b9c5d5;
-}
-
-.projects-preview-notice {
-    margin: 0 0 32px;
-    padding: 12px 16px;
-    border: 1px solid #f0e0b8;
-    background: #fff8e6;
-    border-radius: 8px;
-    color: #6b5300;
-}
-
-.projects-preview-section {
-    margin: 0 0 56px;
-    scroll-margin-top: 90px;
-}
-
-.projects-preview-section > header {
-    margin-bottom: 20px;
-}
-
-.projects-preview-section > header h2 {
-    margin: 0 0 6px;
-    font-size: 1.4rem;
-    line-height: 1.3;
-}
-
-.projects-preview-section > header p {
-    margin: 0;
-    max-width: 75ch;
-    color: #5c6675;
+.projects-archive-empty {
+    padding: 18px;
+    border: 1px dashed #ccd5e0;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #4a5563;
 }
 
 .projects-grid {
@@ -98,6 +51,7 @@ Temporary comparison styles for project card treatments.
     position: relative;
     background: #fff;
     border: 1px solid #e5e9f0;
+    border-left: 3px solid color-mix(in srgb, var(--project-color, #94a3b8) 45%, #ffffff);
     border-radius: 12px;
     padding: 18px;
     min-width: 0;
@@ -121,6 +75,15 @@ Temporary comparison styles for project card treatments.
     gap: 10px;
     margin-bottom: 10px;
     min-width: 0;
+}
+
+.project-swatch {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+    border-radius: 5px;
+    background: var(--project-color, #94a3b8);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
 }
 
 .project-card-title {
@@ -149,8 +112,8 @@ Temporary comparison styles for project card treatments.
     align-items: center;
     padding: 4px 9px;
     border-radius: 999px;
-    background: #f3f5f8;
-    color: #4b5565;
+    background: color-mix(in srgb, var(--project-color, #94a3b8) 12%, #ffffff);
+    color: color-mix(in srgb, var(--project-color, #94a3b8) 78%, #111827);
     font-size: 0.78rem;
     font-weight: 600;
     white-space: nowrap;
@@ -166,106 +129,18 @@ Temporary comparison styles for project card treatments.
     font-size: 0.93rem;
     line-height: 1.55;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
+    line-clamp: 3;              /* standardized property for linters */  
+    -webkit-line-clamp: 3;     /* keep for Safari/older WebKit */
     overflow: hidden;
-}
-
-.project-swatch {
-    width: 18px;
-    height: 18px;
-    flex: 0 0 auto;
-    border-radius: 5px;
-    background: var(--project-color, #94a3b8);
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
-}
-
-/* Option A: Compact swatch */
-.project-card--swatch .project-card-count {
-    background: #f6f8fa;
-}
-
-/* Option B: Left rail + tick */
-.project-card--rail {
-    border-left: 4px solid var(--project-color, #94a3b8);
-}
-
-.project-card--rail::before {
-    content: "";
-    position: absolute;
-    top: 16px;
-    left: 14px;
-    width: 42px;
-    height: 5px;
-    border-radius: 999px;
-    background: var(--project-color, #94a3b8);
-}
-
-.project-card--rail .project-card-head {
-    padding-top: 18px;
-}
-
-.project-card--rail .project-card-count {
-    background: #fff;
-    border: 1px solid #e8ecf2;
-}
-
-/* Option C: Swatch grid */
-.project-card--grid .project-swatches {
-    display: grid;
-    grid-template-columns: repeat(5, 12px);
-    gap: 4px;
-    margin-bottom: 12px;
-}
-
-.project-card--grid .project-swatches span {
-    width: 12px;
-    height: 12px;
-    border-radius: 3px;
-    background: #e9edf3;
-}
-
-.project-card--grid .project-swatches span:nth-child(1) {
-    background: var(--project-color, #94a3b8);
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
-}
-
-.project-card--grid .project-swatches span:nth-child(2) {
-    background: var(--project-color, #94a3b8);
-    opacity: 0.55;
-}
-
-.project-card--grid .project-swatches span:nth-child(3) {
-    background: var(--project-color, #94a3b8);
-    opacity: 0.32;
-}
-
-.project-card--grid .project-swatches span:nth-child(4) {
-    background: var(--project-color, #94a3b8);
-    opacity: 0.18;
-}
-
-.project-card--grid .project-swatches span:nth-child(5) {
-    background: #e9edf3;
-}
-
-/* Option D: Recommended hybrid */
-.project-card--hybrid {
-    border-left: 3px solid color-mix(in srgb, var(--project-color, #94a3b8) 45%, #ffffff);
-}
-
-.project-card--hybrid .project-card-count {
-    background: color-mix(in srgb, var(--project-color, #94a3b8) 12%, #ffffff);
-    color: color-mix(in srgb, var(--project-color, #94a3b8) 78%, #111827);
 }
 
 /* Fallback for browsers without color-mix support */
 @supports not (background: color-mix(in srgb, red, white)) {
-    .project-card--hybrid {
+    .project-card {
         border-left-color: #e6eaf0;
     }
 
-    .project-card--hybrid .project-card-count {
+    .project-card-count {
         background: #f3f5f8;
         color: #4b5565;
     }
@@ -278,11 +153,11 @@ Temporary comparison styles for project card treatments.
 }
 
 @media (max-width: 768px) {
-    .projects-preview-wrap {
+    .projects-archive-wrap {
         padding: 20px 16px 56px;
     }
 
-    .projects-preview-header h1 {
+    .projects-archive-title {
         font-size: 1.65rem;
     }
 
