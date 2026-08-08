@@ -129,9 +129,11 @@ Option D: compact swatch, subtle left accent, tinted count badge.
     font-size: 0.93rem;
     line-height: 1.55;
     display: -webkit-box;
-    line-clamp: 3;              /* standardized property for linters */  
-    -webkit-line-clamp: 3;     /* keep for Safari/older WebKit */
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
     overflow: hidden;
+    overflow-wrap: anywhere;
 }
 
 /* Fallback for browsers without color-mix support */
