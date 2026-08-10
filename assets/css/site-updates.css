@@ -92,7 +92,7 @@ Uses isolated sup-* classes.
     align-items: center;
     min-height: 84px;
     padding: 14px;
-    background: linear-gradient(135deg, #1565c0, #1e88e5);
+background: #dbeafe;
 }
 
 .sup-card-title {
