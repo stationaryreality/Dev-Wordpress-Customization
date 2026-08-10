@@ -1,5 +1,5 @@
 /*
-Site Updates — Compact Cards
+Site Updates — Title-First Cards
 Uses isolated sup-* classes.
 */
 
@@ -44,73 +44,7 @@ Uses isolated sup-* classes.
     color: #4a5563;
 }
 
-/* Year navigation */
-.sup-year-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 0 0 30px;
-}
-
-.sup-year-nav a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 32px;
-    padding: 4px 11px;
-    border: 1px solid #d8dee8;
-    border-radius: 999px;
-    background: #fff;
-    color: #223042;
-    text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: 600;
-    transition:
-        background-color 0.15s ease,
-        border-color 0.15s ease,
-        color 0.15s ease;
-}
-
-.sup-year-nav a:hover,
-.sup-year-nav a:focus {
-    background: #f3f6fb;
-    border-color: #b9c5d5;
-    color: #1565c0;
-}
-
-/* Year sections */
-.sup-year-section {
-    margin: 0 0 48px;
-    scroll-margin-top: 90px;
-}
-
-.sup-year-header {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
-    padding-bottom: 10px;
-    margin-bottom: 16px;
-    border-bottom: 1px solid #e5e9f0;
-}
-
-.sup-year-title {
-    margin: 0;
-    font-size: 1.2rem;
-    line-height: 1.3;
-}
-
-.sup-year-count {
-    margin-left: auto;
-    padding: 3px 9px;
-    border-radius: 999px;
-    background: #e3f2fd;
-    color: #1565c0;
-    font-size: 0.75rem;
-    font-weight: 600;
-    white-space: nowrap;
-}
-
-/* Update card grid */
+/* Grid */
 .sup-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -130,7 +64,7 @@ Uses isolated sup-* classes.
     }
 }
 
-/* Update card */
+/* Card */
 .sup-card {
     display: flex;
     flex-direction: column;
@@ -152,93 +86,51 @@ Uses isolated sup-* classes.
     border-color: #d5dbe5;
 }
 
-/* Media / thumbnail */
-.sup-media {
-    display: block;
-    height: 72px;
-    overflow: hidden;
-    background: #f3f6fb;
-}
-
-.sup-media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.2s ease;
-}
-
-.sup-card:hover .sup-media img {
-    transform: scale(1.03);
-}
-
-/* Fallback media when no thumbnail exists */
-.sup-media-fallback {
+/* Title header */
+.sup-card-top {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    gap: 6px;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #f5f9ff, #e8f0fe);
-    color: #1565c0;
+    min-height: 84px;
+    padding: 14px;
+    background: linear-gradient(135deg, #1565c0, #1e88e5);
 }
 
-.sup-media-month {
-    font-size: 0.7rem;
+.sup-card-title {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.35;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
-.sup-media-day {
-    font-size: 0.9rem;
-    font-weight: 700;
-    line-height: 1;
+.sup-card-title a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.sup-card-title a:hover,
+.sup-card-title a:focus {
+    text-decoration: underline;
 }
 
 /* Card body */
 .sup-card-body {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
     padding: 12px;
     min-width: 0;
     flex: 1;
 }
 
 .sup-card-date {
-    color: #1565c0;
+    color: #5c6675;
     font-size: 0.72rem;
-    font-weight: 600;
-}
-
-.sup-card-title {
-    margin: 0;
-    font-size: 0.93rem;
-    line-height: 1.35;
-    font-weight: 600;
-    min-width: 0;
-}
-
-.sup-card-title a {
-    color: #1d2733;
-    text-decoration: none;
-    overflow-wrap: break-word;
-    word-break: break-word;
-
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    overflow: hidden;
-}
-
-.sup-card-title a:hover,
-.sup-card-title a:focus {
-    color: #0f62fe;
-    text-decoration: underline;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
 .sup-card-excerpt {
@@ -247,12 +139,8 @@ Uses isolated sup-* classes.
     font-size: 0.85rem;
     line-height: 1.45;
     min-width: 0;
-
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    overflow: hidden;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 @media (max-width: 768px) {
@@ -264,11 +152,8 @@ Uses isolated sup-* classes.
         font-size: 1.65rem;
     }
 
-    .sup-year-title {
-        font-size: 1.1rem;
-    }
-
-    .sup-media {
-        height: 64px;
+    .sup-card-top {
+        min-height: 72px;
+        padding: 12px;
     }
 }
