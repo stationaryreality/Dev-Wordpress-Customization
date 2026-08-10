@@ -422,3 +422,51 @@ Lightweight two-column Archived section.
         margin-top: 2px;
     }
 }
+
+/* =========================================
+   ACTIVITY DASHBOARD OVERFLOW & TRUNCATION FIX
+   ========================================= */
+
+/* 1. The Magic Fix: Force grid/flex children to respect their 50% boundaries */
+.pulse-column,
+.pulse-item,
+.pulse-title,
+.project-item,
+.project-name {
+    min-width: 0; 
+}
+
+/* 2. Linter-safe single-line ellipsis (No webkit-line-clamp needed) */
+.pulse-title,
+.project-name {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Add a little breathing room so the text doesn't touch the date/count badges */
+.pulse-title {
+    margin-right: 0.5rem;
+}
+
+.project-name {
+    margin-right: 0.75rem;
+}
+
+/* =========================================
+   MOBILE EDGE SPACING FIX
+   ========================================= */
+@media (max-width: 768px) {
+    /* Prevents dashboard and other sections from touching the screen edges */
+    .homepage-section {
+        padding-left: 16px;  /* Adjust this number if you want more/less space */
+        padding-right: 16px;
+    }
+    
+    /* Ensure the top 10 projects grid also respects mobile padding */
+    .projects-grid {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
