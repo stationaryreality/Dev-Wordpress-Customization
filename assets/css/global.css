@@ -92,3 +92,8 @@
     border-left: 3px solid #0073aa;
     padding-left: 0.5rem;
 }
+
+/*fix for short pages */
+.main {
+    min-height: 4000px !important;
+}
