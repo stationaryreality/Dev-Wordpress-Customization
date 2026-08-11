@@ -47,56 +47,60 @@ $overview_page = get_page_by_path('platform-overview');
 $timeline_page = get_page_by_path('timeline');
 $architect_page = get_page_by_path('the-architect');
 ?>
-<section class="homepage-section top-pair-section">
-    <h2 class="page-section-title">Behind the Build</h2>
-    
-    <!-- ROW 1: Main Site (Peak of the Pyramid) -->
-    <?php if ($main_site_page) : ?>
-    <div class="pyramid-peak">
-        <div class="top-pair-card top-pair-card-logo">
-            <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="tag-post-thumbnail">
-                <?php if (has_post_thumbnail($main_site_page->ID)) echo get_the_post_thumbnail($main_site_page->ID, 'medium'); ?>
-            </a>
-            <a href="<?php echo get_permalink($main_site_page->ID); ?>" class="tag-post-title">Main Site</a>
-            <span class="tag-post-url">www.stationaryreality.com</span>
-            <p class="tag-post-excerpt">The knowledge platform this dev site was built to support.</p>
-        </div>
-    </div>
-    <?php endif; ?>
+<?php
+/*
+|--------------------------------------------------------------------------
+| TOP GRID (Main Site, Overview, Timeline, Architect)
+|--------------------------------------------------------------------------
+*/
+$top_pages = [
+    [
+        'slug'        => 'main-site',
+        'title'       => 'Main Site',
+        'description' => 'The knowledge platform this dev site was built to support.',
+    ],
+    [
+        'slug'        => 'platform-overview',
+        'title'       => 'Platform Overview & Architecture',
+        'description' => 'The vision, structure, and technical foundation of the dual-site ecosystem.',
+    ],
+    [
+        'slug'        => 'timeline',
+        'title'       => 'Site Development Timeline',
+        'description' => '1.5 years of engineering history, architectural decisions, and platform evolution.',
+    ],
+    [
+        'slug'        => 'the-architect',
+        'title'       => 'The Architect',
+        'description' => 'I build systems that make complex information understandable, maintainable, and reusable.',
+    ],
+];
+?>
+<section class="homepage-section top-grid-section">
+    <div class="tag-posts-grid">
+        <?php foreach ($top_pages as $item) :
+            $page = get_page_by_path($item['slug']);
+            if (!$page) continue;
 
-    <!-- ROW 2: The Three Pillars -->
-    <div class="top-pair-grid top-pair-grid-three">
-        
-        <?php if ($overview_page) : ?>
-        <div class="top-pair-card">
-            <a href="<?php echo get_permalink($overview_page->ID); ?>" class="tag-post-thumbnail">
-                <?php if (has_post_thumbnail($overview_page->ID)) echo get_the_post_thumbnail($overview_page->ID, 'large'); ?>
-            </a>
-            <a href="<?php echo get_permalink($overview_page->ID); ?>" class="tag-post-title">Platform Overview & Architecture</a>
-            <p class="tag-post-excerpt">The vision, structure, and technical foundation of the dual-site ecosystem.</p>
-        </div>
-        <?php endif; ?>
-        
-        <?php if ($timeline_page) : ?>
-        <div class="top-pair-card">
-            <a href="<?php echo get_permalink($timeline_page->ID); ?>" class="tag-post-thumbnail">
-                <?php if (has_post_thumbnail($timeline_page->ID)) echo get_the_post_thumbnail($timeline_page->ID, 'large'); ?>
-            </a>
-            <a href="<?php echo get_permalink($timeline_page->ID); ?>" class="tag-post-title">Site Development Timeline</a>
-            <p class="tag-post-excerpt">1.5 years of engineering history, architectural decisions, and platform evolution.</p>
-        </div>
-        <?php endif; ?>
-        
-        <?php if ($architect_page) : ?>
-        <div class="top-pair-card">
-            <a href="<?php echo get_permalink($architect_page->ID); ?>" class="tag-post-thumbnail">
-                <?php if (has_post_thumbnail($architect_page->ID)) echo get_the_post_thumbnail($architect_page->ID, 'large'); ?>
-            </a>
-            <a href="<?php echo get_permalink($architect_page->ID); ?>" class="tag-post-title">The Architect</a>
-            <p class="tag-post-excerpt">I build systems that make complex information understandable, maintainable, and reusable.</p>
-        </div>
-        <?php endif; ?>
-        
+            $excerpt = get_the_excerpt($page->ID);
+            if (empty($excerpt)) {
+                $excerpt = $item['description'];
+            }
+        ?>
+            <div class="tag-post-item">
+                <a href="<?php echo esc_url(get_permalink($page->ID)); ?>" class="tag-post-thumbnail">
+                    <?php if (has_post_thumbnail($page->ID)) : ?>
+                        <?php echo get_the_post_thumbnail($page->ID, 'medium'); ?>
+                    <?php endif; ?>
+                </a>
+                <a href="<?php echo esc_url(get_permalink($page->ID)); ?>" class="tag-post-title">
+                    <?php echo esc_html($item['title']); ?>
+                </a>
+                <p class="tag-post-excerpt">
+                    <?php echo esc_html(wp_strip_all_tags($excerpt)); ?>
+                </p>
+            </div>
+        <?php endforeach; ?>
     </div>
 </section>
 
