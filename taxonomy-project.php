@@ -37,31 +37,19 @@ $project = get_queried_object();
         <?php
 
         $timeline = new WP_Query([
-
             'post_type'      => 'record',
-
+            'post_status'    => 'publish',
             'posts_per_page' => -1,
-
             'orderby'        => 'meta_value',
-
             'meta_key'       => 'create_time',
-
             'order'          => 'ASC',
-
             'tax_query' => [
-
                 [
-
                     'taxonomy' => 'project',
-
                     'field'    => 'term_id',
-
                     'terms'    => $project->term_id
-
                 ]
-
             ]
-
         ]);
 
         ?>
@@ -122,46 +110,102 @@ $project = get_queried_object();
 
     </section>
 
-<?php
+    <?php
 
-$content_types = [
+    $content_types = [
+        'article'  => 'Articles',
+        'update'   => 'Updates',
+        'document' => 'Documentation'
+    ];
 
-    'article'  => 'Articles',
+    foreach ($content_types as $type => $label) :
 
-    'update'   => 'Updates',
+    ?>
 
-    'document' => 'Documentation',
+    <section class="project-section">
 
-    'task'     => 'Tasks'
+        <h2><?php echo esc_html($label); ?></h2>
 
-];
+        <?php
 
-foreach ($content_types as $type => $label) :
+        $query = new WP_Query([
+            'post_type'      => $type,
+            'post_status'    => 'publish',
+            'posts_per_page' => -1,
+            'orderby'        => 'date',
+            'order'          => 'DESC',
+            'tax_query' => [
+                [
+                    'taxonomy' => 'project',
+                    'field'    => 'term_id',
+                    'terms'    => $project->term_id
+                ]
+            ]
+        ]);
 
-?>
+        ?>
 
-<section class="project-section">
+        <?php if ($query->have_posts()) : ?>
 
-    <h2><?php echo esc_html($label); ?></h2>
+            <ul>
+
+            <?php while ($query->have_posts()) : $query->the_post(); ?>
+
+                <li>
+
+                    <a href="<?php the_permalink(); ?>">
+
+                        <?php the_title(); ?>
+
+                    </a>
+
+                </li>
+
+            <?php endwhile; ?>
+
+            </ul>
+
+        <?php else : ?>
+
+            <p>No <?php echo strtolower($label); ?> yet.</p>
+
+        <?php endif; ?>
+
+        <?php wp_reset_postdata(); ?>
+
+    </section>
+
+    <?php endforeach; ?>
 
     <?php
 
-    $query = new WP_Query([
+    /*
+    |--------------------------------------------------------------------------
+    | ACTIVE TASKS
+    |--------------------------------------------------------------------------
+    */
 
-        'post_type' => $type,
-
+    $active_tasks = new WP_Query([
+        'post_type'      => 'task',
+        'post_status'    => 'publish',
         'posts_per_page' => -1,
+        'orderby'        => 'modified',
+        'order'          => 'DESC',
 
         'tax_query' => [
 
+            'relation' => 'AND',
+
             [
-
                 'taxonomy' => 'project',
+                'field'    => 'term_id',
+                'terms'    => $project->term_id
+            ],
 
-                'field' => 'term_id',
-
-                'terms' => $project->term_id
-
+            [
+                'taxonomy' => 'task_status',
+                'field'    => 'slug',
+                'terms'    => 'active'
             ]
 
         ]
@@ -170,107 +214,110 @@ foreach ($content_types as $type => $label) :
 
     ?>
 
-    <?php if ($query->have_posts()) : ?>
+    <section class="project-section">
 
-        <ul>
+        <h2>Active Tasks</h2>
 
-        <?php while ($query->have_posts()) : $query->the_post(); ?>
+        <?php if ($active_tasks->have_posts()) : ?>
 
-            <li>
+            <ul>
 
-                <a href="<?php the_permalink(); ?>">
+            <?php while ($active_tasks->have_posts()) : $active_tasks->the_post(); ?>
 
-                    <?php the_title(); ?>
+                <li>
 
-                </a>
+                    <a href="<?php the_permalink(); ?>">
 
-            </li>
+                        <?php the_title(); ?>
 
-        <?php endwhile; ?>
+                    </a>
 
-        </ul>
+                </li>
 
-    <?php else : ?>
+            <?php endwhile; ?>
 
-        <p>No <?php echo strtolower($label); ?> yet.</p>
+            </ul>
 
-    <?php endif; ?>
+        <?php else : ?>
 
-    <?php wp_reset_postdata(); ?>
+            <p>No active tasks.</p>
 
-</section>
+        <?php endif; ?>
 
-<?php endforeach; ?>
+        <?php wp_reset_postdata(); ?>
 
-<?php
+    </section>
 
-$completed = new WP_Query([
+    <?php
 
-    'post_type' => 'task',
+    /*
+    |--------------------------------------------------------------------------
+    | COMPLETED TASKS
+    |--------------------------------------------------------------------------
+    */
 
-    'posts_per_page' => -1,
+    $completed_tasks = new WP_Query([
+        'post_type'      => 'task',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+        'orderby'        => 'modified',
+        'order'          => 'DESC',
 
-    'tax_query' => [
+        'tax_query' => [
 
-        'relation' => 'AND',
+            'relation' => 'AND',
 
-        [
+            [
+                'taxonomy' => 'project',
+                'field'    => 'term_id',
+                'terms'    => $project->term_id
+            ],
 
-            'taxonomy' => 'project',
-
-            'field' => 'term_id',
-
-            'terms' => $project->term_id
-
-        ],
-
-        [
-
-            'taxonomy' => 'task_status',
-
-            'field' => 'slug',
-
-            'terms' => 'completed'
+            [
+                'taxonomy' => 'task_status',
+                'field'    => 'slug',
+                'terms'    => 'completed'
+            ]
 
         ]
 
-    ]
+    ]);
 
-]);
+    ?>
 
-?>
+    <section class="project-section">
 
-<section class="project-section">
+        <h2>Completed Tasks</h2>
 
-    <h2>Completed Tasks</h2>
+        <?php if ($completed_tasks->have_posts()) : ?>
 
-    <?php if ($completed->have_posts()) : ?>
+            <ul>
 
-        <ul>
+            <?php while ($completed_tasks->have_posts()) : $completed_tasks->the_post(); ?>
 
-        <?php while ($completed->have_posts()) : $completed->the_post(); ?>
+                <li>
 
-            <li>
+                    <a href="<?php the_permalink(); ?>">
 
-                <a href="<?php the_permalink(); ?>">
+                        <?php the_title(); ?>
 
-                    <?php the_title(); ?>
+                    </a>
 
-                </a>
+                </li>
 
-            </li>
+            <?php endwhile; ?>
 
-        <?php endwhile; ?>
+            </ul>
 
-        </ul>
+        <?php else : ?>
 
-    <?php else : ?>
+            <p>No completed tasks.</p>
 
-        <p>No completed tasks.</p>
+        <?php endif; ?>
 
-    <?php endif; ?>
+        <?php wp_reset_postdata(); ?>
 
-</section>
+    </section>
 
 </div>
 
