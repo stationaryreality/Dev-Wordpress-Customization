@@ -50,9 +50,10 @@ $architect_page = get_page_by_path('the-architect');
 <?php
 /*
 |--------------------------------------------------------------------------
-| TOP GRID (Main Site, Overview, Timeline, Architect)
+| TOP GRID — Site Overview
 |--------------------------------------------------------------------------
 */
+
 $top_pages = [
     [
         'slug'        => 'main-site',
@@ -76,34 +77,45 @@ $top_pages = [
     ],
 ];
 ?>
+
 <section class="homepage-section top-grid-section">
+    <h2 class="page-section-title top-grid-title">Site Overview</h2>
+
     <div class="tag-posts-grid">
-        <?php foreach ($top_pages as $item) :
+        <?php
+        foreach ($top_pages as $item) :
             $page = get_page_by_path($item['slug']);
-            if (!$page) continue;
+
+            if (!$page) {
+                continue;
+            }
 
             $excerpt = get_the_excerpt($page->ID);
+
             if (empty($excerpt)) {
                 $excerpt = $item['description'];
             }
-        ?>
+            ?>
             <div class="tag-post-item">
                 <a href="<?php echo esc_url(get_permalink($page->ID)); ?>" class="tag-post-thumbnail">
                     <?php if (has_post_thumbnail($page->ID)) : ?>
                         <?php echo get_the_post_thumbnail($page->ID, 'medium'); ?>
                     <?php endif; ?>
                 </a>
+
                 <a href="<?php echo esc_url(get_permalink($page->ID)); ?>" class="tag-post-title">
                     <?php echo esc_html($item['title']); ?>
                 </a>
+
                 <p class="tag-post-excerpt">
                     <?php echo esc_html(wp_strip_all_tags($excerpt)); ?>
                 </p>
             </div>
-        <?php endforeach; ?>
+            <?php
+        endforeach;
+        ?>
     </div>
 </section>
-
 
 <?php
 /*
