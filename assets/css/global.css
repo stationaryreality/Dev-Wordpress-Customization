@@ -1,5 +1,21 @@
 /* Global Base Styles */
-.homepage-section { margin-bottom: 4rem; }
+
+/* ============================================================
+   HOMEPAGE SPACING & TITLE SIZING
+   ============================================================ */
+
+/* Reduce the large vertical gap between sections */
+.homepage-section {
+    margin-bottom: 2rem; /* Reduced from 4rem. Use 1.5rem for an even tighter match. */
+}
+
+/* Match the main site's smaller section title sizing */
+.homepage-section .page-section-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 1rem; /* Tightens space between title and content */
+}
 
 .homepage-divider {
     margin: 4rem auto;
