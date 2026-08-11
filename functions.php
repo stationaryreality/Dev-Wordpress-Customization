@@ -362,6 +362,7 @@ function get_project_color($project_slug) {
 
 // 2026-7-27
 
+require_once get_stylesheet_directory() . '/inc/helpers/breadcrumbs.php';
 
 require_once get_stylesheet_directory() . '/inc/helpers/record-breadcrumbs.php';
 
