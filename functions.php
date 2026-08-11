@@ -316,19 +316,28 @@ function dev_site_enqueue_styles() {
         'top-pair',
         'core-nav',
         'engineering-pulse',
+        'engineering-log',
+        'projects-archive',
         'domain-list',
         'resource-grid',
         'timeline',
-        'timeline-widget'
+        'site-updates',
+        'documents'
     ];
 
     foreach ($css_files as $file) {
-        wp_enqueue_style(
-            'dev-' . $file,
-            get_stylesheet_directory_uri() . "/assets/css/{$file}.css",
-            [],
-            filemtime(get_stylesheet_directory() . "/assets/css/{$file}.css") // Auto cache-bust on save
-        );
+        $file_path = get_stylesheet_directory() . "/assets/css/{$file}.css";
+        $file_uri  = get_stylesheet_directory_uri() . "/assets/css/{$file}.css";
+
+        // Only enqueue if the file actually exists on the server
+        if (file_exists($file_path)) {
+            wp_enqueue_style(
+                'dev-' . $file,
+                $file_uri,
+                array(),
+                filemtime($file_path) // Auto cache-bust on save
+            );
+        }
     }
 }
 add_action('wp_enqueue_scripts', 'dev_site_enqueue_styles');

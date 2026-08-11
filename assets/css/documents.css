@@ -1,0 +1,160 @@
+/*
+Documents — Title-First Cards
+Uses isolated doc-* classes.
+*/
+
+.doc-archive {
+    padding: 0;
+}
+
+.doc-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 20px 72px;
+}
+
+.doc-header {
+    margin: 0 0 30px;
+    max-width: 80ch;
+}
+
+.doc-page-title {
+    margin: 0 0 10px;
+    font-size: 2rem;
+    line-height: 1.2;
+}
+
+.doc-intro {
+    color: #5c6675;
+}
+
+.doc-intro p {
+    margin: 0 0 1em;
+}
+
+.doc-intro p:last-child {
+    margin-bottom: 0;
+}
+
+.doc-empty {
+    padding: 18px;
+    border: 1px dashed #ccd5e0;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #4a5563;
+}
+
+/* Grid */
+.doc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    align-items: start;
+}
+
+@media (min-width: 900px) {
+    .doc-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .doc-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Card */
+.doc-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #fff;
+    border: 1px solid #e5e9f0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04);
+    transition:
+        transform 0.16s ease,
+        box-shadow 0.16s ease,
+        border-color 0.16s ease;
+}
+
+.doc-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(17, 24, 39, 0.08);
+    border-color: #d5dbe5;
+}
+
+/* Title header (Light Yellow) */
+.doc-card-top {
+    display: flex;
+    align-items: center;
+    min-height: 84px;
+    padding: 14px;
+    background: #fef9c3; 
+}
+
+.doc-card-title {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.35;
+    font-weight: 700;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.doc-card-title a {
+    color: #111827;
+    text-decoration: none;
+}
+
+.doc-card-title a:hover,
+.doc-card-title a:focus {
+    text-decoration: underline;
+}
+
+/* Card body */
+.doc-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    min-width: 0;
+    flex: 1;
+}
+
+/* Date (Warm yellow/brown accent) */
+.doc-card-date {
+    color: #a16207;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.doc-card-excerpt {
+    margin: 0;
+    color: #5d6877;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+@media (max-width: 768px) {
+    .doc-wrap {
+        padding: 20px 16px 56px;
+    }
+
+    .doc-page-title {
+        font-size: 1.65rem;
+    }
+
+    .doc-card-top {
+        min-height: 72px;
+        padding: 12px;
+    }
+}
