@@ -57,7 +57,7 @@ $architect_page = get_page_by_path('the-architect');
 $top_pages = [
     [
         'slug'        => 'main-site',
-        'title'       => 'Main Site',
+        'title'       => 'Stationary Reality',
         'description' => 'The knowledge platform this dev site was built to support.',
     ],
     [
